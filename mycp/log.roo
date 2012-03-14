@@ -1,0 +1,727 @@
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 12:42:45
+project --topLevelPackage in.mycp
+jpa setup --provider HIBERNATE --database MYSQL --userName root --password password --hostName localhost --databaseName myccep
+database introspect --schema no-schema-required 
+// [failed] database reverse engineer --schema no-schema-required --package ~.domain --testAutomatically true
+database reverse engineer --schema no-schema-required --package ~.domain --testAutomatically true
+web mvc setup
+web mvc all --package ~.web
+security setup
+perform tests
+dependency add --groupId org.directwebremoting --artifactId dwr --version 3.0.M1
+perform package
+perform eclipse
+service --interface ~.service.InfraConfigService --entity ~.domain.InfraConfig
+perform package
+perform eclipse
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 13:49:12
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 14:01:53
+service --entity ~.domain.Manager --interface ~.service.InfraConfigService
+help
+help service
+help package
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 14:21:55
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 14:49:30
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0.M1
+dependency add --groupId org.directwebremoting --artifactId dwr --version 3.0.rc2
+perform package
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0.rc2
+dependency add  --groupId org.directwebremoting --artifactId dwr --version 3.0
+perform package
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0
+dependency add --groupId org.directwebremoting --artifactId dwr --version 3.0.M1
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 14:59:56
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 15:14:31
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0.M1
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 15:15:45
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 15:19:07
+dependency add --groupId org.directwebremoting --artifactId dwr --version 3.0
+perform package
+perform pack eclipse
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0.M1
+perform clean
+perform package
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0.M1
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0
+dependency remove --groupId org.directwebremoting --artifactId dwr --version 3.0-RC1-116
+dependency add --groupId org.directwebremoting --artifactId dwr --version 3.0-RC1-116
+perform package
+dependency add --groupId org.directwebremoting --artifactId dwr --version 3.0
+perform clean
+perform eclipse
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 16:09:35
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 16:25:31
+perform clean
+perform package
+logging setup --level DEBUG
+perform clean
+perform package
+logging setup --level WARN
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 19:06:38
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-23 20:09:50
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-23 23:09:51
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-24 11:41:41
+service --entity ~.domain.User --interface ~.service.UserService
+service --entity ~.domain.AssetType --interface ~.service.AssetTypeService
+ service --entity ~.domain.Asset --interface ~.service.AssetService
+ service --entity ~.domain.AddressInfoP --interface ~.service.AddressInfoPService
+ service --entity ~.domain.GroupDescriptionP --interface ~.service.GroupDescriptionPService
+ service --entity ~.domain.IpPermissionP --interface ~.service.IpPermissionPService
+ service --entity ~.domain.VolumeInfoP --interface ~.service.VolumeInfoPService
+ service --entity ~.domain.SnapshotInfoP --interface ~.service.SnapshotInfoPService
+ service --entity ~.domain.ImageDescriptionP --interface ~.service.ImageDescriptionPService
+ service --entity ~.domain.ReservationDescriptionP --interface ~.service.ReservationDescriptionPService
+ service --entity ~.domain.InstanceP --interface ~.service.InstancePService
+ service --entity ~.domain.KeyPairInfoP --interface ~.service.KeyPairInfoPService
+// [failed] finder list --class ~.service.AssetTypeService
+finder list --class ~.domain.AssetType
+finder add --finderName findAssetTypesByNameLike --class ~.domain.AssetType
+service --entity ~.domain.AssetType --interface ~.service.AssetTypeService
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-24 18:17:00
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-24 18:18:20
+dependency add --groupId com.xerox --artifactId typica --version 1.7.2
+dependency add --groupId com.vmware --artifactId vijava --version 5.0
+perform clean
+perform  package
+perform  package
+dependency add --groupId com.google.code.typica --artifactId typica --version  1.7.2
+perform package
+dependency remove --groupId com.xerox --artifactId typica --version 1.7.2
+perform clean
+perform package
+perform package
+perform package
+finder list --class ~.domain.AssetType
+finder add --finderName findAssetTypesByNameEquals --class ~.domain.AssetType
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-24 20:18:40
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 10:49:28
+hint
+help
+// [failed] test integration --entity ~.service.EucalyptusService
+perform clean
+perform package
+perform eclipse
+database reverse engineer --schema no-schema-required
+perform package eclipse
+perform eclipse
+database reverse engineer --schema no-schema-required
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 14:00:05
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 14:02:00
+database reverse engineer --schema no-schema-required 
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 14:07:22
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 14:09:19
+database reverse engineer --schema no-schema-required 
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 14:12:09
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 14:19:37
+database reverse engineer --schema no-schema-required 
+database reverse engineer --schema no-schema-required 
+// [failed] database reverse engineer --schema no-schema-required 
+// [failed] database reverse engineer --schema no-schema-required 
+// [failed] database reverse engineer --schema no-schema-required 
+perform  clean
+database introspect --schema no-schema-required 
+// [failed] database reverse engineer --schema no-schema-required 
+database reverse engineer --schema no-schema-required 
+database reverse engineer --schema no-schema-required 
+perform  clean
+perform package
+perform package
+perform eclipse
+database reverse engineer --schema no-schema-required 
+perform  clean
+perform package
+perform eclipse
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 17:24:21
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 17:24:54
+help
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 17:26:03
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 17:26:10
+database reverse engineer --schema no-schema-required 
+finder list --class ~.domain.User
+finder add --finderName findUsersByEmailEquals --class ~.domain.User
+finder list
+focus --class ~.domain.AssetType
+finder list
+finder add findAssetTypesByNameEquals
+finder add findAssetTypesByNameEquals 
+focus --class ~.domain.Employee
+finder list
+finder add --finderName findEmployeesByEmailEquals
+focus --class ~.domain.AssetType
+finder list
+finder add --finderName findAssetTypesByNameEquals 
+focus --class ~.domain.RegionP
+finder list
+finder add --finderName findRegionPsByNameEquals
+focus --class ~.domain.Infra
+finder list
+finder add --finderName findInfrasByNameEquals
+focus --class ~.domain.ProductCatalog
+finder list
+finder add --finderName findProductCatalogsByNameEquals
+focus --class ~.domain.AssetType
+finder list
+finder add --finderName findAssetTypesByNameEquals
+database reverse engineer --schema no-schema-required 
+perform clean
+perform package
+database reverse engineer --schema no-schema-required 
+perform clean
+perform package
+perform eclipse
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 20:05:13
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-25 20:06:25
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-25 20:22:02
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 10:39:58
+dependency add --groupId org.jbpm.jbpm4 --artifactId jbpm --version 4.4
+perform package
+dependency add --groupId org.jbpm.jbpm4 --artifactId jbpm --version 4.4j
+dependency remove --groupId org.jbpm.jbpm4 --artifactId jbpm --version 4.4j
+dependency add --groupId org.jbpm.jbpm4 --artifactId jbpm-jpdl --version 4.2
+perform package
+dependency remove --groupId org.jbpm.jbpm4 --artifactId jbpm-jpdl --version 4.2
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-26 15:59:27
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 16:06:25
+dependency add --groupId org.jbpm.jbpm4 --artifactId jbpm-jpdl --version 4.4
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-26 16:17:29
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 16:19:40
+perform package
+perform  clean
+perform package
+perform eclipse
+help
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-26 16:37:40
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 16:47:15
+dependency add --artifactId jbpm-jpdl --groupId org.jbpm.jbpm4 --version 4.4
+dependency add --artifactId jbpm-pvm --groupId org.jbpm.jbpm4 --version 4.4
+dependency add --artifactId jbpm --groupId org.jbpm.jbpm4 --version 4.4
+perform package
+perform package
+perform eclipse
+dependency add --groupId javax.mail --artifactId mail --version 1.4
+perform package
+perform eclipse
+perform package
+perform eclipse
+perform clean
+perform clean
+perform package
+perform eclipse
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-26 17:47:47
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 18:17:43
+perform package
+perform pack eclipse
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-26 18:19:42
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 18:59:08
+perform package
+dependency add --groupId org.hibernate --artifactId hibernate-core --version 3.3.1.ga
+perform package
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-26 19:09:43
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-26 21:30:47
+perform clean
+perform package
+perform eclipse
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-27 21:03:56
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-28 16:33:23
+addon list 
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-29 01:19:53
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-29 13:39:36
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+perform package
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-30 12:00:21
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-30 12:10:39
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-30 12:18:58
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-30 23:32:14
+database reverse engineer --schema no-schema-required --includeTables quota --excludeTables *
+database reverse engineer --schema no-schema-required --includeTables myccep.quota --excludeTables *
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database introspect --schema no-schema-required 
+perform package
+perform eclipse
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-31 00:02:24
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-31 00:15:01
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-01-31 10:55:17
+perform package
+perform eclipse
+focus --class ~.domain.IpPermissionP
+finder list
+finder add --finderName findIpPermissionPsByGroupDescription
+focus --class ~.domain.GroupDescriptionP
+finder list 
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-01-31 19:38:50
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-01 14:32:00
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-01 17:28:49
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-02 11:34:43
+// [failed] database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-02 19:10:17
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-03 15:17:57
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.AddressInfoP
+finder list 
+finder add findAddressInfoPsByAsset
+finder add findAddressInfoPsByInstanceIdEquals
+finder add findAddressInfoPsByPublicIpEquals
+focus --class ~.domain.GroupDescriptionP
+finder list
+finder add findGroupDescriptionPsByNameEquals
+finder add findGroupDescriptionPsByOwnerEquals
+finder add findGroupDescriptionPsByAsset
+finder add findGroupDescriptionPsByDescriptonLike
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-03 17:23:56
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-05 18:19:53
+focus --class ~.domain.IpPermissionP
+finder list 
+finder add --finderName findIpPermissionPsByGroupDescription
+finder list --depth 2 
+finder list --depth 2 --filter ToPort,FromPort
+finder list --depth 2 --filter toPort,fromPort,protocol
+finder list --depth 2 --filter toPortEquals,fromPort,protocol
+finder list --depth 2 --filter toPortEquals,fromPortequals,protocolequals
+finder list --depth 2 --filter ProtocolEqualsAndToPortEquals
+finder list --depth 3 --filter ProtocolEqualsAndToPortEqualsAndFromPortEquals
+finder add findIpPermissionPsByProtocolEqualsAndToPortEqualsAndFromPortEquals
+focus --class ~.domain.VolumeInfoP
+finder list 
+finder add findVolumeInfoPsByVolumeIdEquals
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+// [failed] database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+// [failed] database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.SnapshotInfoP
+finder list 
+finder add --finderName findSnapshotInfoPsBySnapshotIdEquals
+focus --class ~.domain.ImageDescriptionP
+finder list 
+finder add --finderName findImageDescriptionPsByImageIdEquals
+focus --class ~.domain.ReservationDescriptionP
+finder list 
+finder add --finderName findReservationDescriptionPsByResIdEquals
+focus --class ~.domain.InstanceP
+finder list 
+finder list --filter instanceId
+finder add --finderName findInstancePsByInstanceIdEquals
+focus --class ~.domain.KeyPairInfoP
+finder list 
+finder add --finderName findKeyPairInfoPsByKeyNameEquals
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-05 23:11:59
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-06 11:11:34
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.AvailabilityZoneP
+finder list 
+finder add --finderName findAvailabilityZonePsByNameEquals
+// [failed] database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.IpAddressP
+finder list 
+finder add --finderName findIpAddressPsByPublicIpEquals
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-06 19:45:45
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-07 10:46:22
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-07 12:22:32
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-07 12:33:38
+focus --class ~.domain.IpPermissionP
+finder list --depth --filter GroupDescriptionP
+finder list --depth 3 --filter GroupDescriptionP
+finder list --depth 3 --filter GroupDescriptionPEqualsandProtocolEqualsAndToPortEqualsAndFromPortEquals
+finder list --depth 3 --filter ProtocolEqualsAndToPortEqualsAndFromPortEquals
+finder list --depth 3 --filter GroupDescriptionEqualsandProtocolEqualsAndToPortEqualsAndFromPortEquals
+finder list --depth 3 --filter ProtocolEqualsAndToPortEqualsAndFromPortEqualsAndGroupDescription
+finder list --depth 3 --filter GroupDescriptionEqualsAnd
+finder list --depth 3 --filter GroupDescriptionandProtocolEqualsAndToPortEqualsAndFromPortEquals
+finder list --depth 3 --filter GroupDescription
+finder list --depth 3 --filter findIpPermissionPsByGroupDescription
+finder list --depth 3 --filter findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndtoportequals
+// [failed] finder list --depth 4 --filter findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndtoportequals
+finder list --depth 3 --filter findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndfromportequals
+finder add --finderName findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndFromPortEquals
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-07 12:46:54
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-07 13:04:09
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-07 16:50:23
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-07 19:16:02
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-07 22:10:09
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-08 10:55:23
+focus --class ~.domain.InstanceP
+finder list 
+finder list --filter keys
+finder list --filter key
+finder add --finderName findInstancePsByKeyNameNotEquals
+focus --class ~.domain.AddressInfoP
+finder list 
+finder list --depth 2 
+finder list 
+finder add --finderName findAddressInfoPsByInstanceIdLike
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-08 21:21:38
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-09 10:24:45
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.AttachmentInfoP
+finder list 
+finder add --finderName findAttachmentInfoPsByVolumeIdEquals
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-09 17:42:04
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-09 21:37:53
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-09 22:09:01
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-10 16:54:15
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-12 14:56:22
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.InstanceP
+finder list 
+finder list --filter reservation
+finder add --finderName findInstancePsByReservationDescription
+focus --class ~.domain.Workflow
+finder list 
+finder add --finderName findWorkflowsByProcessIdEquals
+finder add --finderName findWorkflowsByAssetIdEquals
+finder add --finderName findWorkflowsByAssetTypeEquals
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-12 19:03:51
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-13 11:07:30
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-13 18:34:06
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-14 14:27:34
+focus --class ~.domain.IpPermissionP
+finder list 
+finder list --depth 3 --filter GroupDescription
+finder list --depth 3 --filter PortEqualsAndGroupDescription
+finder list --depth 3 --filter FromPortEqualsAndGroupDescription
+finder list --depth 3 --filter ToPortEqualsAndFromPortEqualsAndGroupDescription
+finder list --depth 3 --filter ProtocolEqualsAndGroupDescription
+finder list --depth 3 --filter FromPOrtEualsAndToPortEquals
+finder list --depth 3 --filter FromPotEqualsAndToPortEquals
+finder list --depth 3 --filter findIpPermissionPsByToPortEquals
+finder list --depth 3 --filter findIpPermissionPsByToPortEqualsAnd
+finder list --depth 3 --filter findIpPermissionPsByToPortEqualsAndProtocolEquals
+finder list --depth 3 --filter findIpPermissionPsByToPortEqualsAndFromPortEqualsProtocolEquals
+finder list --depth 3 --filter findIpPermissionPsByToPortEqualsAndFromPortEqualsAndProtocolEquals
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-14 19:02:35
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-15 12:18:11
+focus --class ~.domain.User
+finder list 
+finder list --depth  3
+finder list --depth 3 --filter findUsersByEmailEqualsAnd
+finder list --depth 3 --filter findUsersByEmailEqualsAndPasswordEquals
+finder add --finderName findUsersByEmailEqualsAndPasswordEqualsAndActiveNot
+perform clean
+perform package
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.Role
+finder list
+finder add --finderName findRolesByIntvalLessThan
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-15 17:02:40
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-15 21:15:46
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-15 22:47:05
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-16 12:43:53
+focus --class ~.domain.ProductCatalog
+finder list
+finder add --finderName findProductCatalogsByProductTypeEquals
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2012-02-16 14:11:10
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2012-02-16 14:12:46
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-16 17:01:46
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-16 18:53:03
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+perform package
+dependency add --groupId org.jasypt --artifactId jasypt --version 1.9.0
+perform clean
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-16 22:54:20
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-17 10:43:09
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.InstanceP
+finder list 
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-17 14:44:16
+focus --class ~.domain.InstanceP
+finder list 
+finder list --depth 2
+finder list --depth 1 --filter Asset
+finder list --depth 2 --filter Asset
+finder list --depth 2 --filter AssetLike
+finder list --depth 2 --filter AssetUser
+finder list --depth 2 --filter User
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-17 15:15:08
+focus --class ~.domain.InstanceP
+finder list --depth 2 --filter Asset,User
+finder list --depth 2 --filter User
+finder list --depth 2 --filter Asset
+finder list --depth 1 --filter Asset
+finder add --finderName findInstancePsByAsset
+focus --class ~.domain.Asset
+finder list
+finder list --depth 2 --filter user,assetType
+finder list --depth 2 --filter User
+finder add --finderName findAssetsByUserAndAssetType
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-17 17:32:13
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-17 20:53:58
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-17 22:30:55
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-19 17:59:33
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-19 18:50:00
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-20 11:54:30
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-20 17:12:13
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-20 20:09:17
+focus --class ~.domain.Department
+finder list
+finder add --finderName findDepartmentsByCompany
+focus --class ~.domain.Project
+finder list
+finder add --finderName findProjectsByDepartment
+focus --class ~.domain.User
+finder list 
+finder add --finderName findUsersByProject
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.RegionP
+// [failed] finder list 
+finder list 
+finder add --finderName findRegionPsByNameEquals
+focus --class ~.domain.Company
+finder list 
+finder add --finderName findCompanysByNameEquals
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.RegionP
+finder list 
+finder add --finderName findRegionPsByCompany
+focus --class ~.domain.Infra
+finder list
+finder list --filter Region
+finder add --finderName findInfrasByRegion
+focus --class ~.domain.ProductCatalog
+finder list --filter Infra
+finder add --finderName findProductCatalogsByInfra
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-20 23:49:50
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-21 13:37:55
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-21 17:26:27
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-21 19:40:37
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.Asset
+finder list 
+finder list --depth 3 --filter active
+finder list --depth 3 --filter Active,AssetType,User,Billable
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.ImageDescriptionP
+finder list
+finder list --filter Asset
+finder add findImageDescriptionPsByAsset
+focus --class ~.domain.InstanceP
+finder list --filter Asset
+finder add findInstancePsByAsset
+focus --class ~.domain.IpAddressP
+finder list --filter Asset
+finder add --finderName findIpAddressPsByAsset
+focus --class ~.domain.InstanceP
+finder list --filter Asset
+finder add --finderName findInstancePsByAsset
+focus --class ~.domain.IpPermissionP
+finder list --filter Asset
+focus --class ~.domain.KeyPairInfoP
+finder list --filter Asset
+finder add --finderName findKeyPairInfoPsByAsset
+focus --class ~.domain.GroupDescriptionP
+finder list --filter Asset
+finder add --finderName findGroupDescriptionPsByAsset
+focus --class ~.domain.VolumeInfoP
+finder list --filter Asset
+finder add --finderName findVolumeInfoPsByAsset
+focus --class ~.domain.SnapshotInfoP
+finder list --filter Asset
+finder add --finderName findSnapshotInfoPsByAsset
+focus --class ~.domain.AddressInfoP
+finder list --filter Asset
+finder add --finderName findAddressInfoPsByAsset
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-22 00:23:46
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-22 16:31:14
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-22 17:38:00
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-22 22:55:32
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-23 00:01:59
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-23 18:44:06
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.Workflow
+finder list 
+finder add --finderName findWorkflowsByUser
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-23 21:24:15
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2012-02-26 14:00:45
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-26 14:03:18
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2012-02-26 14:03:18
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-26 18:22:07
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-26 18:22:18
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+perform clean
+perform eclipse
+perform package
+perform eclipse
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-26 23:15:34
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-28 21:08:01
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+focus --class ~.domain.Company
+finder list
+finder list --depth 3 --filter distinct
+focus --class ~.domain.Infra
+finder list
+finder add --finderName findInfrasByServerEquals
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-02-28 23:43:23
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-01 14:36:46
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-01 17:09:04
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-02 13:59:20
+focus --class ~.domain.Role
+finder list 
+finder add --finderName findRolesByNameEquals
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-02 17:30:54
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-04 14:28:36
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-04 22:21:19
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-06 17:26:40
+database reverse engineer --schema no-schema-required --excludeTables jbpm4_*
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-06 19:39:29
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-07 12:29:27
+perform package
+perform clean
+perform clea pac
+perform package
+perform package
+perform pack clean
+perform package
+perform eclipse
+perform clean
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-07 15:01:41
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-07 15:01:48
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-07 19:21:22
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-11 11:26:38
+dependency add --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+perform package
+perform package
+perform clean
+dependency add --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+perform package
+perform package
+perform package
+perform assembly
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+dependency add --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+perform package
+perform clean
+perform package
+perform package
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-11 11:48:22
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-03-11 11:48:28
+perform package
+perform package
+perform package
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+dependency add --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0
+perform package
+perform package
+perform package -X
+dependency add --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0-RC4
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 1.0
+dependency remove --groupId com.octo.captcha --artifactId jcaptcha-all --version 2.0
+dependency add --groupId com.octo.captcha --artifactId jcaptcha-all --version 2.0
+perform package
+q
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2012-03-11 22:46:31
