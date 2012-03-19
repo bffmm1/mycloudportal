@@ -34,4 +34,15 @@ public class CommonService {
 		}
 		return null;
 	}// end of getCurrentUser
+	
+	@RemoteMethod
+	public static void setSessionMsg(String msg) {
+		Commons.setSessionMsg(msg);
+	}
+	
+	@RemoteMethod
+	public static String getSessionMsg() {
+		return Commons.getSessionMsg();
+	}
+	
 }

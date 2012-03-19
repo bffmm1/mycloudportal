@@ -119,18 +119,6 @@ $(function(){
 			//load popup
 			loadPopup_assettype();
 		});
-	
-		$("#popupbutton_assettypelist").click(function(){
-			
-				dwr.engine.beginBatch();
-				AssetTypeService.findAll(findAll_assettype);
-			  dwr.engine.endBatch();
-			  
-		
-		} );
-		
-		});
-		
 		
 		
 					
@@ -155,7 +143,12 @@ $(function(){
 		
 		
 		$(document).ready(function() {
-			$("#popupbutton_assettypelist").click();
+			
+			$("#popupbutton_assettypelist").click(function(){
+				AssetTypeService.findAll(findAll_assettype);
+			} );
+			});
+		
 			  $("#thisform").validate({
 					 submitHandler: function(form) {
 						 submitForm_assettype(form);
@@ -170,6 +163,9 @@ $(function(){
 						}else{
 							issuperadmin = true; 
 						}
+						//after finding out who is logged in , call the listing function 
+						$("#popupbutton_assettypelist").click();
+						
 						
 					});
 					});

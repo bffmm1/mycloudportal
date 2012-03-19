@@ -2,14 +2,17 @@ package in.mycp.remote;
 
 import in.mycp.domain.AddressInfoP;
 import in.mycp.domain.Company;
+import in.mycp.domain.GroupDescriptionP;
 import in.mycp.domain.ImageDescriptionP;
 import in.mycp.domain.InstanceP;
+import in.mycp.domain.KeyPairInfoP;
 import in.mycp.domain.SnapshotInfoP;
 import in.mycp.domain.User;
 import in.mycp.domain.VolumeInfoP;
 import in.mycp.domain.Workflow;
 import in.mycp.service.WorkflowImpl4Jbpm;
 import in.mycp.utils.Commons;
+import in.mycp.utils.Commons.secgroup_STATUS;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -127,7 +130,7 @@ public class WorkflowService {
 						break;
 					}
 					activityName = StringUtils.replace(activityName, "null", " ");
-					System.out.println("activityName = " + activityName + " pi.getId() =  " + pi.getId());
+					log.debug("activityName = " + activityName + " pi.getId() =  " + pi.getId());
 
 					// if currently looged in user is manager , do not show any
 					// workflows in Admin status
@@ -148,7 +151,7 @@ public class WorkflowService {
 					try {
 						workflow.setProcessName(workflow.getProcessName().substring(0,workflow.getProcessName().indexOf(".")));	
 					} catch (Exception e) {
-						// TODO: handle exception
+						e.printStackTrace();
 					}
 					
 					wfs2return.add(workflow);
@@ -160,7 +163,7 @@ public class WorkflowService {
 
 						workflow.setAssetDetails(workflow.getAssetType() + " " + image.getName() + " " + image.getImageId());
 					} catch (Exception e) {
-						log.error(e.getMessage());//e.printStackTrace();
+						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.ComputeInstance)) {
 					try {
@@ -168,19 +171,25 @@ public class WorkflowService {
 						workflow.setAssetDetails(workflow.getAssetType() + " " + instance.getName() + " " + instance.getDnsName() + " "
 								+ instance.getInstanceId());
 					} catch (Exception e) {
-						//log.error(e.getMessage());//e.printStackTrace();
+						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.IpAddress)) {
 					try {
 						AddressInfoP address = AddressInfoP.findAddressInfoP(workflow.getAssetId());
 						workflow.setAssetDetails(workflow.getAssetType() + " " + address.getName() + " " + address.getPublicIp());
 					} catch (Exception e) {
-						log.error(e.getMessage());//e.printStackTrace();
+						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.IpPermission)) {
 					// nothig here
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.KeyPair)) {
-					// nothing here
+					
+					try {
+						KeyPairInfoP k= KeyPairInfoP.findKeyPairInfoP(workflow.getAssetId());
+						workflow.setAssetDetails(workflow.getAssetType() + " " + k.getKeyName());
+					} catch (Exception e) {
+						log.error(e.getMessage());e.printStackTrace();
+					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.SecurityGroup)) {
 					// nothing here
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.Volume)) {
@@ -189,17 +198,22 @@ public class WorkflowService {
 						workflow.setAssetDetails(workflow.getAssetType() + " " + volume.getName() + " " + volume.getVolumeId() + " "
 								+ volume.getSize() + "(GB)");
 					} catch (Exception e) {
-						log.error(e.getMessage());//e.printStackTrace();
+						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.VolumeSnapshot)) {
 					try {
 						SnapshotInfoP snapshot = SnapshotInfoP.findSnapshotInfoP(workflow.getAssetId());
 						workflow.setAssetDetails(workflow.getAssetType() + " " + snapshot.getSnapshotId() + " " + snapshot.getOwnerId());
 					} catch (Exception e) {
-						log.error(e.getMessage());//e.printStackTrace();
+						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.addressInfo)) {
-					// TODO
+					try {
+						AddressInfoP address = AddressInfoP.findAddressInfoP(workflow.getAssetId());
+						workflow.setAssetDetails(workflow.getAssetType() + " " + address.getName() + " " + address.getPublicIp());
+					} catch (Exception e) {
+						log.error(e.getMessage());e.printStackTrace();
+					}
 				} else {
 					log.error("Which asset does this workflow belong?");
 					// throw new
@@ -209,7 +223,8 @@ public class WorkflowService {
 			}
 			return wfs2return;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll
@@ -234,7 +249,7 @@ public class WorkflowService {
 	}
 
 	public ProcessInstance createProcessInstance(String processDefnKey) {
-		System.out.println("In createProcessInstance...");
+		log.info("In createProcessInstance for "+processDefnKey);
 		try {
 			ProcessInstance pi = workflowImpl4Jbpm.createProcessInstance(processDefnKey);
 			return pi;
@@ -286,11 +301,16 @@ public class WorkflowService {
 					// nothig here
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.IpPermission);
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.KeyPair)) {
-					// nothing here
+					
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.KeyPair);
+					KeyPairInfoP k = KeyPairInfoP.findKeyPairInfoP(workflow.getAssetId());
+					keyPairService.workflowApproved(k);
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.SecurityGroup)) {
 					
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.SecurityGroup);
+					GroupDescriptionP g = GroupDescriptionP.findGroupDescriptionP(workflow.getAssetId());
+					securityGroupService.workflowApproved(g);
+					
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.Volume)) {
 					VolumeInfoP volume = VolumeInfoP.findVolumeInfoP(workflow.getAssetId());
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.Volume);

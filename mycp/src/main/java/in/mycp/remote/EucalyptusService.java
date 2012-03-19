@@ -131,10 +131,10 @@ public class EucalyptusService {
 			}
 			if (infra == null) {
 				infra = new Infra();
-				infra.setServer("192.168.253.84");
+				infra.setServer("xx.xx.xx.xx");
 				infra.setPort(8773);
-				infra.setAccessId("WKy3rMzOWPouVOxK1p3Ar1C2uRBwa2FBXnCw");
-				infra.setSecretKey("TTHGvbf5foJQXhb5UpN3u1Kojetw2310GuGQ");
+				infra.setAccessId("xxx");
+				infra.setSecretKey("xxx");
 				infra.setIsSecure(false);
 				infra.setResourcePrefix("/services/Eucalyptus");
 				infra.setSignatureVersion(1);
@@ -142,7 +142,7 @@ public class EucalyptusService {
 				//infra.setRegion(regionP);
 				infra.setCompany(company);
 				infra.setName("Eucalyptus Bang");
-				infra.setDetails("Eucalyptus + enstratus setup in Bangalore");
+				infra.setDetails("Eucalyptus 2.x setup in Bangalore");
 				infra.setImportDate(new Date());
 				infra.setSyncInProgress(true);
 				infra = infra.merge();

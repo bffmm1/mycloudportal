@@ -61,8 +61,8 @@
 	            { "sTitle": "#" },
 	            { "sTitle": "Snapshot Id" },
 	            { "sTitle": "Volume Id" },
-	            { "sTitle": "Status" },
 	            { "sTitle": "Start Time" },
+	            { "sTitle": "Status" },
 	            { "sTitle": "Progress" },
 	            
 	            { "sTitle": "Actions" }
@@ -72,11 +72,25 @@
 		var i=0;
 		for (i=0;i<p.length;i++)
 		{
+			var actions = '<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_backup('+p[i].id+')>&nbsp; &nbsp; '+
+            '<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_backup('+p[i].id+')>';
+			if('PENDING_APPROVAL' == p[i].status ){
+            	p[i].status='<img title="pending approval" alt="pending approval" src=/images/pending.png>&nbsp;';
+            	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_backup('+p[i].id+')>';
+            }else if('pending' == p[i].status ){
+            	p[i].status='<img title="starting" alt="starting" src=/images/preloader.gif>&nbsp;';
+            	actions='';
+            }else if('pending' == p[i].status ){
+            	p[i].status='<img title="starting" alt="starting" src=/images/preloader.gif>&nbsp;';
+            	actions='';
+            }else if('inactive' == p[i].status ){
+            	p[i].status='<img title="inactive" alt="inactive" src=/images/unknown.png>&nbsp;';
+            	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_backup('+p[i].id+')>';
+            }
 			
-			oTable.fnAddData( [i+1,p[i].snapshotId, p[i].volumeId, p[i].status,
-			                   dateFormat(p[i].startTime,"mmm dd yyyy HH:MM:ss"), p[i].progress, 
-			                   '<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_backup('+p[i].id+')>&nbsp; &nbsp; '+
-			                   '<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_backup('+p[i].id+')>' ] );
+			oTable.fnAddData( [i+1,p[i].snapshotId, p[i].volumeId, 
+			                   dateFormat(p[i].startTime,"mmm dd yyyy HH:MM:ss"), p[i].status,p[i].progress, 
+			                   actions ] );
 		}
 		
 		
@@ -122,7 +136,11 @@ $(function(){
 			VolumeInfoP.findAll(function(p){
 				dwr.util.removeAllOptions('instance');
 				dwr.util.addOptions('volumeId', p, 'volumeId', function(p) {
-					return p.volumeId+' '+p.size+' '+p.name;
+					if(p.volumeId !=null){
+						return p.volumeId+' '+p.size+' '+p.name;
+					}else {
+						return null;
+					}
 				});
 			});
 			

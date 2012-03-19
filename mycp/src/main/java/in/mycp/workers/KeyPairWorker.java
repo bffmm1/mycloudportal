@@ -34,10 +34,7 @@ public class KeyPairWorker extends Worker {
 			} catch (Exception e) {
 				logger.error(e.getMessage());//e.printStackTrace();
 			}
-			
-			logger.info("kpi.getKeyFingerprint() = " + kpi.getKeyFingerprint());
-			logger.info("kpi.getKeyMaterial() = " + kpi.getKeyMaterial());
-			logger.info("kpi.getKeyName() = " + kpi.getKeyName());
+			logger.info("created kpi.getKeyFingerprint() = " + kpi.getKeyFingerprint());
 			
 			boolean found =false;
 			int START_SLEEP_TIME = 10000;
@@ -66,7 +63,10 @@ public class KeyPairWorker extends Worker {
 				setAssetStartTime(keyPairInfoP.getAsset());
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
+			logger.error(e);//e.printStackTrace();
+			KeyPairInfoP keyPairInfoP = KeyPairInfoP.findKeyPairInfoP(keypair.getId());
+			keyPairInfoP.setStatus(Commons.keypair_STATUS.failed+"");
+			keyPairInfoP = keyPairInfoP.merge();
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class KeyPairWorker extends Worker {
 			
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
+			logger.error(e);//e.printStackTrace();
 		}
 	}
 	

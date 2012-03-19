@@ -44,20 +44,30 @@ public class KeyPairService {
 		}
 	}// end of save(KeyPairInfoP
 
+	@Autowired
+	WorkflowService workflowService;
+	
 	@RemoteMethod
 	public KeyPairInfoP saveOrUpdate(KeyPairInfoP instance) {
 		try {
+			AssetType assetTypeKeyPair = AssetType.findAssetTypesByNameEquals("KeyPair").getSingleResult();
 			if (instance.getId() != null && instance.getId() > 0) {
-
 			} else {
-				AssetType assetTypeKeyPair = AssetType.findAssetTypesByNameEquals("KeyPair").getSingleResult();
 				User currentUser = Commons.getCurrentUser();
 				Asset asset = Commons.getNewAsset(assetTypeKeyPair, currentUser,instance.getProduct());
 				instance.setAsset(asset);
 				instance = instance.merge();
+				if (true == assetTypeKeyPair.getWorkflowEnabled()) {
+					Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.Keys_Request
+							+ ""), instance.getId(), asset.getAssetType().getName());
+					instance.setStatus(Commons.WORKFLOW_STATUS.PENDING_APPROVAL+"");
+					instance = instance.merge();
+				} else {
+					instance.setStatus(Commons.keypair_STATUS.starting+"");
+					instance = instance.merge();
+					workflowApproved(instance);
+				}
 			}
-
-			createKeyPair(instance.getKeyName());
 			return instance;
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
@@ -65,6 +75,17 @@ public class KeyPairService {
 		return null;
 	}// end of saveOrUpdate(KeyPairInfoP
 
+	@RemoteMethod
+	public void workflowApproved(KeyPairInfoP instance) {
+		try {
+			instance.setStatus(Commons.keypair_STATUS.starting+"");
+			instance = instance.merge();
+			createKeyPair(instance.getKeyName());
+		} catch (Exception e) {
+			log.error(e.getMessage());//e.printStackTrace();
+		}
+	}
+	
 	@RemoteMethod
 	public void remove(int id) {
 		try {

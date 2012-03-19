@@ -30,7 +30,10 @@ public class SecurityGroupWorker extends Worker {
 			try {
 				ec2.createSecurityGroup(groupLocal.getName(), groupLocal.getDescripton());
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
+				if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+					throw new Exception("No Connectivity to Cloud");
+				}
 			}
 
 			List<GroupDescription> groupDescs = ec2.describeSecurityGroups(new ArrayList<String>());

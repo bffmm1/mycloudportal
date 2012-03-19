@@ -53,9 +53,13 @@ public class VolumeService {
 			volume.setAsset(asset);
 			volume = volume.merge();
 			if(true == assetTypeVolume.getWorkflowEnabled()){
-				Workflow workflow = Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.Volume_Request + ""),
+				Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.Volume_Request + ""),
 						volume.getId(), asset.getAssetType().getName());
+				volume.setStatus(Commons.WORKFLOW_STATUS.PENDING_APPROVAL+"");
+				volume = volume.merge();
 			}else{
+				volume.setStatus(Commons.VOLUME_STATUS_CREATING+"");
+				volume = volume.merge();
 				workflowApproved(volume);
 			}
 
@@ -73,6 +77,8 @@ public class VolumeService {
 		volume = VolumeInfoP.findVolumeInfoP(volume.getId());
 		Asset asset = Commons.getNewAsset(assetTypeVolume, currentUser,ProductCatalog.findProductCatalogsByNameEquals("Volume @ Eucalyptus").getSingleResult());
 		volume.setAsset(asset);
+		volume.setStatus(Commons.VOLUME_STATUS_CREATING+"");
+		
 		volume = volume.merge();
 		
 		createVolume(volume);

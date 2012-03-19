@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <title>My Cloud Portal</title>
+	<title>Open Source Self Service Portal for the Cloud</title>
     <link type="text/css" href="/styles/menu.css" rel="stylesheet" />
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="/js/menu.js"></script>

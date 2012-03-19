@@ -40,7 +40,7 @@ privileged aspect InstanceP_Roo_DbManaged {
     @Column(name = "dnsName", length = 45)
     private String InstanceP.dnsName;
     
-    @Column(name = "reason", length = 45)
+    @Column(name = "reason", length = 90)
     private String InstanceP.reason;
     
     @Column(name = "keyName", length = 45)

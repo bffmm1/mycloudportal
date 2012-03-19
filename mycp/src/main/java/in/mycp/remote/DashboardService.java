@@ -53,7 +53,7 @@ public class DashboardService {
 				dto.setVolCount(VolumeInfoP.findVolumeInfoCountByCompany(null, Commons.VOLUME_STATUS_AVAILABLE).intValue());
 				dto.setKeyPairCount(KeyPairInfoP.findKeyPairInfoCountByCompany(null, Commons.keypair_STATUS.active+ "").intValue());
 				dto.setSnapshotCount(SnapshotInfoP.findSnapshotInfoCountByCompany(null, Commons.SNAPSHOT_STATUS.completed + "").intValue());
-				dto.setIpCount(AddressInfoP.findAddressInfoCountByCompany(null, Commons.ipaddress_STATUS.taken + "").intValue());
+				dto.setIpCount(AddressInfoP.findAddressInfoCountByCompany(null).intValue());
 				dto.setSecGroupCount(GroupDescriptionP.findGroupDescriptionCountByCompany(null, Commons.secgroup_STATUS.active+ "")
 						.intValue());
 				dto.setImageCount(ImageDescriptionP.findImageDescriptionCountByCompany(null, Commons.image_STATUS.active + "")
@@ -77,8 +77,7 @@ public class DashboardService {
 						c, Commons.keypair_STATUS.active + "").intValue());
 				dto.setSnapshotCount(SnapshotInfoP.findSnapshotInfoCountByCompany(
 						c, Commons.SNAPSHOT_STATUS.completed + "").intValue());
-				dto.setIpCount(AddressInfoP.findAddressInfoCountByCompany(c,
-						Commons.ipaddress_STATUS.taken + "").intValue());
+				dto.setIpCount(AddressInfoP.findAddressInfoCountByCompany(c).intValue());
 				dto.setSecGroupCount(GroupDescriptionP.findGroupDescriptionCountByCompany(
 						c, Commons.secgroup_STATUS.active + "").intValue());
 				dto.setImageCount(ImageDescriptionP.findImageDescriptionCountByCompany(

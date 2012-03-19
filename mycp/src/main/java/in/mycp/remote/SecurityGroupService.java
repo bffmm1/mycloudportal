@@ -37,14 +37,17 @@ public class SecurityGroupService {
 	@Autowired
 	WorkflowService workflowService;
 
-	
-
 	@RemoteMethod
 	public GroupDescriptionP saveOrUpdate(GroupDescriptionP instance) {
 		try {
 			String companyName = Commons.getCurrentSession().getCompany();
+			String pId="";String dId="";String cId="";
+			try{pId = Commons.getCurrentUser().getProject().getId()+"";}catch(Exception e){}
+			try{dId = Commons.getCurrentUser().getProject().getDepartment().getId()+"";}catch(Exception e){}
+			try{cId = Commons.getCurrentUser().getProject().getDepartment().getCompany().getId()+"";}catch(Exception e){}
+			
 			if(instance!=null && instance.getName()!=null && instance.getName().indexOf("_"+companyName) <0){
-				instance.setName(instance.getName()+"_"+companyName);
+				instance.setName(instance.getName()+"_"+pId+"_"+dId+"_"+cId);
 			}
 			AssetType assetTypeSecurityGroup = AssetType.findAssetTypesByNameEquals(Commons.ASSET_TYPE.SecurityGroup + "")
 					.getSingleResult();
@@ -54,22 +57,20 @@ public class SecurityGroupService {
 				User currentUser = Commons.getCurrentUser();
 				Asset asset = Commons.getNewAsset(assetTypeSecurityGroup, currentUser,instance.getProduct());
 				instance.setAsset(asset);
-				instance.setStatus(Commons.secgroup_STATUS.inactive+"");
-				instance = instance.merge();
-				workflowApproved(instance);
+				
+				if (true == assetTypeSecurityGroup.getWorkflowEnabled()) {
+					instance.setStatus(Commons.WORKFLOW_STATUS.PENDING_APPROVAL+"");
+					instance = instance.merge();
+					Commons.createNewWorkflow(
+							workflowService.createProcessInstance(Commons.PROCESS_DEFN.SecGroup_Request + ""), instance.getId(),
+							assetTypeSecurityGroup.getName());
+					
+				} else {
+					instance.setStatus(Commons.secgroup_STATUS.starting+"");
+					instance = instance.merge();
+					workflowApproved(instance);
+				}
 			}
-			
-			
-
-			/*if (true == assetTypeSecurityGroup.getWorkflowEnabled()) {
-				Commons.createNewWorkflow(
-						workflowService.createProcessInstance(Commons.PROCESS_DEFN.SecGroup_Request + ""), instance.getId(),
-						assetTypeSecurityGroup.getName());
-			} else {
-				workflowApproved(instance);
-			}*/
-			
-
 			return instance;
 		} catch (Exception e) {
 			log.error(e.getMessage());e.printStackTrace();
@@ -80,6 +81,8 @@ public class SecurityGroupService {
 	@RemoteMethod
 	public void workflowApproved(GroupDescriptionP instance) {
 		try {
+			instance.setStatus(Commons.secgroup_STATUS.starting+"");
+			instance = instance.merge();
 			securityGroupWorker.createSecurityGroup(instance.getAsset().getProductCatalog().getInfra(), instance);
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();

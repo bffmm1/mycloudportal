@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 privileged aspect Infra_Roo_DbManaged {
@@ -64,6 +65,10 @@ privileged aspect Infra_Roo_DbManaged {
     
     @Column(name = "syncInProgress")
     private Boolean Infra.syncInProgress;
+    
+    @Column(name = "zone", length = 90)
+    @NotNull
+    private String Infra.zone;
     
     public Set<ProductCatalog> Infra.getProductCatalogs() {
         return productCatalogs;
@@ -175,6 +180,14 @@ privileged aspect Infra_Roo_DbManaged {
     
     public void Infra.setSyncInProgress(Boolean syncInProgress) {
         this.syncInProgress = syncInProgress;
+    }
+    
+    public String Infra.getZone() {
+        return zone;
+    }
+    
+    public void Infra.setZone(String zone) {
+        this.zone = zone;
     }
     
 }

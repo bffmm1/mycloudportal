@@ -64,15 +64,15 @@ public class Commons {
 	}
 
 	static public enum ipaddress_STATUS {
-		taken, free
+		starting,available,associated,failed
 	}
 
 	static public enum keypair_STATUS {
-		active, inactive
+		starting,active, inactive,failed
 	}
 
 	static public enum secgroup_STATUS {
-		active, inactive
+		starting,active, inactive,failed
 	}
 
 	static public enum image_STATUS {
@@ -230,6 +230,26 @@ public class Commons {
 			log.error(e.getMessage());
 		}
 	}
+	
+	public static void setSessionMsg(String msg) {
+		try {
+			HttpSession session = WebContextFactory.get().getSession();
+			session.setAttribute("session_msg", msg);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
+	
+	public static String getSessionMsg() {
+		try {
+			HttpSession session = WebContextFactory.get().getSession();
+			return (String)session.getAttribute("session_msg");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return "";
+	}
+	
 	
 	public static void setAssetEndTime(Asset a){
 		//Asset a = instanceLocal.getAsset();

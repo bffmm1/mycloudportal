@@ -6,7 +6,6 @@ import in.mycp.domain.InstanceP;
 import in.mycp.utils.Commons;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,19 +27,18 @@ public class IpAddressWorker extends Worker {
 
 	@Async
 	public void allocateAddress(final Infra infra, final AddressInfoP addressInfoP) {
-		String threadName = Thread.currentThread().getName();
-
 		try {
-			logger.debug("threadName "+threadName+" started.");
 			Jec2 ec2 = getNewJce2(infra);
 			String newIpAddress = null;
 			try {
 				newIpAddress = ec2.allocateAddress();	
 				logger.info("got new Address "+newIpAddress);
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 				if(e.getMessage().indexOf("Permission denied while") > -1){
 					throw new Exception("Permission denied while trying to get address");
+				}else if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+					throw new Exception("No Connectivity to Cloud");
 				}
 			}
 			
@@ -48,13 +46,19 @@ public class IpAddressWorker extends Worker {
 			try {
 				addressInfoPLocal = AddressInfoP.findAddressInfoP(addressInfoP.getId());	
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			String address_str=null;
 			
 			int START_SLEEP_TIME = 10000;
+			int waitformaxcap = START_SLEEP_TIME *10;
+			long now = 0;
 			while(address_str == null){
+				if(now > waitformaxcap){
+					throw new Exception("Got bored, Quitting.");
+				}
+				now = now+START_SLEEP_TIME;
 				logger.info("Ipaddress " + newIpAddress +" still getting created; sleeping "+ START_SLEEP_TIME + "ms");
 				Thread.sleep(START_SLEEP_TIME);
 				try {
@@ -72,15 +76,18 @@ public class IpAddressWorker extends Worker {
 						
 					}
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 					address_str=e.getMessage();
+					if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+						throw new Exception("No Connectivity to Cloud");
+					}
 				}	
 			}
 			
 			if(address_str.equals(newIpAddress)){
 				addressInfoPLocal.setInstanceId("available");
 				addressInfoPLocal.setPublicIp(newIpAddress);
-				addressInfoPLocal.setStatus(Commons.ipaddress_STATUS.taken+"");
+				addressInfoPLocal.setStatus(Commons.ipaddress_STATUS.available+"");
 				addressInfoPLocal = addressInfoPLocal.merge();
 				
 				setAssetStartTime(addressInfoPLocal.getAsset());
@@ -88,8 +95,16 @@ public class IpAddressWorker extends Worker {
 			}
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
-			setAssetEndTime(addressInfoP.getAsset());
+			logger.error(e);//e.printStackTrace();
+			try {
+				AddressInfoP a = AddressInfoP.findAddressInfoP(addressInfoP.getId());
+				a.setStatus(Commons.ipaddress_STATUS.failed+"");
+				a = a.merge();
+				setAssetEndTime(a.getAsset());
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
 		}
 
 	}//end allocateAddress
@@ -106,9 +121,11 @@ public class IpAddressWorker extends Worker {
 				logger.info("releasing address "+addressInfoP.getPublicIp());
 				ec2.releaseAddress(addressInfoP.getPublicIp());	
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 				if(e.getMessage().indexOf("Permission denied while trying to release address") > -1){
 					throw new Exception("Permission denied while trying to release address");
+				}else if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+					throw new Exception("No Connectivity to Cloud");
 				}
 			}
 			
@@ -116,7 +133,7 @@ public class IpAddressWorker extends Worker {
 			try {
 				addressInfoPLocal = AddressInfoP.findAddressInfoPsByPublicIpEquals(addressInfoP.getPublicIp()).getSingleResult();	
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			AddressInfo addressInfoLocal=new AddressInfo("", "");
 			
@@ -141,23 +158,29 @@ public class IpAddressWorker extends Worker {
 					logger.info("Ipaddress " + addressInfoP.getPublicIp() +" still getting released; sleeping "+ START_SLEEP_TIME + "ms");
 					Thread.sleep(START_SLEEP_TIME);	
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 					addressInfoLocal=null;
+					
+					if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+						throw new Exception("No Connectivity to Cloud");
+					}
 				}	
 			}
 			
 			if(addressInfoLocal ==null){
 				//addressInfoPLocal.remove();
-				addressInfoPLocal.setInstanceId("nobody");
+				/*addressInfoPLocal.setInstanceId("nobody");
 				addressInfoPLocal.setStatus(Commons.ipaddress_STATUS.free+"");
 				addressInfoPLocal.setReason("Released this address on "+new Date());
-				addressInfoPLocal.merge();
+				addressInfoPLocal.merge();*/
 				
 				setAssetEndTime(addressInfoPLocal.getAsset());
+				
+				addressInfoPLocal.remove();
 			}
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
+			logger.error(e);//e.printStackTrace();
 		}
 
 	}//end of releaseAddress
@@ -172,9 +195,11 @@ public class IpAddressWorker extends Worker {
 				logger.info("associateAddress address "+addressInfoP.getPublicIp()+" to instance "+addressInfoP.getInstanceId());
 				ec2.associateAddress(addressInfoP.getInstanceId(), addressInfoP.getPublicIp());	
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 				if(e.getMessage().indexOf("Permission denied while") > -1){
 					throw new Exception("Permission denied.");
+				}else if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+					throw new Exception("No Connectivity to Cloud");
 				}
 			}
 			String instanceIdOrig = addressInfoP.getInstanceId();
@@ -186,21 +211,21 @@ public class IpAddressWorker extends Worker {
 			try {
 				orig_compute = InstanceP.findInstancePsByInstanceIdEquals(instanceIdOrig).getSingleResult();	
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			AddressInfoP addressInfoP4PublicIp = null;
 			try {
 				addressInfoP4PublicIp = AddressInfoP.findAddressInfoPsByPublicIpEquals(addressInfoP.getPublicIp()).getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			AddressInfoP addressInfoP4InstanceId = null;
 			try {
 				addressInfoP4InstanceId = AddressInfoP.findAddressInfoPsByInstanceIdLike(instanceIdOrig).getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			boolean match=false;
@@ -216,7 +241,7 @@ public class IpAddressWorker extends Worker {
 						if (res.getInstances() != null) {
 							HashSet<InstanceP> instancesP = new HashSet<InstanceP>();
 							for (Instance inst : res.getInstances()) {
-								System.out.println(inst.getInstanceId()+" "+orig_compute.getInstanceId()+" "+inst.getDnsName()+" "+addressInfoP.getPublicIp());
+								logger.info(inst.getInstanceId()+" "+orig_compute.getInstanceId()+" "+inst.getDnsName()+" "+addressInfoP.getPublicIp());
 								if(inst.getInstanceId().equals(orig_compute.getInstanceId()) && 
 										inst.getDnsName().equals(addressInfoP.getPublicIp())){
 									match = true;
@@ -231,8 +256,11 @@ public class IpAddressWorker extends Worker {
 					Thread.sleep(START_SLEEP_TIME);
 					
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 					//addressInfoLocal=null;
+					if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+						throw new Exception("No Connectivity to Cloud");
+					}
 				}	
 			}
 			if(match == true){
@@ -240,30 +268,30 @@ public class IpAddressWorker extends Worker {
 					orig_compute.setDnsName(addressInfoP.getPublicIp());
 					orig_compute.merge();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 				}
 				
 				try {
 					addressInfoP4PublicIp.setAssociated(true);
 					addressInfoP4PublicIp.setInstanceId(orig_compute.getInstanceId());
-					addressInfoP4PublicIp.setStatus(Commons.ipaddress_STATUS.taken+"");
+					addressInfoP4PublicIp.setStatus(Commons.ipaddress_STATUS.associated+"");
 					addressInfoP4PublicIp.merge();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 				}
 				
 				try {
 					addressInfoP4InstanceId.setAssociated(false);
 					addressInfoP4InstanceId.setInstanceId("somebody");
-					addressInfoP4InstanceId.setStatus(Commons.ipaddress_STATUS.taken+"");
+					addressInfoP4InstanceId.setStatus(Commons.ipaddress_STATUS.associated+"");
 					addressInfoP4InstanceId.merge();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 				}
 			}
 			
 		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
+			logger.error(e);//e.printStackTrace();
 		}
 
 	}//end of associateAddress
@@ -280,9 +308,11 @@ public class IpAddressWorker extends Worker {
 			try {
 				ec2.disassociateAddress(addressInfoP.getPublicIp());
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 				if(e.getMessage().indexOf("Permission denied while") > -1){
 					throw new Exception("Permission denied.");
+				}else if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+					throw new Exception("No Connectivity to Cloud");
 				}
 			}
 			String instanceIdOrig = addressInfoP.getInstanceId();
@@ -294,14 +324,14 @@ public class IpAddressWorker extends Worker {
 			try {
 				orig_compute = InstanceP.findInstancePsByInstanceIdEquals(instanceIdOrig).getSingleResult();	
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			AddressInfoP addressInfoP4PublicIp = null;
 			try {
 				addressInfoP4PublicIp = AddressInfoP.findAddressInfoPsByPublicIpEquals(addressInfoP.getPublicIp()).getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			String newIp="";
@@ -335,7 +365,7 @@ public class IpAddressWorker extends Worker {
 					Thread.sleep(START_SLEEP_TIME);
 					
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 					//addressInfoLocal=null;
 				}	
 			}
@@ -344,7 +374,7 @@ public class IpAddressWorker extends Worker {
 			try {
 				addressInfoP4NewPublicIp = AddressInfoP.findAddressInfoPsByPublicIpEquals(newIp).getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			if(match == true){
@@ -352,32 +382,32 @@ public class IpAddressWorker extends Worker {
 					orig_compute.setDnsName(newIp);
 					orig_compute.merge();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 				}
 				
 				try {
 					addressInfoP4PublicIp.setAssociated(false);
 					addressInfoP4PublicIp.setInstanceId("available");
-					addressInfoP4PublicIp.setStatus(Commons.ipaddress_STATUS.free+"");
+					addressInfoP4PublicIp.setStatus(Commons.ipaddress_STATUS.available+"");
 					addressInfoP4PublicIp.merge();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 				}
 				
 				try {
 					addressInfoP4NewPublicIp.setAssociated(false);
 					addressInfoP4NewPublicIp.setInstanceId(orig_compute.getInstanceId());
-					addressInfoP4PublicIp.setStatus(Commons.ipaddress_STATUS.taken+"");
+					addressInfoP4PublicIp.setStatus(Commons.ipaddress_STATUS.available+"");
 					addressInfoP4NewPublicIp.merge();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					logger.error(e);//e.printStackTrace();
 				}
 			}
 			
 			
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
+			logger.error(e);//e.printStackTrace();
 		}
 
 	}//enf disassociateAddress

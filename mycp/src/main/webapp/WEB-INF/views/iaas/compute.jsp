@@ -116,13 +116,14 @@
 				//Euca 2.0 does not impl stop and reboot
 				//actions='<img alt="Edit" src=../images/stop.png onclick=stop_compute('+p[i].id+')>&nbsp; '+
                 //'<img alt="Edit" src=../images/restart.png onclick=restart_compute('+p[i].id+')>&nbsp; '+
-                actions='<img class="clickimg" title="terminate" alt="terminate" src=/images/terminate.png onclick=terminate_compute('+p[i].id+')>&nbsp; '+
-                '<img class="clickimg" title="Delete" alt="Remove" src=/images/deny.png onclick=remove_compute('+p[i].id+')>';
+                actions='<img class="clickimg" title="terminate" alt="terminate" src=/images/terminate.png onclick=terminate_compute('+p[i].id+')>&nbsp; ';
+                //'<img class="clickimg" title="Delete" alt="Remove" src=/images/deny.png onclick=remove_compute('+p[i].id+')>';
 			}else if('STOPPED' == state){
 				actions='<img class="clickimg" title="start" alt="start" src=/images/start.png onclick=start_compute('+p[i].id+')>&nbsp; '+
 				'<img class="clickimg" title="Delete" alt="Remove" src=/images/deny.png onclick=remove_compute('+p[i].id+')>';
 			}else if('TERMINATED' == state || 'terminated' == state){
-				 actions =
+				state='<img  title="Terminated" alt="Terminated" src=/images/terminated.png>&nbsp;'; 
+				actions =
 	                '<img class="clickimg" title="Delete" alt="Delete" src=/images/deny.png onclick=remove_compute('+p[i].id+')>'
 			}else if('PENDING_APPROVAL' == state && p[i].instanceId != null ){
 				state='<img  title="Pending Approval" alt="Pending Approval" src=/images/pending.png>&nbsp;';
@@ -291,9 +292,19 @@ function remove_compute(id){
 	}
 
 	dwr.engine.beginBatch();
-	InstanceP.remove(id,afterSave_compute);
+	InstanceP.remove(id,afterRemove_compute);
 	dwr.engine.endBatch();
 }
+
+function afterRemove_compute(){
+	viewed_compute = -1;
+	$("#popupbutton_computelist").click();
+		CommonService.getSessionMsg(function(p){
+			$.sticky(p);
+		});
+		
+	}
+	
 function afterSave_compute(){
 	viewed_compute = -1;
 	$("#popupbutton_computelist").click();

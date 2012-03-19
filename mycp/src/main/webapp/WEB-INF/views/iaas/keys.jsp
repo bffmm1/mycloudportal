@@ -64,6 +64,7 @@
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
 	            { "sTitle": "Fingerprint" },
+	            { "sTitle": "Status" },
 	            { "sTitle": "Key" },
 	            { "sTitle": "Actions" }
 	           
@@ -74,10 +75,28 @@
 		for (i=0;i<p.length;i++)
 		{
 			var d = '<div style=\"display:none;\" id= keyMat'+p[i].id+'>'+p[i].keyMaterial+'</div>';
-			oTable.fnAddData( [i+1,p[i].keyName, p[i].keyFingerprint,'<a href=\"#\" onClick=\"+showKeyMaterial('+p[i].id+')\">Show/Hide</a>'+d,
-			                   '<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_keys('+p[i].id+')>&nbsp; &nbsp; '+
-			                   //'<img alt="Edit" src=../images/edit.png onclick=edit_keys('+p[i].id+')>&nbsp; &nbsp; &nbsp; '+
-			                   '<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>' ] );
+			var actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_keys('+p[i].id+')>&nbsp; &nbsp; '+
+            '<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
+            
+			if('PENDING_APPROVAL' == p[i].status ){
+            	p[i].status='<img title="pending approval" alt="pending approval" src=/images/pending.png>&nbsp;';
+            	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
+            }else if('starting' == p[i].status ){
+            	p[i].status='<img title="starting" alt="starting" src=/images/preloader.gif>&nbsp;';
+            	actions='';
+            }else if('active' == p[i].status ){
+            	p[i].status='<img title="active" alt="active" src=/images/running.png>&nbsp;';
+            	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
+            }else if('inactive' == p[i].status ){
+            	p[i].status='<img title="inactive" alt="inactive" src=/images/waiting.png>&nbsp;';
+            	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
+            }else if('failed' == p[i].status ){
+            	p[i].status='<img title="failed" alt="failed" src=/images/warning.png>&nbsp;';
+            	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
+            }
+			
+			oTable.fnAddData( [i+1,p[i].keyName, p[i].keyFingerprint,p[i].status,'<a href=\"#\" onClick=\"+showKeyMaterial('+p[i].id+')\">Show/Hide</a>'+d,
+			                   actions ] );
 		}
 		
 		

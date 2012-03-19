@@ -4,7 +4,8 @@
 
 
 
-	<div class="mycpfooter">
-  	  	My Cloud Portal © 2012 
-  	</div>
 
+	<div class="mycpfooter">
+  	  	<div style=" padding-top: 1px; padding-bottom:5px; padding-right: 20px;">My Cloud Portal © 2012</div> 
+  	</div>
+  	

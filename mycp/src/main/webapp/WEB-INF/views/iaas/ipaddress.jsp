@@ -71,6 +71,7 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 	            { "sTitle": "Name" },
 	            { "sTitle": "Instance Id" },
 	            { "sTitle": "Public IP" },
+	            { "sTitle": "Status" },
 	            { "sTitle": "Reason" },
 	            { "sTitle": "Actions" }
 	           
@@ -82,20 +83,43 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 		{
 			var actions='<img class="clickimg" title="Edit" alt="Edit" src=../images/edit.png onclick=edit_ipaddress('+p[i].id+')>&nbsp;&nbsp;'+
             '<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>';
-			
+            if('PENDING_APPROVAL' == p[i].status ){
+            	p[i].status='<img title="pending approval" alt="pending approval" src=/images/pending.png>&nbsp;';
+            	actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>';
+            }else if('starting' == p[i].status ){
+            	p[i].status='<img title="starting" alt="starting" src=/images/preloader.gif>&nbsp;';
+            	actions='';
+            }else if('available' == p[i].status ){
+            	p[i].status='<img title="available" alt="available" src=/images/available.png>&nbsp;';
+            	actions='<img class="clickimg" title="release" alt="release" src=../images/release.png onclick=release_ipaddress('+p[i].id+')>&nbsp;&nbsp;'+
+				'<img class="clickimg" title="associate" alt="associate" src=../images/associate.png onclick=associate_ipaddress('+p[i].id+')>&nbsp; &nbsp;';
+            }else if('associated' == p[i].status ){
+            	p[i].status='<img title="associated" alt="associated" src=/images/running.png>&nbsp;';
+				actions='<img class="clickimg" title="disassociate" alt="disassociate" src=../images/disassociate.png onclick=disassociate_ipaddress('+p[i].id+')>&nbsp;&nbsp;';
+            }else if('failed' == p[i].status ){
+            	p[i].status='<img title="failed" alt="failed" src=/images/warning.png>&nbsp;';
+            	actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>';
+            }else{
+            	p[i].status='<img title="unknown" alt="unknown" src=/images/unknown.png>&nbsp;';
+				actions='';
+            }
+            
+/*             
             if (p[i].associated !=null && p[i].associated=='1'){
+            	p[i].status='<img title="associated" alt="associated" src=/images/running.png>&nbsp;';
             	//alert(p[i].instanceId.toLowerCase());
             	//alert(p[i].instanceId.toLowerCase().indexOf("available"));
 				actions='<img class="clickimg" title="disassociate" alt="disassociate" src=../images/disassociate.png onclick=disassociate_ipaddress('+p[i].id+')>&nbsp;&nbsp;';
 			}else if(p[i].instanceId !=null && (p[i].instanceId.toLowerCase().indexOf("available") >=0)){
+				p[i].status='<img title="available" alt="available" src=/images/available.png>&nbsp;';
 				actions='<img class="clickimg" title="release" alt="release" src=../images/release.png onclick=release_ipaddress('+p[i].id+')>&nbsp;&nbsp;'+
 						'<img class="clickimg" title="associate" alt="associate" src=../images/associate.png onclick=associate_ipaddress('+p[i].id+')>&nbsp; &nbsp;';
-			}else if(p[i].instanceId !=null && (p[i].instanceId.toLowerCase().indexOf("nobody") >=0)){
-				actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>&nbsp;&nbsp'+
-				'<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>';
-			}
 
-			oTable.fnAddData( [i+1,p[i].name,p[i].instanceId, p[i].publicIp,p[i].reason,
+			}else if(p[i].instanceId !=null && (p[i].instanceId.toLowerCase().indexOf("nobody") >=0)){
+				actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>&nbsp;';
+			}
+ */
+			oTable.fnAddData( [i+1,p[i].name,p[i].instanceId, p[i].publicIp,p[i].status,p[i].reason,
 			                   actions ] );
 		}
 		

@@ -330,14 +330,12 @@ public class ComputeWorker extends Worker {
 		String threadName = Thread.currentThread().getName();
 		InstanceP instanceLocal=null;
 		try {
-			logger.debug(threadName + " Started.");
-			// "web"; //"charu"; //"emi-836C178A";
 			String imageName = instance.getImageId();
 			String keypairName = instance.getKeyName();
 			String groupName = instance.getGroupName();
 			String instanceType = instance.getInstanceType();
 
-			logger.info("Launching Euca instance for image: " + imageName);
+			logger.info("Launching Euca instance "+instance.getId()+" for image: " + imageName);
 
 			Jec2 ec2 = getNewJce2(infra);
 
@@ -418,7 +416,7 @@ public class ComputeWorker extends Worker {
 				addressInfoP.setInstanceId(instanceLocal.getInstanceId());
 				addressInfoP.setName("Ip for "+instanceLocal.getName());
 				addressInfoP.setPublicIp(instanceLocal.getDnsName());
-				addressInfoP.setStatus(Commons.ipaddress_STATUS.taken+"");
+				addressInfoP.setStatus(Commons.ipaddress_STATUS.associated+"");
 				
 				addressInfoP = addressInfoP.merge();
 				
@@ -444,43 +442,9 @@ public class ComputeWorker extends Worker {
 				throw new IllegalStateException(
 						"Failed to start a new instance");
 			}
-
-			/*
-			 * Jec2 ec2 = new Jec2("WKy3rMzOWPouVOxK1p3Ar1C2uRBwa2FBXnCw",
-			 * "TTHGvbf5foJQXhb5UpN3u1Kojetw2310GuGQ", false, //
-			 * "115.249.231.107", 8773); "192.168.253.84", 8773);
-			 * 
-			 * ec2.setResourcePrefix("/services/Eucalyptus");
-			 * ec2.setSignatureVersion(1);
-			 * 
-			 * 
-			 * ec2.runInstances(imageId, minCount, maxCount, groupSet, userData,
-			 * keyName, publicAddr, type, availabilityZone, kernelId, ramdiskId,
-			 * blockDeviceMappings) LaunchConfiguration lc = new
-			 * LaunchConfiguration(instanceP.getImageId());
-			 */// lc.setInstanceType(InstanceType.LARGE);
-			/*
-			 * instanceP.getInstanceType() instanceP.getInstanceType()
-			 */
-			/*
-			 * ReservationDescription rd = ec2.runInstances(lc);
-			 * //instanceP.setr
-			 * instanceP.setState(""+Constants.REQUEST_STATUS.RUNNING);
-			 * saveOrUpdate(instanceP);
-			 *//*
-				 * ec2.startInstances(arg0) ec2.stopInstances(arg0, arg1)
-				 * ec2.terminateInstances(arg0)
-				 * 
-				 * ec2.runInstances(lc) ec2.rebootInstances(arg0)
-				 */
-			/*
-			 * instance.setState("" + Constants.WORKFLOW_STATUS.APPROVED);
-			 * InstancePHomeVar.saveOrUpdate(instance);
-			 */
-
-			logger.debug(threadName + " Done.");
 		} catch (Exception e) {
-			logger.debug(threadName + " Interrupted.");
+			e.printStackTrace();
+			logger.info("Error while creating instance");
 			try {
 				InstanceP instance1 = InstanceP.findInstanceP(instance.getId());
 				instance1.setState(Commons.REQUEST_STATUS.FAILED + "");
@@ -496,64 +460,6 @@ public class ComputeWorker extends Worker {
 
 	}// work
 
-	/*
-	 * protected void destroyInstance(Object ignored) throws Exception { if
-	 * (this.instance != null) { log.info("Shutting down instance"); Jec2 jec2 =
-	 * new Jec2(awsKey, awsSecretKey);
-	 * jec2.terminateInstances(Collections.singletonList
-	 * (this.instance.getInstanceId())); } }
-	 * 
-	 * update image_description_p set imageid = 'emi-81B91418' where
-	 * imageLocation='portal/enstratus-dispatcher.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'eki-A6651373' where
-	 * imageLocation='debian6-64bit/vmlinuz-2.6.27.21-0.1-xen.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-836C178A' where
-	 * imageLocation
-	 * ='centos5-lamp-64bit.img/centos5-lamp-64bit.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-560F12B8' where
-	 * imageLocation='windows-2008/windows.2008-iis.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-85941840' where
-	 * imageLocation='enstratus-dispatcher/enstratus-dispatcher.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'eri-900F130C' where
-	 * imageLocation='centos5-64bit/initrd-2.6.27.21-0.1-xen.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'eri-EDC7148F ' where
-	 * imageLocation='ununtu-lts-64bit/initrd-2.6.27.21-0.1-xen.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-5C811289' where
-	 * imageLocation='debian6-64bit/debian.6-0.x86-64.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-F9E1151E' where
-	 * imageLocation='centos5-lamp-stack/centos.5-7.x86-64.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'eki-AFEE1391' where
-	 * imageLocation='centos5-64bit/vmlinuz-2.6.27.21-0.1-xen.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-EAEA14AB' where
-	 * imageLocation='ununtu-lts-64bit/ubuntu.10-04.x86-64.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'eki-0F291516' where
-	 * imageLocation='ununtu-lts-64bit/vmlinuz-2.6.27.21-0.1-xen.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-3DF412D6' where
-	 * imageLocation='portal/enstratus-console.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'eri-869312EA' where
-	 * imageLocation='debian6-64bit/initrd-2.6.27.21-0.1-xen.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-D61014C7' where
-	 * imageLocation='centos5-64bit/centos.5-7.base.64bit.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-054E1143' where
-	 * imageLocation='windows-2003/windows.2003.img.manifest.xml';
-	 * 
-	 * update image_description_p set imageid = 'emi-E9CF15E9' where
-	 * imageLocation='enstratus-console/enstratus-console.manifest.xml';
-	 */
+	
 
 }

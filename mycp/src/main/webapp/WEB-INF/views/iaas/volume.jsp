@@ -74,8 +74,8 @@
 	            { "sTitle": "Name" },
 	            { "sTitle": "Volume Id" },
 	            { "sTitle": "Size" },
-	            { "sTitle": "status" },
 	            { "sTitle": "Create Time" },
+	            { "sTitle": "Status" },
 	            { "sTitle": "Details" },
 	            { "sTitle": "Actions" }
 	           
@@ -93,22 +93,37 @@
             	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_volume('+p[i].id+')>';
             	
             	if('available'==p[i].status){
+            		p[i].status='<img title="available" alt="available" src=/images/available.png>&nbsp;';
+            		
             		actions=
 	            		'<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_volume('+p[i].id+')>&nbsp;&nbsp;'+
-	    				'<img class="clickimg" title="Attach" alt="Attach" src=../images/attach.png onclick=selectAttach_volume('+p[i].id+')>&nbsp;&nbsp;'+
-	    					actions;
+	    				'<img class="clickimg" title="Attach" alt="Attach" src=../images/attach.png onclick=selectAttach_volume('+p[i].id+')>&nbsp;&nbsp;';
                 	
             	}else if('in-use'==p[i].status){
+            		p[i].status='<img  title="in-use" alt="in-use" src=/images/running.png>&nbsp;';
+            		
             		actions=
             			'<img class="clickimg" title="Detach" alt="Detach" src=../images/detach.png onclick=detach_volume('+p[i].id+')>&nbsp;&nbsp;';
             	}else if('deleted'==p[i].status){
+            		p[i].status='<img  title="deleted" alt="deleted" src=/images/terminated.png>&nbsp;';
+            		actions=
+                    	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_volume('+p[i].id+')>';
+            	}else if('creating'==p[i].status){
+            		p[i].status='<img  title="Starting" alt="Starting" src=/images/preloader.gif>&nbsp;';
+            		actions='';
+            	}else if('PENDING_APPROVAL' == p[i].status && p[i].volumeId == null){
+            		p[i].status='<img title="Pending Approval" alt="Pending Approval" src=/images/pending.png>&nbsp;';
+            		actions=
+                    	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_volume('+p[i].id+')>';
+            	}else if('FAILED' == p[i].status){
+            		p[i].status='<img title="failed" alt="failed" src=/images/failed.png>&nbsp;';
             		actions=
                     	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_volume('+p[i].id+')>';
             	}
             	
 				
-			oTable.fnAddData( [i+1,p[i].name,p[i].volumeId, p[i].size+' (GB)', p[i].status,
-			                   dateFormat(p[i].createTime,"mmm dd yyyy HH:MM:ss"),p[i].details,
+			oTable.fnAddData( [i+1,p[i].name,p[i].volumeId, p[i].size+' (GB)',
+			                   dateFormat(p[i].createTime,"mmm dd yyyy HH:MM:ss"),p[i].status,p[i].details,
 			                  actions ] );
 		}
 	}

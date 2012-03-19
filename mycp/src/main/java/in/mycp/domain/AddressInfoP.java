@@ -42,13 +42,13 @@ public class AddressInfoP {
         return q;
     }
 
-    public static Number findAddressInfoCountByCompany(Company company, String status) {
-        String queryStr = "SELECT COUNT(i.id) FROM AddressInfoP i where i.status = :status ";
+    public static Number findAddressInfoCountByCompany(Company company) {
+        String queryStr = "SELECT COUNT(i.id) FROM AddressInfoP i  ";
         if (company != null) {
-            queryStr = queryStr + "  and i.asset.user.project.department.company = :company";
+            queryStr = queryStr + "  where i.asset.user.project.department.company = :company";
         }
         Query q = entityManager().createQuery(queryStr);
-        q.setParameter("status", status);
+        //q.setParameter("status", status);
         if (company != null) {
             q.setParameter("company", company);
         }

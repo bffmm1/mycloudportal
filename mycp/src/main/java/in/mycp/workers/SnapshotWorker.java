@@ -32,6 +32,9 @@ public class SnapshotWorker extends Worker {
 				
 			} catch (Exception e) {
 				logger.error(e);//e.printStackTrace();
+				if(e.getMessage().indexOf("Number of retries exceeded") > -1){
+					throw new Exception("No Connectivity to Cloud");
+				}
 			}
 			
 			SnapshotInfoP snapshot_local=new SnapshotInfoP();
@@ -75,6 +78,9 @@ public class SnapshotWorker extends Worker {
 				logger.info("SnapShot  "+snapshotInfo.getSnapshotId()+" created");
 			}
 		} catch (Exception e) {
+			SnapshotInfoP s = SnapshotInfoP.findSnapshotInfoP(snapshot.getId());
+			s.setStatus(Commons.SNAPSHOT_STATUS.inactive+"");
+			s.merge();
 			logger.error(e);//e.printStackTrace();
 		}
 

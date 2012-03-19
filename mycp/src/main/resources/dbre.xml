@@ -278,6 +278,7 @@
         <column name="importDate" primaryKey="false" required="false" scale="0" size="19" type="93,DATETIME"/>
         <column name="syncDate" primaryKey="false" required="false" scale="0" size="19" type="93,DATETIME"/>
         <column name="syncInProgress" primaryKey="false" required="false" scale="0" size="0" type="-7,BIT"/>
+        <column name="zone" primaryKey="false" required="true" scale="0" size="90" type="12,VARCHAR"/>
         <foreign-key foreignTable="company" name="fk_infra_company1" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="id" local="company"/>
@@ -322,7 +323,7 @@
         <column name="instanceId" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="privateDnsName" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="dnsName" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
-        <column name="reason" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
+        <column name="reason" primaryKey="false" required="false" scale="0" size="90" type="12,VARCHAR"/>
         <column name="keyName" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="launchIndex" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="productCodes" primaryKey="false" required="false" scale="0" size="255" type="12,VARCHAR"/>

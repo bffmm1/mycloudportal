@@ -56,9 +56,14 @@ public class AddressInfoPService {
 			instance = instance.merge();
 
 			if (true == assetType.getWorkflowEnabled()) {
+				
 				Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.IpAddress_Request
 						+ ""), instance.getId(), asset.getAssetType().getName());
+				instance.setStatus(Commons.WORKFLOW_STATUS.PENDING_APPROVAL+"");
+				instance = instance.merge();
 			} else {
+				instance.setStatus(Commons.ipaddress_STATUS.starting+"");
+				instance = instance.merge();
 				workflowApproved(instance);
 			}
 			return instance;
@@ -78,6 +83,8 @@ public class AddressInfoPService {
 	 */
 	public void workflowApproved(AddressInfoP instance) {
 		log.info("Workflow approved for "+instance.getId()+" "+instance.getName());
+		instance.setStatus(Commons.ipaddress_STATUS.starting+"");
+		instance = instance.merge();
 		allocateAddress(instance.getId());
 	}
 

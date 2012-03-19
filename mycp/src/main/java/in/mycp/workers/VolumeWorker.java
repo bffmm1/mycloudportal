@@ -274,7 +274,16 @@ public class VolumeWorker extends Worker {
 			}
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());e.printStackTrace();
+			logger.error(e);
+			try {
+				VolumeInfoP volumeInfoPlocal = VolumeInfoP.findVolumeInfoP(volumeInfoP.getId());
+				volumeInfoPlocal.setStatus(Commons.VOLUME_STATUS_FAILED);
+				volumeInfoPlocal = volumeInfoPlocal.merge();
+				setAssetEndTime(volumeInfoPlocal.getAsset());
+			} catch (Exception e2) {
+				logger.error(e);
+			}
+			
 			Thread.currentThread().interrupt();
 		}
 

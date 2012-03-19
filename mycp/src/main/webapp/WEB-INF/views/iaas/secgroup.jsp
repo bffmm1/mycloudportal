@@ -134,6 +134,10 @@
 			var status = '';
 			if(p[i].status !=null && p[i].status == 'active'){
 				status = '<img  title="running" alt="running" src=../images/running.png >';
+			}else if(p[i].status !=null && p[i].status == 'starting'){
+				status = '<img  title="starting" alt="starting" src=../images/preloader.gif >';
+			}else if(p[i].status !=null && p[i].status == 'PENDING_APPROVAL'){
+				status = '<img  title="pending approval" alt="pending approval" src=../images/pending.png >';
 			}else{
 				status = '<img title="unknown" alt="unknown" src=../images/unknown.png >';
 			}

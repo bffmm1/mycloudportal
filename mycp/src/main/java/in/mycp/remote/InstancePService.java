@@ -62,7 +62,7 @@ public class InstancePService {
 				instance.setState(Commons.WORKFLOW_STATUS.PENDING_APPROVAL + "");
 				instance = instance.merge();
 			} else {
-				instance.setState(Commons.WORKFLOW_STATUS.NO_WORKFLOW + "");
+				instance.setState(Commons.REQUEST_STATUS.STARTING + "");
 				instance = instance.merge();
 				workflowApproved(instances);
 			}
@@ -100,36 +100,35 @@ public class InstancePService {
 	 */
 	@RemoteMethod
 	public void workflowApproved(Set<InstanceP> instances) {
-		try {
+		
 			
 			log.info("in createCompute");
 			for (Iterator iterator = instances.iterator(); iterator.hasNext();) {
 				InstanceP instanceP = (InstanceP) iterator.next();
-				
+				try {
 				computeWorker.createrCompute(instanceP.getAsset().getProductCatalog().getInfra(), instanceP);
 				log.info("Scheduled ComputeCreateWorker for " + instanceP.getName());
+				Commons.setSessionMsg("Scheduled Instance creation "+ instanceP.getId());
+				} catch (Exception e) {
+					log.error(e.getMessage());//e.printStackTrace();
+					Commons.setSessionMsg("Error while scheduling Instance creation "+instanceP.getId());
+				}
 			}
 			log.info("end of createCompute");
-		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
-		}
+		
 	}// end of createCompute(InstanceP
 
-	@RemoteMethod
-	public void save(InstanceP instance) {
-		try {
-			instance.persist();
-		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
-		}
-	}// end of save(InstanceP
+	
 
 	@RemoteMethod
 	public InstanceP saveOrUpdate(InstanceP instance) {
 		try {
-			return instance.merge();
+			InstanceP i = instance.merge();
+			Commons.setSessionMsg("Saved Instance "+i.getId());
+			return i;
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
+			Commons.setSessionMsg("Error while saving Instance "+instance.getName());
 		}
 		return null;
 	}// end of saveOrUpdate(InstanceP
@@ -139,8 +138,10 @@ public class InstancePService {
 		try {
 			terminateCompute(id);
 			InstanceP.findInstanceP(id).remove();
+			Commons.setSessionMsg("Removed Instance "+id);
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
+			Commons.setSessionMsg("Error while removing Instance "+id);
 		}
 	}// end of method remove(int id
 
@@ -165,12 +166,9 @@ public class InstancePService {
 			//for everybody else, just show their own VMs
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER+"")
 					|| user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				//return InstanceP.findInstancePsByKeyNameNotEquals("enstratusKey").getResultList();
 				return InstanceP.findInstancePsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
 			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
 				return findAllWithSystemVms();
-				//TODO , uncomment above and comment below for production
-				//return InstanceP.findInstancePsByKeyNameNotEquals("enstratusKey").getResultList();
 			}else{
 				return InstanceP.findInstancePsByUser(user).getResultList();
 			}
@@ -206,7 +204,7 @@ public class InstancePService {
 						continue;
 					}
 				} catch (Exception e) {
-					log.error(e);e.printStackTrace();
+					log.error(e);//e.printStackTrace();
 				}
 				instances2return.add(instanceP);
 			}

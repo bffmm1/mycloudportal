@@ -8,7 +8,7 @@
 
 <html >
 	<head>
-	<title>My Cloud Portal</title>
+	<title>Open Source Self Service Portal for the Cloud</title>
 	<script type="text/javascript" src="/dwr/engine.js"></script>
 	<script type="text/javascript" src="/dwr/util.js"></script>
 	<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
@@ -195,12 +195,13 @@
 	  	  
 	  	 	<div style="width: 30px;height: 40px; "></div>
 	  	 	<div style="width: 98%;height: 100px; ">
-	  	 	
-	  	 	MyCP is <font style="font-weight: bold;">open source</font> and <font style="font-weight: bold;">free</font> to download & use.
+	  	 	<img src="/images/opensource.png" height="48" width="48" style="float:left; padding:20px; padding-top:0; padding-left:0;">
+	  	 	MyCP is <font style="font-weight: bold;">open source</font> and <font style="font-weight: bold;">free</font> to <a href="http://code.google.com/p/mycloudportal/"> download & use.</a>
 	  	 	
 	  	 	<br></br> Take a test drive by signing up below.
 	  	 	</div>
-	  	 	<div style="width: 98%;text-align: left; border: 1px solid #5087bf; font-weight:lighter; ;float: left; font-stretch: wider;font-size: 17px;">
+	  	 	<div style="width: 98%;text-align: left; border-radius: 5px 5px 5px 5px; font-weight:lighter; ;float: left; font-stretch: wider;font-size: 17px;
+	  	 	background-color: #F5F5F5;">
  					
 					<form class="cmxform" id="thisform" method="post" name="thisform">
 						<p id="contactArea_signup" class="contactArea" >
@@ -235,9 +236,9 @@
 						  </tr> 
 						  
 						    <tr>
-						    <td style="width: 30%;"><img  style="border:1px solid grey;" src="jcaptcha.jpg" /></td>
+						    <td style="width: 30%;"><img  style="border:1px solid grey;" src="/jcaptcha.jpg" /></td>
 						    <td style="width: 70%;">
-						    Enter Text in the box 
+						    Enter text in the box 
 						    <input type="text" id="captchaResp" name="captchaResp" value="" maxlength="25" size="30" class="required"/>
 						    </td>
 						  </tr> 

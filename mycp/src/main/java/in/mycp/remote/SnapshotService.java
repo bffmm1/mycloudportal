@@ -105,7 +105,11 @@ public class SnapshotService {
 			if (true == assetTypeSnapshot.getWorkflowEnabled()) {
 				Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.Snapshot_Request
 						+ ""), snapshotInfoP.getId(), asset.getAssetType().getName());
+				snapshotInfoP.setStatus(Commons.WORKFLOW_STATUS.PENDING_APPROVAL+"");
+				snapshotInfoP = snapshotInfoP.merge();
 			} else {
+				snapshotInfoP.setStatus(Commons.SNAPSHOT_STATUS.pending+"");
+				snapshotInfoP = snapshotInfoP.merge();
 				workflowApproved(snapshotInfoP);
 			}
 			log.info("end of requestSnapshot");
@@ -118,6 +122,8 @@ public class SnapshotService {
 
 	public void workflowApproved(SnapshotInfoP instance) {
 		try {
+			instance.setStatus(Commons.SNAPSHOT_STATUS.pending+"");
+			instance = instance.merge();
 			snapshotWorker.createSnapshot(instance.getAsset().getProductCatalog().getInfra(), instance);
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();

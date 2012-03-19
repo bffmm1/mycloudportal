@@ -193,7 +193,7 @@ $(function(){
 		
 		
 function submitForm_infra(f){
-	var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null, company:{} };
+	var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null, company:{},zone:null };
 	  dwr.util.getValues(infra);
 	  infra.company.id= dwr.util.getValue("company");
 	  if(viewed_infra == -1){
@@ -208,7 +208,7 @@ function submitForm_infra(f){
 }
 function cancelForm_infra(f){
 
-	var infra = {  id:null,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null };
+	var infra = {  id:null,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null,zone:null };
 	  dwr.util.setValues(infra);
 	  viewed_infra = -1;
 	  disablePopup_infra();
@@ -331,6 +331,10 @@ function sync_infra(id){
 								   <tr>
 								    <td style="width: 50%;">Port : </td>
 								    <td style="width: 50%;"><input type="text" name="port" id="port" size="30" class="required number"></td>
+								  </tr>
+								  <tr>
+								    <td style="width: 50%;">Zone : </td>
+								    <td style="width: 50%;"><input type="text" name="zone" id="zone" size="30" class="required"></td>
 								  </tr>
 								  <tr>
 								    <td style="width: 50%;">Details : </td>
