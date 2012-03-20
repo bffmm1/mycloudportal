@@ -5,6 +5,9 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.log4j.Logger;
 import org.springframework.roo.addon.dbre.RooDbManaged;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -147,4 +150,9 @@ public class Asset {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    public String toString() {
+        return "";
+    }
+
 }

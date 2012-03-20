@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.roo.addon.dbre.RooDbManaged;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -37,7 +39,7 @@ public class SnapshotInfoP {
     public static TypedQuery<in.mycp.domain.SnapshotInfoP> findSnapshotInfoPsByCompany(Company company) {
         if (company == null) throw new IllegalArgumentException("The company argument is required");
         EntityManager em = entityManager();
-        TypedQuery<SnapshotInfoP> q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user = :company", SnapshotInfoP.class);
+        TypedQuery<SnapshotInfoP> q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user.project.department.company = :company", SnapshotInfoP.class);
         q.setParameter("company", company);
         return q;
     }
@@ -53,5 +55,9 @@ public class SnapshotInfoP {
             q.setParameter("company", company);
         }
         return (Number) q.getSingleResult();
+    }
+
+	public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

@@ -142,3 +142,8 @@ Date.prototype.format = function (mask, utc) {
 		return confirm("You are removing this "+asset+" permanently.Are you sure?");
 	}
 	
+	function disp_terminate(asset)
+	{
+		return confirm("You are terminating this "+asset+".Are you sure?");
+	}
+	

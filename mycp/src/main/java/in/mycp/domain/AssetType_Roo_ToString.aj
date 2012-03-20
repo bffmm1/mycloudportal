@@ -3,14 +3,11 @@
 
 package in.mycp.domain;
 
-import in.mycp.domain.AssetType;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect AssetType_Roo_ToString {
     
-    public String AssetType.toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+   
     
 }

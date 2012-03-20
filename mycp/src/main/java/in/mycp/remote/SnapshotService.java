@@ -88,7 +88,7 @@ public class SnapshotService {
 			}
 			return SnapshotInfoP.findAllSnapshotInfoPs();
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e.getMessage());e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll

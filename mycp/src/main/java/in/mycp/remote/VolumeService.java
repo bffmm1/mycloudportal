@@ -147,7 +147,7 @@ public class VolumeService {
 	@RemoteMethod
 	public void remove(int id) {
 		try {
-			deleteVolume(id);
+			//deleteVolume(id);
 			VolumeInfoP.findVolumeInfoP(id).remove();
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();

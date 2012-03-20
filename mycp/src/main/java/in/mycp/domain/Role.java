@@ -2,6 +2,8 @@ package in.mycp.domain;
 
 import in.mycp.utils.Commons;
 import java.util.List;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.roo.addon.dbre.RooDbManaged;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -19,5 +21,9 @@ public class Role {
         } else {
             return entityManager().createQuery("SELECT o FROM Role o where o.name != 'ROLE_SUPERADMIN' ", Role.class).getResultList();
         }
+    }
+
+	public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

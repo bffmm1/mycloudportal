@@ -116,6 +116,7 @@ public class SignupService {
 			infra.setPort(8773);
 			infra.setResourcePrefix("/services/Eucalyptus");
 			infra.setSignatureVersion(1);
+			infra.setZone("");
 			infra = infra.merge();
 			
 			//create products

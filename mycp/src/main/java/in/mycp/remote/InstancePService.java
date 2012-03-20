@@ -57,7 +57,7 @@ public class InstancePService {
 			instances.add(instance);
 
 			if (true == assetTypeComputeInstance.getWorkflowEnabled()) {
-				Workflow workflow = Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.Compute_Request
+				Commons.createNewWorkflow(workflowService.createProcessInstance(Commons.PROCESS_DEFN.Compute_Request
 						+ ""), instance.getId(), asset.getAssetType().getName());
 				instance.setState(Commons.WORKFLOW_STATUS.PENDING_APPROVAL + "");
 				instance = instance.merge();
@@ -75,16 +75,10 @@ public class InstancePService {
 	@RemoteMethod
 	public void updateCompute(InstanceP instance) {
 		try {
-
 			InstanceP localInstance = InstanceP.findInstanceP(instance.getId());
-
 			if ((Commons.WORKFLOW_STATUS.PENDING_APPROVAL + "").equals(localInstance.getState())) {
 				instance.setState("" + Commons.WORKFLOW_STATUS.PENDING_APPROVAL);
-				
-			} /*else {
-				log.error("Instance is already Approved, Cannot change settings now.");
-
-			}*/
+			} 
 			instance = instance.merge();
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
@@ -100,8 +94,6 @@ public class InstancePService {
 	 */
 	@RemoteMethod
 	public void workflowApproved(Set<InstanceP> instances) {
-		
-			
 			log.info("in createCompute");
 			for (Iterator iterator = instances.iterator(); iterator.hasNext();) {
 				InstanceP instanceP = (InstanceP) iterator.next();

@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="/js/jquery-ui-1.8.16.custom.min.js"></script>	
 	<script type="text/javascript" src="/js/jqueryplugins/jquery.validate.js"></script>
 	<script type="text/javascript" src="/js/jqueryplugins/sticky/sticky.full.js"></script>
+	<script type="text/javascript" src="/js/jqueryplugins/nospam.js"></script>
 	<script type="text/javascript" src="/js/myccep.js"></script>
 	<script type="text/javascript" src="/dwr/interface/SignupService.js"></script>
 	<script type='text/javascript' src='/dwr/interface/RealmService.js'></script>
@@ -28,7 +29,7 @@
 <script type="text/javascript">
 	$(function() {
 		$( "input:submit, button", ".demo" ).button();
-		
+		$('a.email').nospam();
 	 	$("#login_button").click(function(){
 			document.forms["f"].submit();
 		});
@@ -99,7 +100,20 @@
 				    width:350px;
 				    color: white;
 				  }
-  
+				
+				.mycpfooter {
+					clear: both;
+					text-align: center;
+					margin-top: 3.5em;
+					margin-bottom: 1em;
+					height: 53px;
+					background-repeat: no-repeat;
+					background-position: left center;
+					background-color: black;
+					font-weight: bold;
+					padding-top: 10px;
+				}
+
 			</style>
 	</head>
 	
@@ -109,7 +123,7 @@
 	  	<div style="width:60%; float: left;text-align:justify; font-family: arial, helvetica, sans-serif; font-size: xx-large;font-weight: 900;">
 	  		<div style="width: 400px; text-align: right; padding-top: 10px; 
 	  			font-weight:900; font-size: 40px; font: arial, helvetica, sans-serif; font: bold;">
-				My Cloud Portal</br><font style="font-size: 12px;">beta</font>
+				My Cloud Portal</br><font style="font-size: 12px; padding-right: 150px; color: white;">any service any cloud</font><font style="font-size: 12px;">beta</font>
 			</div>
 	  	</div>
 		  	<div style="width:40%; float: right;font-weight:normal; ">
@@ -150,17 +164,20 @@
 		  	<div style="width: 30px;height: 20px;"></div>
 		  	<div style="width: 60px;height: 20px; float: left;"></div>
 		  		<div style="width: 85%;text-align: left; float: left; font-stretch: wider;font-size: 17px;">
-			  		The idea of My Cloud Portal as a self service portal is to provide a single pane of glass for the user to consume and govern any service from any cloud.
+			  		As a self service portal the idea of MyCP is to provide a single pane of glass for the user to 
+			  		<font style="font-weight: bold;font-size: 19px; "> <font style="color: green;"> Consume</font> 
+			  		and <font style="color: green;">Govern</font> any service from any cloud.</font>
 			  		<p>
 			  		In its current state it enables users to consume, monitor and manage services from Eucalyptus private cloud.
 			  		</p>
 			  		</br>
 			  		
+			  		
 						<table style="width: 80%;">
 						
 						<tr>
 						    <td style="width: 30%;"><img alt="" src="/images/eucalyptus_cloud.png" > </td>
-						    <td style="width: 70%;"><font style="font-weight: bold;">Connect & Manage Eucalyptus </font><br><div style="font-size: small;"> Create and Manage infrastructure services from Eucalyptus like Compute, Volume, Snapshot, KeyPair, Security Group & Ip Address.</div> </td>
+						    <td style="width: 70%;"><font style="font-weight: bold;">Connect & Manage </font><br><div style="font-size: small;"> Create and Manage infrastructure services from Eucalyptus like Compute, Volume, Snapshot, KeyPair, Security Group & Ip Address.</div> </td>
 						  </tr>
 						  <tr style="height: 10px;"></tr>
 						  <tr>
@@ -195,6 +212,7 @@
 	  	  
 	  	 	<div style="width: 30px;height: 40px; "></div>
 	  	 	<div style="width: 98%;height: 100px; ">
+	  	 	  		
 	  	 	<img src="/images/opensource.png" height="48" width="48" style="float:left; padding:20px; padding-top:0; padding-left:0;">
 	  	 	MyCP is <font style="font-weight: bold;">open source</font> and <font style="font-weight: bold;">free</font> to <a href="http://code.google.com/p/mycloudportal/"> download & use.</a>
 	  	 	
@@ -213,17 +231,17 @@
 						    <td style="width: 30%;">Name : </td>
 						    <td style="width: 70%;"><input type="text" name="name" id="name" size="30" maxlength="30" class="required"></td>
 						  </tr>
-						  <tr style="height: 20px;"></tr>
+						  <tr style="height: 5px;"></tr>
 						  <tr>
 						    <td style="width: 30%;">Email : </td>
 						    <td style="width: 70%;"><input type="text" name="email" id="email" size="30" maxlength="25" class="email required"></td>
 						  </tr>
-						  <tr style="height: 20px;"></tr>
+						  <tr style="height: 5px;"></tr>
 						  <tr>
 						    <td style="width: 30%;">Password : </td>
 						    <td style="width: 70%;"><input type="password" name="password" id="password" size="30" maxlength="25" class="required"  minlength="6"></td>
 						  </tr>
-						  <tr style="height: 20px;"></tr>
+						  <tr style="height: 5px;"></tr>
 						  <tr>
 						    <td style="width: 30%;">Organization : </td>
 						    <td style="width: 70%;">
@@ -263,7 +281,7 @@
 								</div>
 							</td>
 						  </tr>
-						  <tr style="height: 20px;"></tr>
+						  <tr style="height: 5px;"></tr>
 						</table>
 						</p>
 					</form>
@@ -271,8 +289,12 @@
 	  	</div>
 	  	
   	</div>
-  	<div style=" width:100%;  text-align: right; background-color: black;">
-  	  	<div style=" padding-top: 1px; padding-bottom:5px; padding-right: 20px;">My Cloud Portal © 2012</div> 
+  	<div class="mycpfooter">
+  	  	<div >
+  	  	<font>My Cloud Portal © 2012</font><br><p>
+  	  	<font><a href="#" rel="moc*liamg++latropduolcym" class="email">Contact</a></font>
+  	  	
+  	  	</div> 
   	</div>
    			
 	</body>

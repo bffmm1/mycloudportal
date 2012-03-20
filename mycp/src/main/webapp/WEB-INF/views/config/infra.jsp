@@ -59,6 +59,7 @@
 		
 	}
 	var isMycpAdmin = false;
+	var isAdmin = false;
 	function findAll_infra(p){
 		/* alert(p.length);
 		alert(p[0].imageId); */
@@ -97,12 +98,15 @@
 		var i=0;
 		for (i=0;i<p.length;i++)
 		{
-			var options = '<img class="clickimg" alt="Sync" src=/images/sync.png onclick=sync_infra('+p[i].id+') title="Sync Backend" />&nbsp;  '+
-            '<img alt="Edit" class="clickimg" src=../images/edit.png onclick=edit_infra('+p[i].id+') title="Edit"  />&nbsp;  ';
+			var options = '';
+			
 			if(isMycpAdmin){
 				options = '<img alt="Sync" class="clickimg" src=/images/sync.png onclick=sync_infra('+p[i].id+') title="Sync Backend" />&nbsp;  '+
 	            '<img alt="Edit" class="clickimg" src=/images/edit.png onclick=edit_infra('+p[i].id+') title="Edit" />&nbsp;  '+
                 '<img alt="Remove" class="clickimg" src=/images/deny.png onclick=remove_infra('+p[i].id+') title="Remove" />';
+			}else if(isAdmin){
+				options = '<img alt="Edit" class="clickimg" src=../images/edit.png onclick=edit_infra('+p[i].id+') title="Edit"  />&nbsp; '+
+				'<img alt="Remove" class="clickimg" src=/images/deny.png onclick=remove_infra('+p[i].id+') title="Remove" />';
 			}
 			//oTable.fnAddData( [i+1, p[i].accessId, p[i].secretKey,p[i].isSecure,p[i].server,p[i].port,p[i].details,
 			oTable.fnAddData( [i+1, p[i].name, p[i].accessId,p[i].isSecure,p[i].server,p[i].port,p[i].details,
@@ -161,7 +165,7 @@ $(function(){
 		
 		$(document).ready(function() {
 			
-			$("#popupbutton_infralist").click();
+			
 			
 			$("#thisform").validate({
 				 submitHandler: function(form) {
@@ -171,13 +175,15 @@ $(function(){
 			});
 			
 			CommonService.getCurrentSession(function(p){
-					if(p.role == 'ROLE_USER'){
-						dwr.util.setValue('only4mycpadmin', '');	
+					if(p.role == 'ROLE_SUPERADMIN'){
+						isMycpAdmin = true; 	
+					}else if(p.role == 'ROLE_USER'){
+						dwr.util.setValue('only4mycpadmin', '');
 					}else{
-						isMycpAdmin = true; 
+						isAdmin = true;
 					}
 				});
-			
+					$("#popupbutton_infralist").click();
 				});
 			
 			
@@ -252,7 +258,7 @@ function import_infra(id){
 }
 
 function sync_infra(id){
-	InfraService.syncDataFromEuca(id+'');
+	InfraService.syncDataFromMycp(id+'');
 	//alert(id);
 }
 

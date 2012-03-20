@@ -4,6 +4,8 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.roo.addon.dbre.RooDbManaged;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -65,5 +67,9 @@ public class Workflow {
         TypedQuery<Workflow> q = em.createQuery("SELECT o FROM Workflow AS o WHERE o.user.project.department.company = :company", Workflow.class);
         q.setParameter("company", company);
         return q;
+    }
+
+	public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

@@ -143,7 +143,7 @@
 			//	if('STARTING' == state || 'RESTARTING' == state || 
 			//  'TERMINATING' == state  || 'SHUTTING_DOWN' == state){
 				//disable all actions here
-				actions =''; 
+				actions ='<img class="clickimg" title="Delete" alt="Remove" src=/images/deny.png onclick=remove_compute('+p[i].id+')>'
 			}
                 
 			//alert(state);
@@ -311,9 +311,18 @@ function afterSave_compute(){
 	}
 
 	function terminate_compute(id){
+		if(!disp_terminate('Server')){
+			return false;
+		}
 			dwr.engine.beginBatch();
-			InstanceP.terminateCompute(id,afterSave_compute);
+			InstanceP.terminateCompute(id,afterTerminate_compute);
 			dwr.engine.endBatch();
+		}
+	
+	function afterTerminate_compute(){
+		viewed_compute = -1;
+		$("#popupbutton_computelist").click();
+		$.sticky("Server scheduled for Termination.");
 		}
 	
 	function stop_compute(id){

@@ -36,6 +36,9 @@ public class SecurityGroupService {
 
 	@Autowired
 	WorkflowService workflowService;
+	
+	@Autowired
+	IpPermissionService ipPermissionService;
 
 	@RemoteMethod
 	public GroupDescriptionP saveOrUpdate(GroupDescriptionP instance) {
@@ -84,6 +87,11 @@ public class SecurityGroupService {
 			instance.setStatus(Commons.secgroup_STATUS.starting+"");
 			instance = instance.merge();
 			securityGroupWorker.createSecurityGroup(instance.getAsset().getProductCatalog().getInfra(), instance);
+			Set<IpPermissionP> perms = instance.getIpPermissionPs();
+			for (Iterator iterator = perms.iterator(); iterator.hasNext();) {
+				IpPermissionP ipPermissionP = (IpPermissionP) iterator.next();
+				ipPermissionService.workflowApproved(ipPermissionP);
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
 		}

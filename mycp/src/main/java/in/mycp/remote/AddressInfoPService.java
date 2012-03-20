@@ -6,12 +6,9 @@ import in.mycp.domain.AssetType;
 import in.mycp.domain.Company;
 import in.mycp.domain.ProductCatalog;
 import in.mycp.domain.User;
-import in.mycp.domain.Workflow;
 import in.mycp.utils.Commons;
 import in.mycp.workers.IpAddressWorker;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -91,7 +88,7 @@ public class AddressInfoPService {
 	@RemoteMethod
 	public void remove(int id) {
 		try {
-			releaseAddress(id);
+			//releaseAddress(id);
 			Commons.setAssetEndTime(AddressInfoP.findAddressInfoP(id).getAsset());
 			AddressInfoP.findAddressInfoP(id).remove();
 		} catch (Exception e) {

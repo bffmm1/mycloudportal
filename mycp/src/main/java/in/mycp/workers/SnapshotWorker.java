@@ -37,7 +37,7 @@ public class SnapshotWorker extends Worker {
 				}
 			}
 			
-			SnapshotInfoP snapshot_local=new SnapshotInfoP();
+			SnapshotInfoP snapshot_local=SnapshotInfoP.findSnapshotInfoP(snapshot.getId());
 			snapshot_local.setId(snapshot.getId());
 			snapshot_local.setVolumeId(snapshot.getVolumeId());
 			snapshot_local.setStartTime(snapshotInfo.getStartTime().getTime());

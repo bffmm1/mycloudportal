@@ -26,6 +26,10 @@ public class IpPermissionService {
 
 	@Autowired
 	SecurityGroupWorker securityGroupWorker;
+	
+	@Autowired
+	WorkflowService workflowService;
+	
 
 	public void save(IpPermissionP instance) {
 		try {
@@ -41,13 +45,11 @@ public class IpPermissionService {
 			instance = instance.merge();
 			AssetType assetTypeSecurityGroup = AssetType.findAssetTypesByNameEquals(Commons.ASSET_TYPE.SecurityGroup + "")
 					.getSingleResult();
-
-			/*if (true == assetTypeSecurityGroup.getWorkflowEnabled()) {
-			}else {
+			if(!assetTypeSecurityGroup.getWorkflowEnabled() || (instance.getGroupDescription() !=null 
+					&& instance.getGroupDescription().getStatus().equals(Commons.secgroup_STATUS.active+""))){
 				workflowApproved(instance);
-			}*/
-
-			workflowApproved(instance);
+			}
+			
 			return instance;
 		} catch (Exception e) {
 			log.error(e);e.printStackTrace();

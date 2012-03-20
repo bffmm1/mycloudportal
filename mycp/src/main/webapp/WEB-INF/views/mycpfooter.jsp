@@ -6,6 +6,6 @@
 
 
 	<div class="mycpfooter">
-  	  	<div style=" padding-top: 1px; padding-bottom:5px; padding-right: 20px;">My Cloud Portal © 2012</div> 
+  	  	<div style=" padding-top: 15px; ">My Cloud Portal © 2012</div> 
   	</div>
   	

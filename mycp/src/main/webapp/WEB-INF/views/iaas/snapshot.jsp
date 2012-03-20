@@ -206,10 +206,20 @@ $(function(){
 	}
 	
 	function delete_backup(id){
+		if(!disp_terminate('Snapshot')){
+			return false;
+		}
 		dwr.engine.beginBatch();
-		SnapshotInfoP.deleteSnapshot(id,afterSave_backup);
+		SnapshotInfoP.deleteSnapshot(id,afterdelete_backup);
 		dwr.engine.endBatch();
 	}
+	
+	function afterdelete_backup(){
+		viewed_backup = -1;
+		$("#popupbutton_backuplist").click();
+		$.sticky("Snapshot scheduled to be removed.");
+	}
+	
 	</script>
 <p class="dataTableHeader">Snapshot Resource</p>
 			<div id="datatable-iaas-parent" class="infragrid2">

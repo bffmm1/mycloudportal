@@ -111,10 +111,8 @@ public class IpAddressWorker extends Worker {
 	
 	@Async
 	public void releaseAddress(final Infra infra, final AddressInfoP addressInfoP) {
-		String threadName = Thread.currentThread().getName();
 
 		try {
-			logger.debug("threadName "+threadName+" started.");
 			Jec2 ec2 = getNewJce2(infra);
 			String ipToMatch = addressInfoP.getPublicIp();
 			try {
@@ -137,10 +135,14 @@ public class IpAddressWorker extends Worker {
 			}
 			AddressInfo addressInfoLocal=new AddressInfo("", "");
 			
-			
 			int START_SLEEP_TIME = 10000;
+			int waitformaxcap = START_SLEEP_TIME *10;
+			long now = 0;
 			while(addressInfoLocal != null){
-				
+				if(now > waitformaxcap){
+					throw new Exception("Got bored, Quitting.");
+				}
+				now = now+START_SLEEP_TIME;
 				try {
 					List<AddressInfo> adrsses =  ec2.describeAddresses(new ArrayList<String>());
 					for (Iterator iterator = adrsses.iterator(); iterator
@@ -181,6 +183,14 @@ public class IpAddressWorker extends Worker {
 
 		} catch (Exception e) {
 			logger.error(e);//e.printStackTrace();
+			try {
+				AddressInfoP a = AddressInfoP.findAddressInfoP(addressInfoP.getId());
+				a.setStatus(Commons.ipaddress_STATUS.failed+"");
+				a = a.merge();
+				setAssetEndTime(a.getAsset());
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 
 	}//end of releaseAddress
@@ -230,7 +240,13 @@ public class IpAddressWorker extends Worker {
 			
 			boolean match=false;
 			int START_SLEEP_TIME = 5000;
+			int waitformaxcap = START_SLEEP_TIME *10;
+			long now = 0;
 			outer: while(!match){
+				if(now > waitformaxcap){
+					throw new Exception("Got bored, Quitting.");
+				}
+				now = now+START_SLEEP_TIME;
 				
 				try {
 			
@@ -292,6 +308,14 @@ public class IpAddressWorker extends Worker {
 			
 		} catch (Exception e) {
 			logger.error(e);//e.printStackTrace();
+			try {
+				AddressInfoP a = AddressInfoP.findAddressInfoP(addressInfoP.getId());
+				a.setStatus(Commons.ipaddress_STATUS.failed+"");
+				a = a.merge();
+				setAssetEndTime(a.getAsset());
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 
 	}//end of associateAddress
@@ -333,11 +357,17 @@ public class IpAddressWorker extends Worker {
 			} catch (Exception e) {
 				logger.error(e);//e.printStackTrace();
 			}
-			
+						
 			String newIp="";
 			boolean match=false;
 			int START_SLEEP_TIME = 5000;
+			int waitformaxcap = START_SLEEP_TIME *10;
+			long now = 0;
 			outer: while(!match){
+				if(now > waitformaxcap){
+					throw new Exception("Got bored, Quitting.");
+				}
+				now = now+START_SLEEP_TIME;
 				
 				try {
 			
@@ -367,6 +397,7 @@ public class IpAddressWorker extends Worker {
 				} catch (Exception e) {
 					logger.error(e);//e.printStackTrace();
 					//addressInfoLocal=null;
+					
 				}	
 			}
 			
@@ -408,6 +439,14 @@ public class IpAddressWorker extends Worker {
 
 		} catch (Exception e) {
 			logger.error(e);//e.printStackTrace();
+			try {
+				AddressInfoP a = AddressInfoP.findAddressInfoP(addressInfoP.getId());
+				a.setStatus(Commons.ipaddress_STATUS.failed+"");
+				a = a.merge();
+				setAssetEndTime(a.getAsset());
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 
 	}//enf disassociateAddress

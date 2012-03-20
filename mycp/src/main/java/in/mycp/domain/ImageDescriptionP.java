@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.roo.addon.dbre.RooDbManaged;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -53,5 +55,9 @@ public class ImageDescriptionP {
             q.setParameter("company", company);
         }
         return (Number) q.getSingleResult();
+    }
+
+	public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

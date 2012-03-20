@@ -97,7 +97,11 @@
 		var i=0;
 		for (i=0;i<p.length;i++)
 		{
-			
+			if('1' == p[i].active){
+				p[i].active='<img title="active" alt="active" src=/images/running.png>&nbsp;';
+			}else{
+				p[i].active='<img title="disabled" alt="disabled" src=/images/waiting.png>&nbsp;';
+			}
 			oTable.fnAddData( [i+1,p[i].email, dateFormat(p[i].registereddate), p[i].active,
 			                   p[i].role.name,
 			                   '<img class="clickimg" title="Edit" alt="Edit" src=../images/edit.png onclick=edit_user('+p[i].id+')>&nbsp; &nbsp; &nbsp; '+
