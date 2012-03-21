@@ -177,7 +177,7 @@
 						
 						<tr>
 						    <td style="width: 30%;"><img alt="" src="/images/eucalyptus_cloud.png" > </td>
-						    <td style="width: 70%;"><font style="font-weight: bold;">Connect & Manage </font><br><div style="font-size: small;"> Create and Manage infrastructure services from Eucalyptus like Compute, Volume, Snapshot, KeyPair, Security Group & Ip Address.</div> </td>
+						    <td style="width: 70%;"><font style="font-weight: bold;">Connect & Manage </font><br><div style="font-size: small;"> Create and Manage infrastructure services from IaaS cloud like Compute (Server), Volume (Storage), Snapshot (Backup), KeyPair, Security Group & Ip Address.</div> </td>
 						  </tr>
 						  <tr style="height: 10px;"></tr>
 						  <tr>
@@ -211,13 +211,16 @@
 	  	<div style="width: 35%;height: 620px;  float: left;">
 	  	  
 	  	 	<div style="width: 30px;height: 40px; "></div>
-	  	 	<div style="width: 98%;height: 100px; ">
+	  	 	<div style="width: 98%;height: 100px; text-align: center;  ">
 	  	 	  		
-	  	 	<img src="/images/opensource.png" height="48" width="48" style="float:left; padding:20px; padding-top:0; padding-left:0;">
-	  	 	MyCP is <font style="font-weight: bold;">open source</font> and <font style="font-weight: bold;">free</font> to <a href="http://code.google.com/p/mycloudportal/"> download & use.</a>
-	  	 	
-	  	 	<br></br> Take a test drive by signing up below.
+	  	 	<a href="http://code.google.com/p/mycloudportal/" target="_blank"> <img src="/images/opensource.png" height="48" width="48" 
+	  	 		style="float:left; padding:20px; padding-top:0; padding-left:0;"></a>
+	  	 	<div style="padding-top: 15px;">
+	  	 	MyCP is <font style="font-weight: bold;">open source</font> and <font style="font-weight: bold;">free</font> to 
+	  	 	<a href="http://code.google.com/p/mycloudportal/" target="_blank"> download & use.</a>
 	  	 	</div>
+	  	 	</div>Take a test drive by signing up below.
+	  	 	<div style="height: 7px;"></div>
 	  	 	<div style="width: 98%;text-align: left; border-radius: 5px 5px 5px 5px; font-weight:lighter; ;float: left; font-stretch: wider;font-size: 17px;
 	  	 	background-color: #F5F5F5;">
  					
@@ -291,8 +294,11 @@
   	</div>
   	<div class="mycpfooter">
   	  	<div >
-  	  	<font>My Cloud Portal © 2012</font><br><p>
+  	  	<font style="font-size: 12px; font-weight: normal;">My Cloud Portal © 2012</font><br><p>
   	  	<font><a href="#" rel="moc*liamg++latropduolcym" class="email">Contact</a></font>
+  	  	
+  	  	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://code.google.com/p/mycloudportal/downloads/list" target="_blank">Download</a>
+  	  	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://code.google.com/p/mycloudportal/" target="_blank">Project Home</a>
   	  	
   	  	</div> 
   	</div>

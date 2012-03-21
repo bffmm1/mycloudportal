@@ -42,7 +42,7 @@ public class InfraService  {
 	
 	
 	@RemoteMethod
-	public Infra syncDataFromMycp(String instanceId) {
+	public Infra syncDataFromEuca(String instanceId) {
 		try {
 			Infra instance = Infra.findInfra(new Integer(instanceId));
 			if(instance.getSyncInProgress()!=null && instance.getSyncInProgress()){
@@ -53,7 +53,7 @@ public class InfraService  {
 			instance.setSyncInProgress(true);
 			instance.merge();
 			
-			eucalyptusService.syncDataFromMycp(instance);
+			eucalyptusService.syncDataFromEuca(instance);
 			instance.setSyncInProgress(false);
 			instance.merge();
 			

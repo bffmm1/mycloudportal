@@ -181,6 +181,7 @@
 .dataTableHeader{
 	clear:both; margin-top:0em; margin-left: 2em; font-weight: bold;
 	color: #d45500; 
+	height: 20px;
 }
 
 

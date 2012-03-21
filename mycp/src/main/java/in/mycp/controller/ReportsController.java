@@ -43,15 +43,20 @@ public class ReportsController {
 
 	@RequestMapping(value = "/usageDept", produces = "text/html")
 	public String usageDept(HttpServletRequest req, HttpServletResponse resp) {
+		
 		Hashtable<String, List> deptHash = new Hashtable<String, List>();
 		if (Commons.getCurrentSession() != null && Commons.getCurrentSession().getCompanyId() > 0) {
-			Set<Department> depts = Company.findCompany(Commons.getCurrentSession().getCompanyId()).getDepartments();
+			Company c = Company.findCompany(Commons.getCurrentSession().getCompanyId());
+			req.setAttribute("currency", c.getCurrency());
+			Set<Department> depts = c.getDepartments();
+			
 			for (Iterator iterator = depts.iterator(); iterator.hasNext();) {
 				Department department = (Department) iterator.next();
 				deptHash.put(department.getName(), reportService.findAssets4Department(department.getId()));
 			}
 		} else {
 			List<Company> comps = Company.findAllCompanys();
+			req.setAttribute("currency", "All");
 			for (Iterator iterator = comps.iterator(); iterator.hasNext();) {
 				Company company = (Company) iterator.next();
 				Set<Department> depts = company.getDepartments();
@@ -71,7 +76,10 @@ public class ReportsController {
 	public String usageProj(HttpServletRequest req, HttpServletResponse resp) {
 		Hashtable<String, List> projHash = new Hashtable<String, List>();
 		if (Commons.getCurrentSession() != null && Commons.getCurrentSession().getCompanyId() > 0) {
-			Set<Department> depts = Company.findCompany(Commons.getCurrentSession().getCompanyId()).getDepartments();
+			Company c = Company.findCompany(Commons.getCurrentSession().getCompanyId());
+			req.setAttribute("currency", c.getCurrency());
+			
+			Set<Department> depts = c.getDepartments();
 			for (Iterator iterator = depts.iterator(); iterator.hasNext();) {
 				Department department = (Department) iterator.next();
 				Set<Project> projs = department.getProjects();
@@ -82,6 +90,7 @@ public class ReportsController {
 				}
 			}
 		} else {
+			req.setAttribute("currency", "All");
 			List<Company> comps = Company.findAllCompanys();
 			for (Iterator iterator = comps.iterator(); iterator.hasNext();) {
 				Company company = (Company) iterator.next();
@@ -107,10 +116,14 @@ public class ReportsController {
 		Hashtable<String, String> userSummaryHash = new Hashtable<String, String>();
 		if (Commons.getCurrentSession() != null && Commons.getCurrentSession().getCompanyId() > 0) {
 			List<User> users = new ArrayList<User>();
+			Company c = Company.findCompany(Commons.getCurrentSession().getCompanyId());
+			req.setAttribute("currency", c.getCurrency());
 			if (Commons.getCurrentUser().getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN + "")
 					|| Commons.getCurrentUser().getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") 
 					|| Commons.getCurrentUser().getRole().getName().equals(Commons.ROLE.ROLE_ADMIN + "")) {
-				users = User.findUsersByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				
+				
+				users = User.findUsersByCompany(c).getResultList();
 			}else{
 				users.add(User.findUser(Commons.getCurrentUser().getId()));
 			}
@@ -122,6 +135,7 @@ public class ReportsController {
 			}
 		} else {
 			List<User> users = User.findAllUsers();
+			req.setAttribute("currency", "All");
 			for (Iterator iterator = users.iterator(); iterator.hasNext();) {
 				User user = (User) iterator.next();
 				//userSummaryHash.put(user.getEmail(), getCost(reportService.findAssets4User(user.getId())) + "");

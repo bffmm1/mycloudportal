@@ -119,7 +119,13 @@
             		p[i].status='<img title="failed" alt="failed" src=/images/failed.png>&nbsp;';
             		actions=
                     	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_volume('+p[i].id+')>';
+            	}else if('APPROVAL_REJECTED' == p[i].status){
+            		p[i].status='<img title="Approval Rejected" alt="Approval Rejected" src=/images/rejected.png>&nbsp;';
+            		actions=
+                    	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_volume('+p[i].id+')>';
             	}
+            	
+            	
             	
 				
 			oTable.fnAddData( [i+1,p[i].name,p[i].volumeId, p[i].size+' (GB)',

@@ -139,7 +139,11 @@
 				state='<img  title="Failed" alt="Failed" src=/images/failed.png>&nbsp;';
 				actions ='<img class="clickimg" title="Delete" alt="Remove" src=/images/deny.png onclick=remove_compute('+p[i].id+')>'
 	            
-			}else{
+			}else if('APPROVAL_REJECTED' == state){
+				state='<img title="Approval Rejected" alt="Approval Rejected" src=/images/rejected.png>&nbsp;';
+        		actions=
+                	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_compute('+p[i].id+')>';
+        	}else{
 			//	if('STARTING' == state || 'RESTARTING' == state || 
 			//  'TERMINATING' == state  || 'SHUTTING_DOWN' == state){
 				//disable all actions here

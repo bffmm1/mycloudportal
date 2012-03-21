@@ -78,13 +78,13 @@ public class ImageService {
     	@RemoteMethod
 		public List findAll(){
 			try{
-				/*User user = Commons.getCurrentUser();
+				User user = Commons.getCurrentUser();
 				if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
 					return ImageDescriptionP.findImageDescriptionPsByUser(user).getResultList();
 				}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
 					return ImageDescriptionP.findImageDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
-				}*/				
-				return ImageDescriptionP.findAllImageDescriptionPs();
+				}				
+				//return ImageDescriptionP.findAllImageDescriptionPs();
 				}catch (Exception e) {
 				log.error(e.getMessage());//e.printStackTrace();
 			}

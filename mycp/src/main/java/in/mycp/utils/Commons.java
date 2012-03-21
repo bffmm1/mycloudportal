@@ -98,6 +98,10 @@ public class Commons {
 	static public enum WORKFLOW_STATUS {
 		PENDING_APPROVAL, ABORTED, APPROVED, APPROVAL_REJECTED, END, NO_WORKFLOW
 	}
+	
+	static public enum WORKFLOW_TRANSITION {
+		Reject,Approve
+	}
 
 	public static List getAllJbpmProcDefNames() {
 		// public static final String JBPM_PROC_DEF_NAME_FVC_BILL = "fvc bill";
@@ -123,7 +127,7 @@ public class Commons {
 		asset.setAssetType(at);
 		asset.setDetails("from mycp");
 		asset.setUser(currentUser);
-
+		asset.setActive(false);
 		if (!StringUtils.isEmpty(productCatalogId)) {
 			ProductCatalog pc = ProductCatalog.findProductCatalog(Integer.parseInt(productCatalogId));
 			asset.setStartRate(pc.getPrice());
@@ -135,7 +139,7 @@ public class Commons {
 
 	public static Asset getNewAsset(AssetType at, User currentUser, ProductCatalog productCatalog) {
 		Asset asset = new Asset();
-		asset.setActive(true);
+		asset.setActive(false);
 
 		asset.setStartTime(new Date());
 		asset.setAssetType(at);

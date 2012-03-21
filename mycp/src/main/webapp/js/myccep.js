@@ -130,7 +130,7 @@ Date.prototype.format = function (mask, utc) {
 
 	$(function(){
 		function errh(msg, exc) {
-			  alert("Error message is: " + msg + " - Error Details: " + dwr.util.toDescriptiveString(exc, 2));
+			 // alert("Error message is: " + msg + " - Error Details: " + dwr.util.toDescriptiveString(exc, 2));
 			}
 		dwr.engine.setErrorHandler(errh);
 		$( "input:submit, a, button", ".demo" ).button();

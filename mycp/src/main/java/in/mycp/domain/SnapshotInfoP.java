@@ -56,6 +56,16 @@ public class SnapshotInfoP {
         }
         return (Number) q.getSingleResult();
     }
+    
+    public static TypedQuery<SnapshotInfoP> findSnapshotInfoPsBySnapshotIdEqualsAndCompanyEquals(String snapshotId,Company company) {
+        if (snapshotId == null || snapshotId.length() == 0) throw new IllegalArgumentException("The snapshotId argument is required");
+        EntityManager em = entityManager();
+        TypedQuery<SnapshotInfoP> q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.snapshotId = :snapshotId" +
+        		" and o.asset.user.project.department.company = :company", SnapshotInfoP.class);
+        q.setParameter("snapshotId", snapshotId);
+        q.setParameter("company", company);
+        return q;
+    }
 
 	public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);

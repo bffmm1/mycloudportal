@@ -43,9 +43,9 @@ public class Asset {
             EntityManager em = Asset.entityManager();
             TypedQuery<Asset> q = null;
             if (userId == 0) {
-                q = em.createQuery("SELECT o FROM Asset AS o WHERE o.assetType = :assetType" + "  AND o.active = :active", Asset.class);
+                q = em.createQuery("SELECT o FROM Asset AS o WHERE o.assetType = :assetType" + "  AND (o.active = :active or o.endTime is not null)", Asset.class);
             } else {
-                q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.id = :userId AND o.assetType = :assetType" + "  AND o.active = :active", Asset.class);
+                q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.id = :userId AND o.assetType = :assetType" + "  AND (o.active = :active or o.endTime is not null)", Asset.class);
                 q.setParameter("userId", userId);
             }
             q.setParameter("assetType", assetType);
@@ -62,7 +62,7 @@ public class Asset {
             if (assetType == null) throw new IllegalArgumentException("The assetType argument is required");
             EntityManager em = Asset.entityManager();
             TypedQuery<Asset> q = null;
-            q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.project.department.company.id = :companyId AND o.assetType = :assetType" + "  AND o.active = :active", Asset.class);
+            q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.project.department.company.id = :companyId AND o.assetType = :assetType" + "  AND (o.active = :active or o.endTime is not null)", Asset.class);
             q.setParameter("companyId", companyId);
             q.setParameter("assetType", assetType);
             q.setParameter("active", active);
@@ -78,7 +78,7 @@ public class Asset {
             if (assetType == null) throw new IllegalArgumentException("The assetType argument is required");
             EntityManager em = Asset.entityManager();
             TypedQuery<Asset> q = null;
-            q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.project.department.id = :departmentId AND o.assetType = :assetType" + "  AND o.active = :active", Asset.class);
+            q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.project.department.id = :departmentId AND o.assetType = :assetType" + "  AND (o.active = :active or o.endTime is not null)", Asset.class);
             q.setParameter("departmentId", departmentId);
             q.setParameter("assetType", assetType);
             q.setParameter("active", active);
@@ -94,7 +94,7 @@ public class Asset {
             if (assetType == null) throw new IllegalArgumentException("The assetType argument is required");
             EntityManager em = Asset.entityManager();
             TypedQuery<Asset> q = null;
-            q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.project.id = :projectId AND o.assetType = :assetType" + "  AND o.active = :active", Asset.class);
+            q = em.createQuery("SELECT o FROM Asset AS o WHERE o.user.project.id = :projectId AND o.assetType = :assetType" + "  AND (o.active = :active or o.endTime is not null)", Asset.class);
             q.setParameter("projectId", projectId);
             q.setParameter("assetType", assetType);
             q.setParameter("active", active);

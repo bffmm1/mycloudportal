@@ -78,7 +78,7 @@ public class EucalyptusService {
 			try {
 				user = User.findUsersByEmailEquals("admin@mycp.com").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (user == null) {
 				user = new User();
@@ -93,7 +93,7 @@ public class EucalyptusService {
 			try {
 				company = Company.findCompanysByNameEquals("MyCP IDC").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			
 			if (company ==null){
@@ -111,7 +111,7 @@ public class EucalyptusService {
 			try {
 				regionP = RegionP.findRegionPsByNameEquals("Bangalore").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (regionP == null) {
 				regionP = new RegionP();
@@ -128,7 +128,7 @@ public class EucalyptusService {
 			try {
 				infra = Infra.findInfrasByNameEquals("Eucalyptus Bang").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (infra == null) {
 				infra = new Infra();
@@ -158,7 +158,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang IpAddress").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -176,7 +176,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang SecurityGroup").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -195,7 +195,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang IpPermission").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -214,7 +214,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang Volume").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 
 			if (productCatalog == null) {
@@ -234,7 +234,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang VolumeSnapshot").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -253,7 +253,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang ComputeImage").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -272,7 +272,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang ComputeReservation").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -291,7 +291,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang ComputeInstance").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -310,7 +310,7 @@ public class EucalyptusService {
 			try {
 				productCatalog = ProductCatalog.findProductCatalogsByNameEquals("Eucalyptus Bang KeyPair").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (productCatalog == null) {
 				productCatalog = new ProductCatalog();
@@ -332,7 +332,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("IpAddress").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -347,7 +347,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("SecurityGroup").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -361,7 +361,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("IpPermission").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -375,7 +375,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("Volume").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -389,7 +389,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("VolumeSnapshot").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -417,7 +417,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("ComputeImage").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -431,7 +431,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("ComputeReservation").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -445,7 +445,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("ComputeInstance").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -459,7 +459,7 @@ public class EucalyptusService {
 			try {
 				assetType = AssetType.findAssetTypesByNameEquals("KeyPair").getSingleResult();
 			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
+				logger.error(e);//e.printStackTrace();
 			}
 			if (assetType == null) {
 				assetType = new AssetType();
@@ -471,7 +471,7 @@ public class EucalyptusService {
 			logger.info("end setUpDataForEuca");
 		} catch (Exception e) {
 			logger.info(" error while setUpDataForEuca ");
-			logger.error(e.getMessage());//e.printStackTrace();
+			logger.error(e);//e.printStackTrace();
 		} finally {
 			logger.info(" setting back sync setSyncInProgress(false)");
 			infra.setSyncInProgress(false);
@@ -592,29 +592,58 @@ public class EucalyptusService {
 
 		try {
 			User currentUser = null;
+			Company company =null;
 			try {
 				currentUser = Commons.getCurrentUser();
+				company = Company.findCompany(Commons.getCurrentSession().getCompanyId());
 			} catch (Exception e) {
 				logger.error(e.getMessage());//e.printStackTrace();
-				throw new Exception("run the setup data ");
+				throw new Exception("Cannot find current user or the Company. Is the account created properly? ");
 			}
 
-			AssetType assetType = new AssetType();
 			AssetType assetTypeIpAddress = AssetType.findAssetTypesByNameEquals("IpAddress").getSingleResult();
 			AssetType assetTypeSecurityGroup = AssetType.findAssetTypesByNameEquals("SecurityGroup").getSingleResult();
-			AssetType assetTypeIpPermission = AssetType.findAssetTypesByNameEquals("IpPermission").getSingleResult();
 			AssetType assetTypeVolume = AssetType.findAssetTypesByNameEquals("Volume").getSingleResult();
 			AssetType assetTypeVolumeSnapshot = AssetType.findAssetTypesByNameEquals("VolumeSnapshot").getSingleResult();
 			AssetType assetTypeComputeImage = AssetType.findAssetTypesByNameEquals("ComputeImage").getSingleResult();
-			AssetType assetTypeComputeReservation = AssetType.findAssetTypesByNameEquals("ComputeReservation").getSingleResult();
 			AssetType assetTypeComputeInstance = AssetType.findAssetTypesByNameEquals("ComputeInstance").getSingleResult();
 			AssetType assetTypeKeyPair = AssetType.findAssetTypesByNameEquals("KeyPair").getSingleResult();
+			
+			ProductCatalog ipaddressProduct = null;
+			ProductCatalog secGroupProduct = null;
+			ProductCatalog volumeProduct = null;
+			ProductCatalog snapshotProduct = null;
+			ProductCatalog computeProduct = null;
+			ProductCatalog imageProduct = null;
+			ProductCatalog keypairProduct = null;
+			
+			
+			Set<ProductCatalog> products = infra.getProductCatalogs();
+			for (Iterator iterator = products.iterator(); iterator.hasNext();) {
+				ProductCatalog productCatalog = (ProductCatalog) iterator.next();
+				if(productCatalog.getProductType().equals(Commons.ProductType.ComputeImage.getName())){
+					imageProduct = productCatalog;
+				}else if(productCatalog.getProductType().equals(Commons.ProductType.ComputeInstance.getName())){
+					computeProduct = productCatalog;
+				}else if(productCatalog.getProductType().equals(Commons.ProductType.IpAddress.getName())){
+					ipaddressProduct = productCatalog;
+				}else if(productCatalog.getProductType().equals(Commons.ProductType.KeyPair.getName())){
+					keypairProduct = productCatalog;
+				}else if(productCatalog.getProductType().equals(Commons.ProductType.SecurityGroup.getName())){
+					secGroupProduct = productCatalog;
+				}else if(productCatalog.getProductType().equals(Commons.ProductType.Volume.getName())){
+					volumeProduct = productCatalog;
+				}else if(productCatalog.getProductType().equals(Commons.ProductType.VolumeSnapshot.getName())){
+					snapshotProduct = productCatalog;
+				}
+			}
 
 			Date start = new Date();
 			logger.info("Connect Start:" + new Date());
 			Jec2 ec2 = getNewJce2(infra);
 			
 			List<String> params = new ArrayList<String>();
+			try{
 			List<AddressInfo> addressInfos = ec2.describeAddresses(params);
 
 			logger.info("Available addresses @ " + (new Date().getTime() - start.getTime()) / 1000 + " S");
@@ -627,18 +656,17 @@ public class EucalyptusService {
 				}
 				AddressInfoP addressInfoP = null;
 				try {
-					addressInfoP = AddressInfoP.findAddressInfoPsByPublicIpEquals(addressInfo.getPublicIp()).getSingleResult();
+					addressInfoP = AddressInfoP.findAddressInfoPsByPublicIpEqualsAndCompanyEquals(addressInfo.getPublicIp(),company).getSingleResult();
 
 				} catch (Exception e) {
 					logger.error(e.getMessage());//e.printStackTrace();
 				}
 				if (addressInfoP == null) {
 					addressInfoP = new AddressInfoP();
-					Asset asset = Commons.getNewAsset(assetTypeIpAddress, currentUser,
-							ProductCatalog.findProductCatalogsByNameEquals("Ip Address @ Eucalyptus").getSingleResult());
+					Asset asset = Commons.getNewAsset(assetTypeIpAddress, currentUser,ipaddressProduct);
 					addressInfoP.setAsset(asset);
+					addressInfoP.setStatus(Commons.ipaddress_STATUS.available+"");
 					addressInfoP = addressInfoP.merge();
-
 				}
 
 				addressInfoP.setInstanceId(addressInfo.getInstanceId());
@@ -646,7 +674,24 @@ public class EucalyptusService {
 				addressInfoP = addressInfoP.merge();
 			}
 
-			params = new ArrayList<String>();
+			List<AddressInfoP>  addresses = AddressInfoP.findAllAddressInfoPs();
+			for (Iterator iterator = addresses.iterator(); iterator.hasNext();) {
+				AddressInfoP addressInfoP = (AddressInfoP) iterator.next();
+				try {
+					if(addressInfoP.getStatus().equals(Commons.ipaddress_STATUS.starting+"")
+							&& (new Date().getTime() - addressInfoP.getAsset().getStartTime().getTime() > (1000*60*60)) ){
+						addressInfoP.getAsset().setEndTime(addressInfoP.getAsset().getStartTime());
+						addressInfoP.setStatus(Commons.ipaddress_STATUS.failed+"");
+						addressInfoP.merge();
+					}	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+/*			params = new ArrayList<String>();
 			List<RegionInfo> regions = ec2.describeRegions(params);
 			for (Iterator iterator = regions.iterator(); iterator.hasNext();) {
 				RegionInfo regionInfo = (RegionInfo) iterator.next();
@@ -666,252 +711,322 @@ public class EucalyptusService {
 
 				regionP.setName(regionInfo.getName());
 				regionP.setUrl(regionInfo.getUrl());
-
 				regionP = regionP.merge();
 
 			}
-
-			params = new ArrayList<String>();
-
-			List<AvailabilityZone> zones = ec2.describeAvailabilityZones(params);
-			for (Iterator iterator = zones.iterator(); iterator.hasNext();) {
-				AvailabilityZone availabilityZone = (AvailabilityZone) iterator.next();
-				logger.info("availabilityZone = " + availabilityZone);
-
-				AvailabilityZoneP availabilityZoneP = null;
-				try {
-					availabilityZoneP = AvailabilityZoneP.findAvailabilityZonePsByNameEquals(availabilityZone.getName()).getSingleResult();
-				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
-				}
-
-				if (availabilityZoneP != null) {
-
-				} else {
-					availabilityZoneP = new AvailabilityZoneP();
-				}
-
-				availabilityZoneP.setName(availabilityZone.getName());
-				availabilityZoneP.setRegionName(availabilityZone.getRegionName());
-				availabilityZoneP.setState(availabilityZone.getState());
-				availabilityZoneP = availabilityZoneP.merge();
-			}
-
-			params = new ArrayList<String>();
-			List<GroupDescription> groupDescs = ec2.describeSecurityGroups(params);
-			logger.info("Available Security groups @" + (new Date().getTime() - start.getTime()) / 1000 + " S");
-			for (Iterator iterator = groupDescs.iterator(); iterator.hasNext();) {
-				GroupDescription groupDescription = (GroupDescription) iterator.next();
-				logger.info(groupDescription);
-				GroupDescriptionP descriptionP = null;
-				try {
-					descriptionP = GroupDescriptionP.findGroupDescriptionPsByNameEquals(groupDescription.getName()).getSingleResult();
-				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
-				}
-
-				if (descriptionP != null) {
-					descriptionP.setDescripton(groupDescription.getDescription());
-					descriptionP.setOwner(groupDescription.getOwner());
-				} else {
-					descriptionP = new GroupDescriptionP();
-					descriptionP.setName(groupDescription.getName());
-					descriptionP.setDescripton(groupDescription.getDescription());
-					descriptionP.setOwner(groupDescription.getOwner());
-					Asset asset = Commons.getNewAsset(assetTypeSecurityGroup, currentUser,
-							ProductCatalog.findProductCatalogsByNameEquals("Security Group @ Eucalyptus").getSingleResult());
-
-					descriptionP.setAsset(asset);
-				}
-				descriptionP = descriptionP.merge();
-
-				List<IpPermission> ipPermissions = groupDescription.getPermissions();
-
-				Set<IpPermissionP> ipPermissionPs = new HashSet<IpPermissionP>();
-
-				for (Iterator iterator2 = ipPermissions.iterator(); iterator2.hasNext();) {
-					IpPermission ipPermission = (IpPermission) iterator2.next();
-
-					logger.info(ipPermission.getFromPort() + ipPermission.getProtocol() + ipPermission.getToPort()
-							+ ipPermission.getIpRanges());
-					IpPermissionP ipPermissionP = null;
+*/
+			try {
+				params = new ArrayList<String>();
+				List<AvailabilityZone> zones = ec2.describeAvailabilityZones(params);
+				for (Iterator iterator = zones.iterator(); iterator.hasNext();) {
+					AvailabilityZone availabilityZone = (AvailabilityZone) iterator.next();
+					logger.info("availabilityZone = " + availabilityZone);
+					AvailabilityZoneP availabilityZoneP = null;
 					try {
-						// .findIpPermissionPsByProtocolEqualsAndToPortEqualsAndFromPortEquals(
-						ipPermissionP = IpPermissionP.findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndFromPortEquals(descriptionP,
-								ipPermission.getProtocol(), ipPermission.getFromPort()).getSingleResult();
-						// ipPermission.getProtocol(), ipPermission.getToPort(),
-						// ipPermission.getFromPort()).getSingleResult();
+						availabilityZoneP = AvailabilityZoneP.findAvailabilityZonePsByNameEquals(availabilityZone.getName()).getSingleResult();
 					} catch (Exception e) {
 						logger.error(e.getMessage());//e.printStackTrace();
 					}
-
-					if (ipPermissionP != null) {
-						// do not create a new object
+	
+					if (availabilityZoneP != null) {
+	
 					} else {
-						ipPermissionP = new IpPermissionP();
+						availabilityZoneP = new AvailabilityZoneP();
 					}
-					List<String> cidrIps = ipPermission.getIpRanges();
-					String cidrIps_str = "";
-					for (Iterator iterator3 = cidrIps.iterator(); iterator3.hasNext();) {
-						String string = (String) iterator3.next();
-						cidrIps_str = cidrIps_str + string + ",";
+	
+					availabilityZoneP.setName(availabilityZone.getName());
+					availabilityZoneP.setRegionName(availabilityZone.getRegionName());
+					availabilityZoneP.setState(availabilityZone.getState());
+					
+					infra.setZone(availabilityZone.getName());
+					
+					availabilityZoneP = availabilityZoneP.merge();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				
+			try{
+				params = new ArrayList<String>();
+				List<GroupDescription> groupDescs = ec2.describeSecurityGroups(params);
+				logger.info("Available Security groups @" + (new Date().getTime() - start.getTime()) / 1000 + " S");
+				for (Iterator iterator = groupDescs.iterator(); iterator.hasNext();) {
+					GroupDescription groupDescription = (GroupDescription) iterator.next();
+					logger.info(groupDescription);
+					GroupDescriptionP descriptionP = null;
+					try {
+						descriptionP = GroupDescriptionP.findGroupDescriptionPsByNameEqualsAndCompanyEquals(groupDescription.getName(),company).getSingleResult();
+					} catch (Exception e) {
+						logger.error(e.getMessage());//e.printStackTrace();
 					}
-					cidrIps_str = StringUtils.removeEnd(cidrIps_str, ",");
-					List<String[]> uidGroupPairs = ipPermission.getUidGroupPairs();
-					String uidGroupPairs_str = "";
-					for (Iterator iterator3 = uidGroupPairs.iterator(); iterator3.hasNext();) {
-						String[] strArray = (String[]) iterator3.next();
-						String strArray_str = "";
-						for (int i = 0; i < strArray.length; i++) {
-							strArray_str = strArray_str + strArray[i] + ",";
+	
+					if (descriptionP != null) {
+						descriptionP.setDescripton(groupDescription.getDescription());
+						descriptionP.setOwner(groupDescription.getOwner());
+					} else {
+						descriptionP = new GroupDescriptionP();
+						descriptionP.setName(groupDescription.getName());
+						descriptionP.setDescripton(groupDescription.getDescription());
+						descriptionP.setOwner(groupDescription.getOwner());
+						Asset asset = Commons.getNewAsset(assetTypeSecurityGroup, currentUser,secGroupProduct);
+						descriptionP.setStatus(Commons.secgroup_STATUS.active+"");
+						descriptionP.setAsset(asset);
+					}
+					descriptionP = descriptionP.merge();
+	
+					List<IpPermission> ipPermissions = groupDescription.getPermissions();
+	
+					Set<IpPermissionP> ipPermissionPs = new HashSet<IpPermissionP>();
+	
+					for (Iterator iterator2 = ipPermissions.iterator(); iterator2.hasNext();) {
+						IpPermission ipPermission = (IpPermission) iterator2.next();
+	
+						logger.info(ipPermission.getFromPort() + ipPermission.getProtocol() + ipPermission.getToPort()
+								+ ipPermission.getIpRanges());
+						IpPermissionP ipPermissionP = null;
+						try {
+							// .findIpPermissionPsByProtocolEqualsAndToPortEqualsAndFromPortEquals(
+							ipPermissionP = IpPermissionP.findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndFromPortEquals(descriptionP,
+									ipPermission.getProtocol(), ipPermission.getFromPort()).getSingleResult();
+							// ipPermission.getProtocol(), ipPermission.getToPort(),
+							// ipPermission.getFromPort()).getSingleResult();
+						} catch (Exception e) {
+							logger.error(e.getMessage());//e.printStackTrace();
 						}
-						strArray_str = StringUtils.removeEnd(strArray_str, ",");
-						uidGroupPairs_str = uidGroupPairs_str + strArray_str + ",";
+	
+						if (ipPermissionP != null) {
+							// do not create a new object
+						} else {
+							ipPermissionP = new IpPermissionP();
+						}
+						List<String> cidrIps = ipPermission.getIpRanges();
+						String cidrIps_str = "";
+						for (Iterator iterator3 = cidrIps.iterator(); iterator3.hasNext();) {
+							String string = (String) iterator3.next();
+							cidrIps_str = cidrIps_str + string + ",";
+						}
+						cidrIps_str = StringUtils.removeEnd(cidrIps_str, ",");
+						List<String[]> uidGroupPairs = ipPermission.getUidGroupPairs();
+						String uidGroupPairs_str = "";
+						for (Iterator iterator3 = uidGroupPairs.iterator(); iterator3.hasNext();) {
+							String[] strArray = (String[]) iterator3.next();
+							String strArray_str = "";
+							for (int i = 0; i < strArray.length; i++) {
+								strArray_str = strArray_str + strArray[i] + ",";
+							}
+							strArray_str = StringUtils.removeEnd(strArray_str, ",");
+							uidGroupPairs_str = uidGroupPairs_str + strArray_str + ",";
+						}
+						uidGroupPairs_str = StringUtils.removeEnd(uidGroupPairs_str, ",");
+	
+						ipPermissionP.setCidrIps(cidrIps_str);
+						ipPermissionP.setUidGroupPairs(uidGroupPairs_str);
+	
+						ipPermissionP.setFromPort(ipPermission.getFromPort());
+						ipPermissionP.setGroupDescription(descriptionP);
+						ipPermissionP.setProtocol(ipPermission.getProtocol());
+						ipPermissionP.setToPort(ipPermission.getToPort());
+	
+						descriptionP = descriptionP.merge();
+						ipPermissionP.setGroupDescription(descriptionP);
+						ipPermissionP = ipPermissionP.merge();
+						if (descriptionP.getIpPermissionPs() != null) {
+							descriptionP.getIpPermissionPs().add(ipPermissionP);
+						} else {
+							Set<IpPermissionP> ipPermissionPsNew = new HashSet<IpPermissionP>();
+							ipPermissionPsNew.add(ipPermissionP);
+							descriptionP.setIpPermissionPs(ipPermissionPsNew);
+						}
+	
+						descriptionP = descriptionP.merge();
 					}
-					uidGroupPairs_str = StringUtils.removeEnd(uidGroupPairs_str, ",");
+					/*
+					 * GroupDescriptionP descriptionP = new GroupDescriptionP(null,
+					 * groupDescription.getName(),
+					 * groupDescription.getDescription(),
+					 * groupDescription.getOwner(), null);
+					 */
+	
+				}// end of for groupDescs.iterator()
+				
+				List<GroupDescriptionP>  secGroups = GroupDescriptionP.findAllGroupDescriptionPs();
+				for (Iterator secGroupiterator = secGroups.iterator(); secGroupiterator.hasNext();) {
+					GroupDescriptionP groupDescriptionP = (GroupDescriptionP) secGroupiterator.next();
+					try {
+						if(groupDescriptionP.getStatus().equals(Commons.secgroup_STATUS.starting+"")
+								&& (new Date().getTime() - groupDescriptionP.getAsset().getStartTime().getTime() > (1000*60*60)) ){
+							groupDescriptionP.getAsset().setEndTime(groupDescriptionP.getAsset().getStartTime());
+							groupDescriptionP.setStatus(Commons.secgroup_STATUS.failed+"");
+							groupDescriptionP.merge();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try{
 
-					ipPermissionP.setCidrIps(cidrIps_str);
-					ipPermissionP.setUidGroupPairs(uidGroupPairs_str);
-
-					ipPermissionP.setFromPort(ipPermission.getFromPort());
-					ipPermissionP.setGroupDescription(descriptionP);
-					ipPermissionP.setProtocol(ipPermission.getProtocol());
-					ipPermissionP.setToPort(ipPermission.getToPort());
-
-					descriptionP = descriptionP.merge();
-					ipPermissionP.setGroupDescription(descriptionP);
-					ipPermissionP = ipPermissionP.merge();
-					if (descriptionP.getIpPermissionPs() != null) {
-						descriptionP.getIpPermissionPs().add(ipPermissionP);
+				params = new ArrayList<String>();
+				List<VolumeInfo> volumes = ec2.describeVolumes(params);
+				logger.info("Available Volumes");
+				for (Iterator iterator = volumes.iterator(); iterator.hasNext();) {
+					VolumeInfo volumeInfo = (VolumeInfo) iterator.next();
+					logger.info(volumeInfo.getSize() + volumeInfo.getVolumeId() + volumeInfo.getCreateTime().getTime());
+					VolumeInfoP volumeInfoP = null;
+					try {
+						volumeInfoP = VolumeInfoP.findVolumeInfoPsByVolumeIdEqualsAndCompanyEquals(volumeInfo.getVolumeId(),company).getSingleResult();
+					} catch (Exception e) {
+						logger.error(e.getMessage());//e.printStackTrace();
+					}
+					if (volumeInfoP != null) {
+	
 					} else {
-						Set<IpPermissionP> ipPermissionPsNew = new HashSet<IpPermissionP>();
-						ipPermissionPsNew.add(ipPermissionP);
-						descriptionP.setIpPermissionPs(ipPermissionPsNew);
+						volumeInfoP = new VolumeInfoP();
+						Asset asset = Commons.getNewAsset(assetTypeVolume, currentUser,volumeProduct);
+	
+						volumeInfoP.setAsset(asset);
+	
 					}
-
-					descriptionP = descriptionP.merge();
-				}
-				/*
-				 * GroupDescriptionP descriptionP = new GroupDescriptionP(null,
-				 * groupDescription.getName(),
-				 * groupDescription.getDescription(),
-				 * groupDescription.getOwner(), null);
-				 */
-
-			}// end of for groupDescs.iterator()
-
-			params = new ArrayList<String>();
-			List<VolumeInfo> volumes = ec2.describeVolumes(params);
-			logger.info("Available Volumes");
-			for (Iterator iterator = volumes.iterator(); iterator.hasNext();) {
-				VolumeInfo volumeInfo = (VolumeInfo) iterator.next();
-				logger.info(volumeInfo.getSize() + volumeInfo.getVolumeId() + volumeInfo.getCreateTime().getTime());
-				VolumeInfoP volumeInfoP = null;
+					volumeInfoP.setSize(Integer.parseInt(volumeInfo.getSize()));
+					volumeInfoP.setVolumeId(volumeInfo.getVolumeId());
+					volumeInfoP.setCreateTime(volumeInfo.getCreateTime().getTime());
+					volumeInfoP.setZone(volumeInfo.getZone());
+					volumeInfoP.setStatus(volumeInfo.getStatus());
+					volumeInfoP.setSnapshotId(volumeInfo.getSnapshotId());
+					volumeInfoP = volumeInfoP.merge();
+	
+					List<AttachmentInfoP> existingAttachments = AttachmentInfoP.findAttachmentInfoPsByVolumeIdEquals(volumeInfoP.getVolumeId())
+							.getResultList();
+	
+					if (existingAttachments != null) {
+						for (Iterator iterator2 = existingAttachments.iterator(); iterator2.hasNext();) {
+							AttachmentInfoP attachmentInfoP = (AttachmentInfoP) iterator2.next();
+							attachmentInfoP.remove();
+	
+						}
+					}
+	
+					List<AttachmentInfo> attachments = volumeInfo.getAttachmentInfo();
+					Set<AttachmentInfoP> attachments4Store = new HashSet<AttachmentInfoP>();
+					if (attachments != null && attachments.size() > 0) {
+						for (Iterator iterator2 = attachments.iterator(); iterator2.hasNext();) {
+							AttachmentInfo attachmentInfo = (AttachmentInfo) iterator2.next();
+	
+							AttachmentInfoP attachmentInfoP = new AttachmentInfoP();
+							attachmentInfoP.setAttachTime(attachmentInfo.getAttachTime().getTime());
+							attachmentInfoP.setDevice(attachmentInfo.getDevice());
+							attachmentInfoP.setInstanceId(attachmentInfo.getInstanceId());
+							attachmentInfoP.setVolumeId(attachmentInfo.getVolumeId());
+							attachmentInfoP.setStatus(attachmentInfo.getStatus());
+							attachmentInfoP.setVolumeInfo(volumeInfoP);
+							
+							volumeInfoP.setDevice(attachmentInfo.getDevice());
+							volumeInfoP.setInstanceId(attachmentInfo.getInstanceId());
+							volumeInfoP.setStatus(Commons.VOLUME_STATUS_ATTACHED);
+							
+							attachmentInfoP = attachmentInfoP.merge();
+							attachments4Store.add(attachmentInfoP);
+						}
+					}
+	
+					volumeInfoP.setAttachmentInfoPs(attachments4Store);
+					volumeInfoP = volumeInfoP.merge();
+	
+				}// end of for volumes.iterator()
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			List<VolumeInfoP>  vols = VolumeInfoP.findAllVolumeInfoPs();
+			for (Iterator volIterator = vols.iterator(); volIterator.hasNext();) {
+				VolumeInfoP volumeInfo2 = (VolumeInfoP) volIterator.next();
 				try {
-					volumeInfoP = VolumeInfoP.findVolumeInfoPsByVolumeIdEquals(volumeInfo.getVolumeId()).getSingleResult();
-				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
-				}
-				if (volumeInfoP != null) {
-
-				} else {
-					volumeInfoP = new VolumeInfoP();
-					Asset asset = Commons.getNewAsset(assetTypeVolume, currentUser,
-							ProductCatalog.findProductCatalogsByNameEquals("Volume @ Eucalyptus").getSingleResult());
-
-					volumeInfoP.setAsset(asset);
-
-				}
-				volumeInfoP.setSize(Integer.parseInt(volumeInfo.getSize()));
-				volumeInfoP.setVolumeId(volumeInfo.getVolumeId());
-				volumeInfoP.setCreateTime(volumeInfo.getCreateTime().getTime());
-				volumeInfoP.setZone(volumeInfo.getZone());
-				volumeInfoP.setStatus(volumeInfo.getStatus());
-				volumeInfoP.setSnapshotId(volumeInfo.getSnapshotId());
-				volumeInfoP = volumeInfoP.merge();
-
-				List<AttachmentInfoP> existingAttachments = AttachmentInfoP.findAttachmentInfoPsByVolumeIdEquals(volumeInfoP.getVolumeId())
-						.getResultList();
-
-				if (existingAttachments != null) {
-					for (Iterator iterator2 = existingAttachments.iterator(); iterator2.hasNext();) {
-						AttachmentInfoP attachmentInfoP = (AttachmentInfoP) iterator2.next();
-						attachmentInfoP.remove();
-
+					if(volumeInfo2.getStatus().equals(Commons.VOLUME_STATUS_CREATING)
+							&& (new Date().getTime() - volumeInfo2.getAsset().getStartTime().getTime() > (1000*60*60)) ){
+						volumeInfo2.getAsset().setEndTime(volumeInfo2.getAsset().getStartTime());
+						volumeInfo2.setStatus(Commons.VOLUME_STATUS_FAILED);
+						volumeInfo2.merge();
 					}
-				}
-
-				List<AttachmentInfo> attachments = volumeInfo.getAttachmentInfo();
-				Set<AttachmentInfoP> attachments4Store = new HashSet<AttachmentInfoP>();
-				if (attachments != null && attachments.size() > 0) {
-					for (Iterator iterator2 = attachments.iterator(); iterator2.hasNext();) {
-						AttachmentInfo attachmentInfo = (AttachmentInfo) iterator2.next();
-
-						AttachmentInfoP attachmentInfoP = new AttachmentInfoP();
-						attachmentInfoP.setAttachTime(attachmentInfo.getAttachTime().getTime());
-						attachmentInfoP.setDevice(attachmentInfo.getDevice());
-						attachmentInfoP.setInstanceId(attachmentInfo.getInstanceId());
-						attachmentInfoP.setVolumeId(attachmentInfo.getVolumeId());
-						attachmentInfoP.setStatus(attachmentInfo.getStatus());
-						attachmentInfoP.setVolumeInfo(volumeInfoP);
-						attachmentInfoP = attachmentInfoP.merge();
-						attachments4Store.add(attachmentInfoP);
-					}
-				}
-
-				volumeInfoP.setAttachmentInfoPs(attachments4Store);
-				volumeInfoP = volumeInfoP.merge();
-
-			}// end of for volumes.iterator()
-
-			params = new ArrayList<String>();
-			List<SnapshotInfo> snapshots = ec2.describeSnapshots(params);
-			logger.info("Available Snapshots");
-			for (Iterator iterator = snapshots.iterator(); iterator.hasNext();) {
-				SnapshotInfo snapshotInfo = (SnapshotInfo) iterator.next();
-				logger.info(snapshotInfo.getDescription() + snapshotInfo.getProgress() + snapshotInfo.getStatus()
-						+ snapshotInfo.getVolumeId() + snapshotInfo.getStartTime().getTime());
-				SnapshotInfoP snapshotInfoP = null;
-				try {
-					snapshotInfoP = SnapshotInfoP.findSnapshotInfoPsBySnapshotIdEquals(snapshotInfo.getSnapshotId()).getSingleResult();
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					e.printStackTrace();
 				}
+				
+			}
 
-				if (snapshotInfoP != null) {
-
-				} else {
-					snapshotInfoP = new SnapshotInfoP();
-					Asset asset = Commons.getNewAsset(assetTypeVolumeSnapshot, currentUser,
-							ProductCatalog.findProductCatalogsByNameEquals("Snapshot @ Eucalyptus").getSingleResult());
-
-					snapshotInfoP.setAsset(asset);
+			try{
+				params = new ArrayList<String>();
+				List<SnapshotInfo> snapshots = ec2.describeSnapshots(params);
+				logger.info("Available Snapshots");
+				for (Iterator iterator = snapshots.iterator(); iterator.hasNext();) {
+					SnapshotInfo snapshotInfo = (SnapshotInfo) iterator.next();
+					logger.info(snapshotInfo.getDescription() + snapshotInfo.getProgress() + snapshotInfo.getStatus()
+							+ snapshotInfo.getVolumeId() + snapshotInfo.getStartTime().getTime());
+					SnapshotInfoP snapshotInfoP = null;
+					try {
+						snapshotInfoP = SnapshotInfoP.findSnapshotInfoPsBySnapshotIdEqualsAndCompanyEquals(snapshotInfo.getSnapshotId(),company).getSingleResult();
+					} catch (Exception e) {
+						logger.error(e.getMessage());//e.printStackTrace();
+					}
+	
+					if (snapshotInfoP != null) {
+	
+					} else {
+						snapshotInfoP = new SnapshotInfoP();
+						Asset asset = Commons.getNewAsset(assetTypeVolumeSnapshot, currentUser,snapshotProduct);
+	
+						snapshotInfoP.setAsset(asset);
+						snapshotInfoP = snapshotInfoP.merge();
+	
+					}
+	
+					snapshotInfoP.setDescription(snapshotInfo.getDescription());
+					snapshotInfoP.setProgress(snapshotInfo.getProgress());
+					snapshotInfoP.setVolumeId(snapshotInfo.getVolumeId());
+					snapshotInfoP.setStartTime(snapshotInfo.getStartTime().getTime());
+					snapshotInfoP.setSnapshotId(snapshotInfo.getSnapshotId());
+					snapshotInfoP.setStatus(snapshotInfo.getStatus());
+					snapshotInfoP.setOwnerId(snapshotInfo.getOwnerId());
+					snapshotInfoP.setVolumeSize(snapshotInfo.getVolumeSize());
+					snapshotInfoP.setOwnerAlias(snapshotInfo.getOwnerAlias());
+	
 					snapshotInfoP = snapshotInfoP.merge();
-
+	
+				}// end of for snapshots.iterator()
+				
+	
+				List<SnapshotInfoP>  snaps = SnapshotInfoP.findAllSnapshotInfoPs();
+				for (Iterator iterator = snaps.iterator(); iterator.hasNext();) {
+					SnapshotInfoP snapshotInfoP = (SnapshotInfoP) iterator.next();
+					try {
+						
+						if(snapshotInfoP.getStatus().equals(Commons.SNAPSHOT_STATUS.pending+"")
+								&& (new Date().getTime() - snapshotInfoP.getAsset().getStartTime().getTime() > (1000*60*60*3)) ){
+							snapshotInfoP.getAsset().setEndTime(snapshotInfoP.getAsset().getStartTime());
+							snapshotInfoP.setStatus(Commons.SNAPSHOT_STATUS.inactive+"");
+							snapshotInfoP.merge();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-
-				snapshotInfoP.setDescription(snapshotInfo.getDescription());
-				snapshotInfoP.setProgress(snapshotInfo.getProgress());
-				snapshotInfoP.setVolumeId(snapshotInfo.getVolumeId());
-				snapshotInfoP.setStartTime(snapshotInfo.getStartTime().getTime());
-				snapshotInfoP.setSnapshotId(snapshotInfo.getSnapshotId());
-				snapshotInfoP.setStatus(snapshotInfo.getStatus());
-				snapshotInfoP.setOwnerId(snapshotInfo.getOwnerId());
-				snapshotInfoP.setVolumeSize(snapshotInfo.getVolumeSize());
-				snapshotInfoP.setOwnerAlias(snapshotInfo.getOwnerAlias());
-
-				snapshotInfoP = snapshotInfoP.merge();
-
-			}// end of for snapshots.iterator()
-
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try{
 			List<ImageDescription> images = ec2.describeImages(params);
 			logger.info("Available Images");
 			for (ImageDescription img : images) {
+				try {
+					
+				
 				if (img.getImageState().equals("available")) {
 					logger.info(img.getImageId() + "\t" + img.getImageLocation() + "\t" + img.getImageOwnerId());
 					ImageDescriptionP imageDescriptionP = null;
 					try {
-						imageDescriptionP = ImageDescriptionP.findImageDescriptionPsByImageIdEquals(img.getImageId()).getSingleResult();
+						imageDescriptionP = ImageDescriptionP.findImageDescriptionPsByImageIdEqualsAndCompanyEquals(img.getImageId(),company).getSingleResult();
 					} catch (Exception e) {
 						logger.error(e.getMessage());//e.printStackTrace();
 					}
@@ -919,9 +1034,7 @@ public class EucalyptusService {
 
 					} else {
 						imageDescriptionP = new ImageDescriptionP();
-						Asset asset = Commons.getNewAsset(assetTypeComputeImage, currentUser,
-								ProductCatalog.findProductCatalogsByNameEquals("Image @ Eucalyptus").getSingleResult());
-
+						Asset asset = Commons.getNewAsset(assetTypeComputeImage, currentUser,imageProduct);
 						imageDescriptionP.setAsset(asset);
 						imageDescriptionP = imageDescriptionP.merge();
 					}
@@ -954,10 +1067,19 @@ public class EucalyptusService {
 					imageDescriptionP.setRootDeviceName(img.getRootDeviceName());
 					imageDescriptionP.setVirtualizationType(img.getVirtualizationType());
 
-					imageDescriptionP = imageDescriptionP.merge();
+					imageDescriptionP.merge();
+					
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}// end of for ImageDescription img : images
 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try{
 			params = new ArrayList<String>();
 			List<ReservationDescription> instances = ec2.describeInstances(params);
 			logger.info("Instances");
@@ -966,34 +1088,7 @@ public class EucalyptusService {
 			Date now = new Date();
 			for (ReservationDescription res : instances) {
 				logger.info(res.getOwner() + "\t" + res.getReservationId());
-				/*ReservationDescriptionP reservationDescriptionP = null;*/
-
-				/*try {
-					reservationDescriptionP = ReservationDescriptionP.findReservationDescriptionPsByResIdEquals(res.getReservationId())
-							.getSingleResult();
-				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
-				}*/
-
-				/*if (reservationDescriptionP != null) {
-
-				} else {
-					reservationDescriptionP = new ReservationDescriptionP();
-					Asset asset = Commons.getNewAsset(assetTypeComputeReservation, currentUser);
-
-					reservationDescriptionP.setAsset(asset);
-					reservationDescriptionP = reservationDescriptionP.merge();
-
-				}
-
-				reservationDescriptionP.setResId(res.getReservationId());
-				reservationDescriptionP.setRequesterId(res.getRequesterId());
-				reservationDescriptionP.setRequestId(res.getRequestId());
-				reservationDescriptionP.setOwner(res.getOwner());
-
-				reservationDescriptionP = reservationDescriptionP.merge();
-*/
-				if (res.getInstances() != null) {
+					if (res.getInstances() != null) {
 					HashSet<InstanceP> instancesP = new HashSet<InstanceP>();
 					for (Instance inst : res.getInstances()) {
 						Date then = inst.getLaunchTime().getTime();
@@ -1008,7 +1103,7 @@ public class EucalyptusService {
 
 						InstanceP instanceP = null;
 						try {
-							instanceP = InstanceP.findInstancePsByInstanceIdEquals(inst.getInstanceId()).getSingleResult();
+							instanceP = InstanceP.findInstancePsByInstanceIdEqualsAndCompanyEquals(inst.getInstanceId(),company).getSingleResult();
 						} catch (Exception e) {
 							logger.error(e.getMessage());//e.printStackTrace();
 						}
@@ -1017,8 +1112,7 @@ public class EucalyptusService {
 
 						} else {
 							instanceP = new InstanceP();
-							Asset asset = Commons.getNewAsset(assetTypeComputeInstance, currentUser,
-									ProductCatalog.findProductCatalogsByNameEquals("Compute @ Eucalyptus").getSingleResult());
+							Asset asset = Commons.getNewAsset(assetTypeComputeInstance, currentUser,computeProduct);
 							instanceP.setAsset(asset);
 						}
 
@@ -1058,6 +1152,7 @@ public class EucalyptusService {
 						instanceP.setInstanceLifecycle(inst.getInstanceLifecycle());
 						instanceP.setSpotInstanceRequestId(inst.getSpotInstanceRequestId());
 						instanceP.setVirtualizationType(inst.getVirtualizationType());
+						//instanceP.setState(Commons.REQUEST_STATUS.running+"");
 						// instanceP.setClientToken(inst.get)
 
 						//instanceP.setReservationDescription(reservationDescriptionP);
@@ -1075,34 +1170,73 @@ public class EucalyptusService {
 				}
 			}// end of ReservationDescription res : instances
 
-			List<KeyPairInfo> info = ec2.describeKeyPairs(new String[] {});
-			logger.info("keypair list");
-			for (KeyPairInfo keypairinfo : info) {
-				logger.info("keypair : " + keypairinfo.getKeyName() + ", " + keypairinfo.getKeyFingerprint());
-				KeyPairInfoP keyPairInfoP = null;
+			List<InstanceP>  insts = InstanceP.findAllInstancePs();
+			for (Iterator iterator = insts.iterator(); iterator.hasNext();) {
+				InstanceP instanceP2 = (InstanceP) iterator.next();
 				try {
-					keyPairInfoP = KeyPairInfoP.findKeyPairInfoPsByKeyNameEquals(keypairinfo.getKeyName()).getSingleResult();
+					if(instanceP2.getState().equals(Commons.REQUEST_STATUS.STARTING+"")
+							&& (new Date().getTime() - instanceP2.getAsset().getStartTime().getTime() > (1000*60*60*3)) ){
+						instanceP2.getAsset().setEndTime(instanceP2.getAsset().getStartTime());
+						instanceP2.setState(Commons.REQUEST_STATUS.FAILED+"");
+						instanceP2.merge();
+					}
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					e.printStackTrace();
 				}
-
-				if (keyPairInfoP != null) {
-
-				} else {
-					keyPairInfoP = new KeyPairInfoP();
-					Asset asset = Commons.getNewAsset(assetTypeKeyPair, currentUser,
-							ProductCatalog.findProductCatalogsByNameEquals("KeyPair @ Eucalyptus").getSingleResult());
-
-					keyPairInfoP.setAsset(asset);
+			}
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try{
+				List<KeyPairInfo> info = ec2.describeKeyPairs(new String[] {});
+				logger.info("keypair list");
+				for (KeyPairInfo keypairinfo : info) {
+					logger.info("keypair : " + keypairinfo.getKeyName() + ", " + keypairinfo.getKeyFingerprint());
+					KeyPairInfoP keyPairInfoP = null;
+					try {
+						keyPairInfoP = KeyPairInfoP.findKeyPairInfoPsByKeyNameEqualsAndCompanyEquals(keypairinfo.getKeyName(),company).getSingleResult();
+					} catch (Exception e) {
+						logger.error(e);//e.printStackTrace();
+					}
+	
+					if (keyPairInfoP != null) {
+	
+					} else {
+						keyPairInfoP = new KeyPairInfoP();
+						Asset asset = Commons.getNewAsset(assetTypeKeyPair, currentUser,keypairProduct);
+	
+						keyPairInfoP.setAsset(asset);
+						keyPairInfoP = keyPairInfoP.merge();
+					}
+					keyPairInfoP.setKeyName(keypairinfo.getKeyName());
+					keyPairInfoP.setKeyFingerprint(keypairinfo.getKeyFingerprint());
+					keyPairInfoP.setKeyMaterial(keypairinfo.getKeyMaterial());
+					keyPairInfoP.setStatus(Commons.keypair_STATUS.active+"");
 					keyPairInfoP = keyPairInfoP.merge();
+	
+				}// end of for KeyPairInfo i : info)
+	
+				List<KeyPairInfoP>  keys = KeyPairInfoP.findAllKeyPairInfoPs();
+				for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+					KeyPairInfoP keyPairInfoP = (KeyPairInfoP) iterator.next();
+					try {
+						if(keyPairInfoP.getStatus().equals(Commons.keypair_STATUS.starting+"")
+								&& (new Date().getTime() - keyPairInfoP.getAsset().getStartTime().getTime() > (1000*60*60*3)) ){
+							keyPairInfoP.getAsset().setEndTime(keyPairInfoP.getAsset().getStartTime());
+							keyPairInfoP.setStatus(Commons.keypair_STATUS.failed+"");
+							keyPairInfoP.merge();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				keyPairInfoP.setKeyName(keypairinfo.getKeyName());
-				keyPairInfoP.setKeyFingerprint(keypairinfo.getKeyFingerprint());
-				keyPairInfoP.setKeyMaterial(keypairinfo.getKeyMaterial());
-				keyPairInfoP = keyPairInfoP.merge();
-
-			}// end of for KeyPairInfo i : info)
-
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());//e.printStackTrace();
 		}

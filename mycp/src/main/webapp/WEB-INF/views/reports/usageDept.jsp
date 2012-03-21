@@ -2,11 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <%@ page import="in.mycp.domain.*" %>
 
 <html><center>
+						
 						<div class="dataTableHeader">Resource Usage per Department.</div>
-						<div style="height: 30px;"></div>
+						
 <div style="height: 680px;">  						
 <table align="center" width="95%" ><!-- just for border -->
 <tr><td>
@@ -20,8 +22,8 @@
 									<td>Start</td>
 									<td>End</td>
 									<td>Duration (Hrs)</td>
-									<td>Rate (INR/Hr)</td>
-									<td>Cost (INR)</td>
+									<td>Rate (<%=request.getAttribute("currency") %>/Hr)</td>
+									<td>Cost (<%=request.getAttribute("currency") %>)</td>
 									<td></td>
 								</tr>
 							</thead>
@@ -30,6 +32,7 @@
 <% 
 
 Hashtable<String, List> deptHash = (Hashtable)request.getAttribute("deptHash");
+SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
 Enumeration deptHashKeys = deptHash.keys();
 while( deptHashKeys.hasMoreElements() ) {
   Object deptName = deptHashKeys.nextElement();
@@ -40,7 +43,7 @@ while( deptHashKeys.hasMoreElements() ) {
 	  //continue;
   }
   %>
-  							<tr>
+  							<tr style="height: 30px;">
 								<td colspan="8"><div style="color: #d45500; font-weight: bold; float: left;"><%=deptName %></div></td>
 							</tr>	
   							
@@ -50,11 +53,17 @@ while( deptHashKeys.hasMoreElements() ) {
 		totalCost = totalCost+asset.getCost();
 %>
 							<tr >
-								<td><%=asset.getAssetTypeName() %></td>
-								<td><%=asset.getAssetDetails() %></td>
+								<td></td>
+								<td><%=asset.getAssetType().getName() %> - <%=asset.getAssetDetails() %> - <%=asset.getAssetType().getName() %></td>
 								<td><%=asset.getUser().getEmail()%></td>
 								<td><%=asset.getStartTime() %></td>
-								<td><%=asset.getEndTime() %></td>
+								<td><%
+								if(asset.getEndTime() !=null){
+									out.println(formatter.format( asset.getEndTime()));
+								}else{
+									out.println("-");
+								}
+								%></td>
 								<td><%=asset.getDuration() %></td>
 								<td><%=asset.getStartRate() %></td>
 								<td><%=asset.getCost() %></td>
@@ -70,7 +79,7 @@ while( deptHashKeys.hasMoreElements() ) {
 							</tr>
 							<tr>								
 								<td colspan="7"> </td>
-								<td colspan="1"><div style="color: #d45500;  font-weight: bold; text-align: left;">Total : <%=totalCost %></div></td>
+								<td colspan="1"><div style="color: #d45500;  font-weight: bold; text-align: left;">Total : <%=totalCost %>&nbsp;&nbsp;<%=request.getAttribute("currency") %></div></td>
 							</tr>	
 							<tr>
 								<td></td>

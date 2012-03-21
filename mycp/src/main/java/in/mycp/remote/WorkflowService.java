@@ -271,13 +271,26 @@ public class WorkflowService {
 				if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.ComputeImage)) {
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.ComputeImage);
 					ImageDescriptionP imageDescriptionP = ImageDescriptionP.findImageDescriptionP(workflow.getAssetId());
-					imageService.workflowApproved(imageDescriptionP);
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						imageService.workflowApproved(imageDescriptionP);	
+					}else{
+						imageDescriptionP.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(imageDescriptionP.getAsset());
+						imageDescriptionP.merge();
+					}
+					
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.ComputeInstance)) {
 					InstanceP instance = InstanceP.findInstanceP(workflow.getAssetId());
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.ComputeInstance);
 					Set instances = new HashSet<InstanceP>();
 					instances.add(instance);
-					instancePService.workflowApproved(new HashSet<InstanceP>(instances));
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						instancePService.workflowApproved(new HashSet<InstanceP>(instances));	
+					}else{
+						instance.setState(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(instance.getAsset());
+						instance.merge();
+					}
 
 				}/*
 				 * else if(workflow.getAssetType().equals(""+Commons.ASSET_TYPE.
@@ -292,37 +305,70 @@ public class WorkflowService {
 				 */else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.IpAddress)) {
 					// nothing here
 					 log.info("Moving workflow of type "+Commons.ASSET_TYPE.IpAddress);
-					 
 					 AddressInfoP address = AddressInfoP.findAddressInfoP(workflow.getAssetId());
-						
-						addressInfoPService.workflowApproved(address);
-						
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						 addressInfoPService.workflowApproved(address);
+					}else{
+						address.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(address.getAsset());
+						address.merge();
+					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.IpPermission)) {
 					// nothig here
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.IpPermission);
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.KeyPair)) {
-					
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.KeyPair);
 					KeyPairInfoP k = KeyPairInfoP.findKeyPairInfoP(workflow.getAssetId());
-					keyPairService.workflowApproved(k);
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						keyPairService.workflowApproved(k);
+					}else{
+						k.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(k.getAsset());
+						k.merge();
+					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.SecurityGroup)) {
-					
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.SecurityGroup);
 					GroupDescriptionP g = GroupDescriptionP.findGroupDescriptionP(workflow.getAssetId());
-					securityGroupService.workflowApproved(g);
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						securityGroupService.workflowApproved(g);
+					}else{
+						g.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(g.getAsset());
+						g.merge();
+					}
 					
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.Volume)) {
 					VolumeInfoP volume = VolumeInfoP.findVolumeInfoP(workflow.getAssetId());
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.Volume);
-					volumeService.workflowApproved(volume);
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						volumeService.workflowApproved(volume);
+					}else{
+						volume.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(volume.getAsset());
+						volume.merge();
+					}
+					
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.VolumeSnapshot)) {
 					SnapshotInfoP snapshot = SnapshotInfoP.findSnapshotInfoP(workflow.getAssetId());
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.VolumeSnapshot);
-					snapshotService.workflowApproved(snapshot);
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						snapshotService.workflowApproved(snapshot);
+					}else{
+						snapshot.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(snapshot.getAsset());
+						snapshot.merge();
+					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.addressInfo)) {
 					AddressInfoP address = AddressInfoP.findAddressInfoP(workflow.getAssetId());
 					log.info("Moving workflow of type "+Commons.ASSET_TYPE.addressInfo);
-					addressInfoPService.workflowApproved(address);
+					if((Commons.WORKFLOW_TRANSITION.Approve+"").equals(transition)){
+						addressInfoPService.workflowApproved(address);
+					}else{
+						address.setStatus(Commons.WORKFLOW_STATUS.APPROVAL_REJECTED+"");
+						Commons.setAssetEndTime(address.getAsset());
+						address.merge();
+					}
+
 				} else {
 					log.error("Which asset does this workflow belong?");
 					throw new Exception("Which asset does this workflow belong?");

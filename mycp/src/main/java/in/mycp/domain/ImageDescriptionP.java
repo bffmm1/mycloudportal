@@ -57,6 +57,16 @@ public class ImageDescriptionP {
         return (Number) q.getSingleResult();
     }
 
+    public static TypedQuery<ImageDescriptionP> findImageDescriptionPsByImageIdEqualsAndCompanyEquals(String imageId,Company company) {
+        if (imageId == null || imageId.length() == 0) throw new IllegalArgumentException("The imageId argument is required");
+        EntityManager em = entityManager();
+        TypedQuery<ImageDescriptionP> q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.imageId = :imageId" +
+        		" and o.asset.user.project.department.company = :company", ImageDescriptionP.class);
+        q.setParameter("imageId", imageId);
+        q.setParameter("company", company);
+        return q;
+    }
+    
 	public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

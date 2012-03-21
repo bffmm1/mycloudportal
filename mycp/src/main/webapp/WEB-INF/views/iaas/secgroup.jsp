@@ -138,7 +138,10 @@
 				status = '<img  title="starting" alt="starting" src=../images/preloader.gif >';
 			}else if(p[i].status !=null && p[i].status == 'PENDING_APPROVAL'){
 				status = '<img  title="pending approval" alt="pending approval" src=../images/pending.png >';
-			}else{
+			}else if('APPROVAL_REJECTED' == p[i].status){
+            	status='<img title="Approval Rejected" alt="Approval Rejected" src=/images/rejected.png>&nbsp;';
+        		
+        	}else{
 				status = '<img title="unknown" alt="unknown" src=../images/unknown.png >';
 			}
 			

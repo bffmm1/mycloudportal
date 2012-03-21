@@ -20,6 +20,9 @@
         <intercept-url pattern="/iaas/**" access="hasRole('ROLE_USER')" />
         <intercept-url pattern="/reports/**" access="hasRole('ROLE_USER')" />
         <intercept-url pattern="/cost/**" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/dwr/index.html" access="hasRole('ROLE_SUPERADMIN')" />
+        <intercept-url pattern="/dwr/test/**" access="hasRole('ROLE_SUPERADMIN')" />
+        
         <intercept-url pattern="/**" access="permitAll" />
         <session-management session-fixation-protection="none">
         

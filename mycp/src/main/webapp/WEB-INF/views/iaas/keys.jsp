@@ -93,7 +93,11 @@
             }else if('failed' == p[i].status ){
             	p[i].status='<img title="failed" alt="failed" src=/images/warning.png>&nbsp;';
             	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
-            }
+            }else if('APPROVAL_REJECTED' == p[i].status){
+            	p[i].status='<img title="Approval Rejected" alt="Approval Rejected" src=/images/rejected.png>&nbsp;';
+        		actions=
+                	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
+        	}
 			
 			oTable.fnAddData( [i+1,p[i].keyName, p[i].keyFingerprint,p[i].status,'<a href=\"#\" onClick=\"+showKeyMaterial('+p[i].id+')\">Show/Hide</a>'+d,
 			                   actions ] );

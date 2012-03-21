@@ -80,13 +80,17 @@
             }else if('pending' == p[i].status ){
             	p[i].status='<img title="starting" alt="starting" src=/images/preloader.gif>&nbsp;';
             	actions='';
-            }else if('pending' == p[i].status ){
-            	p[i].status='<img title="starting" alt="starting" src=/images/preloader.gif>&nbsp;';
-            	actions='';
+            }else if('completed' == p[i].status ){
+            	p[i].status='<img title="completed" alt="completed" src=/images/running.png>&nbsp;';
+            	actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_backup('+p[i].id+')>&nbsp; &nbsp; ';
             }else if('inactive' == p[i].status ){
             	p[i].status='<img title="inactive" alt="inactive" src=/images/unknown.png>&nbsp;';
             	actions='<img class="clickimg" title="Delete" alt="Delete" src=../images/deny.png onclick=remove_backup('+p[i].id+')>';
-            }
+            }else if('APPROVAL_REJECTED' == p[i].status){
+            	p[i].status='<img title="Approval Rejected" alt="Approval Rejected" src=/images/rejected.png>&nbsp;';
+        		actions=
+                	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_backup('+p[i].id+')>';
+        	}
 			
 			oTable.fnAddData( [i+1,p[i].snapshotId, p[i].volumeId, 
 			                   dateFormat(p[i].startTime,"mmm dd yyyy HH:MM:ss"), p[i].status,p[i].progress, 

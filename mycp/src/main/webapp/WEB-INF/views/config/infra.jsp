@@ -87,7 +87,7 @@
 	      	            { "sTitle": "Secure?" },
 	      	            { "sTitle": "Server IP/DNS" },
 	      	            { "sTitle": "Server Port" },
-	      	            { "sTitle": "Description" },
+	      	            { "sTitle": "Sync" },
 	      	            { "sTitle": "Actions" }
 	      	           
 	      	        ]
@@ -100,16 +100,23 @@
 		{
 			var options = '';
 			
-			if(isMycpAdmin){
-				options = '<img alt="Sync" class="clickimg" src=/images/sync.png onclick=sync_infra('+p[i].id+') title="Sync Backend" />&nbsp;  '+
+			if(isMycpAdmin || isAdmin){
+				options = '<img alt="Sync" class="clickimg" src=/images/sync.png onclick=sync_infra('+p[i].id+') title="Synchronize" />&nbsp;  '+
 	            '<img alt="Edit" class="clickimg" src=/images/edit.png onclick=edit_infra('+p[i].id+') title="Edit" />&nbsp;  '+
                 '<img alt="Remove" class="clickimg" src=/images/deny.png onclick=remove_infra('+p[i].id+') title="Remove" />';
-			}else if(isAdmin){
-				options = '<img alt="Edit" class="clickimg" src=../images/edit.png onclick=edit_infra('+p[i].id+') title="Edit"  />&nbsp; '+
-				'<img alt="Remove" class="clickimg" src=/images/deny.png onclick=remove_infra('+p[i].id+') title="Remove" />';
+			}
+			if(p[i].syncInProgress == 1){
+				p[i].syncInProgress='<img  title="Starting" alt="Starting" src=/images/preloader.gif>&nbsp;';
+			}else{
+				if(p[i].syncDate !=null){
+					p[i].syncInProgress='Synced on '+dateFormat(p[i].syncDate,"mmm dd HH:MM");	
+				}else{
+					p[i].syncInProgress='No Sync';
+				}
+				
 			}
 			//oTable.fnAddData( [i+1, p[i].accessId, p[i].secretKey,p[i].isSecure,p[i].server,p[i].port,p[i].details,
-			oTable.fnAddData( [i+1, p[i].name, p[i].accessId,p[i].isSecure,p[i].server,p[i].port,p[i].details,
+			oTable.fnAddData( [i+1, p[i].name, p[i].accessId,p[i].isSecure,p[i].server,p[i].port,p[i].syncInProgress,
 			                   options ] );
 		}
 		
@@ -258,7 +265,8 @@ function import_infra(id){
 }
 
 function sync_infra(id){
-	InfraService.syncDataFromMycp(id+'');
+	InfraService.syncDataFromEuca(id+'');
+	$.sticky('Sync scheduled');
 	//alert(id);
 }
 

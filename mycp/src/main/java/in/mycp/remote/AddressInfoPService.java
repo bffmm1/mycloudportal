@@ -48,7 +48,7 @@ public class AddressInfoPService {
 			User currentUser = Commons.getCurrentUser();
 			
 			Asset asset = Commons.getNewAsset(assetType, currentUser,productId);
-
+			asset.setActive(false);
 			instance.setAsset(asset);
 			instance = instance.merge();
 

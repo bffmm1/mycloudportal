@@ -196,6 +196,16 @@ public class SignupService {
 		pc.setPrice(10);
 		pc.setProductType(Commons.ProductType.VolumeSnapshot.getName());
 		pc.merge();
+		
+		pc = new ProductCatalog();
+		pc.setId(0);
+		pc.setInfra(i);
+		pc.setCurrency(i.getCompany().getCurrency());
+		//pc.setDetails(details);
+		pc.setName(Commons.ProductType.ComputeImage+" @ "+i.getName());
+		pc.setPrice(10);
+		pc.setProductType(Commons.ProductType.ComputeImage.getName());
+		pc.merge();
 	}
 	
 	@RemoteMethod

@@ -111,7 +111,7 @@ public class KeyPairService {
 	}// end of method findById(int id
 
 	@RemoteMethod
-	public List findAll() {
+	public List<KeyPairInfoP> findAll() {
 		try {
 			
 			User user = Commons.getCurrentUser();
