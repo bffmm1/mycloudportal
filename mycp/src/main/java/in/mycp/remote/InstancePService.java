@@ -143,7 +143,7 @@ public class InstancePService {
 	@RemoteMethod
 	public void remove(int id) {
 		try {
-			terminateCompute(id);
+			//terminateCompute(id);
 			InstanceP.findInstanceP(id).remove();
 			Commons.setSessionMsg("Removed Instance "+id);
 		} catch (Exception e) {
@@ -159,7 +159,7 @@ public class InstancePService {
 			instance.setProduct(""+instance.getAsset().getProductCatalog().getId());
 			return instance;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findById(int id

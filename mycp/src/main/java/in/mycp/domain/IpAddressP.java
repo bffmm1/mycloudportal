@@ -13,7 +13,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJpaActiveRecord(versionField = "", table = "ip_address_p", finders = { "findIpAddressPsByPublicIpEquals", "findIpAddressPsByAsset" })
 public class IpAddressP {
 
-	public String toString() {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

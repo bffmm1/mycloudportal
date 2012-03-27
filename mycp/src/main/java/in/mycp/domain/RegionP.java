@@ -13,7 +13,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJpaActiveRecord(versionField = "", table = "region_p", finders = { "findRegionPsByNameEquals", "findRegionPsByCompany" })
 public class RegionP {
 
-	public String toString() {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

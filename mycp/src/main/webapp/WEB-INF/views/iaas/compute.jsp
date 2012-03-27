@@ -395,11 +395,11 @@ function afterSave_compute(){
 								  
 								  <tr>
 								    <td style="width: 20%;">Name : </td>
-								    <td style="width: 80%;"><input type="text" name="name" id="name" size="60" maxlength="90" class="required"></td>
+								    <td style="width: 80%;"><input type="text" name="name" id="name" size="58" maxlength="90" class="required"></td>
 								  </tr>
 								  <tr>
 								    <td style="width: 20%;">Reason : </td>
-								    <td style="width: 80%;"><input type="text" name="reason" id="reason" maxlength="90" size="60"></td>
+								    <td style="width: 80%;"><input type="text" name="reason" id="reason" maxlength="90" size="58"></td>
 								  </tr>
 								  <tr>
 								    <td style="width: 20%;">Image : </td>

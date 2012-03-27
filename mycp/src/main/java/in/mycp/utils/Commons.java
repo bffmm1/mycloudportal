@@ -93,6 +93,10 @@ public class Commons {
 	static public enum image_STATUS {
 		active, inactive
 	}
+	
+	static public enum sync_status {
+		running,failed,success
+	}
 
 	public static String VOLUME_STATUS_AVAILABLE = "available";
 	public static String VOLUME_STATUS_INUSE = "in-use";

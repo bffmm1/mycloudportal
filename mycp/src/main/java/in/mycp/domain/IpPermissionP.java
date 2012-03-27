@@ -13,7 +13,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJpaActiveRecord(versionField = "", table = "ip_permission_p", finders = { "findIpPermissionPsByGroupDescription", "findIpPermissionPsByProtocolEqualsAndToPortEqualsAndFromPortEquals", "findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndFromPortEquals" })
 public class IpPermissionP {
 
-	public String toString() {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

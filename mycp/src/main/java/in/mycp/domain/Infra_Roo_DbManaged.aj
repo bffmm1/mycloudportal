@@ -70,6 +70,9 @@ privileged aspect Infra_Roo_DbManaged {
     @NotNull
     private String Infra.zone;
     
+    @Column(name = "syncstatus")
+    private Integer Infra.syncstatus;
+    
     public Set<ProductCatalog> Infra.getProductCatalogs() {
         return productCatalogs;
     }
@@ -188,6 +191,14 @@ privileged aspect Infra_Roo_DbManaged {
     
     public void Infra.setZone(String zone) {
         this.zone = zone;
+    }
+    
+    public Integer Infra.getSyncstatus() {
+        return syncstatus;
+    }
+    
+    public void Infra.setSyncstatus(Integer syncstatus) {
+        this.syncstatus = syncstatus;
     }
     
 }

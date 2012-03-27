@@ -68,17 +68,16 @@ public class VolumeInfoP {
         return (Number) q.getSingleResult();
     }
 
-    public static TypedQuery<VolumeInfoP> findVolumeInfoPsByVolumeIdEqualsAndCompanyEquals(String volumeId,Company company) {
+    public static TypedQuery<in.mycp.domain.VolumeInfoP> findVolumeInfoPsByVolumeIdEqualsAndCompanyEquals(String volumeId, Company company) {
         if (volumeId == null || volumeId.length() == 0) throw new IllegalArgumentException("The volumeId argument is required");
         EntityManager em = entityManager();
-        TypedQuery<VolumeInfoP> q = em.createQuery("SELECT o FROM VolumeInfoP AS o WHERE o.volumeId = :volumeId " +
-        		" and o.asset.user.project.department.company = :company", VolumeInfoP.class);
+        TypedQuery<VolumeInfoP> q = em.createQuery("SELECT o FROM VolumeInfoP AS o WHERE o.volumeId = :volumeId " + " and o.asset.user.project.department.company = :company", VolumeInfoP.class);
         q.setParameter("volumeId", volumeId);
         q.setParameter("company", company);
         return q;
     }
-    
-	public String toString() {
+
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

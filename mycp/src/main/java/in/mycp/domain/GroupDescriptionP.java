@@ -77,18 +77,17 @@ public class GroupDescriptionP {
     public static List<in.mycp.domain.GroupDescriptionP> findAllActiveGroupDescriptionPs() {
         return entityManager().createQuery("SELECT o FROM GroupDescriptionP o where o.status='active'", GroupDescriptionP.class).getResultList();
     }
-    
-    public static TypedQuery<GroupDescriptionP> findGroupDescriptionPsByNameEqualsAndCompanyEquals(String name,Company company) {
+
+    public static TypedQuery<in.mycp.domain.GroupDescriptionP> findGroupDescriptionPsByNameEqualsAndCompanyEquals(String name, Company company) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         EntityManager em = entityManager();
-        TypedQuery<GroupDescriptionP> q = em.createQuery("SELECT o FROM GroupDescriptionP AS o WHERE o.name = :name " +
-        		" and o.asset.user.project.department.company = :company", GroupDescriptionP.class);
+        TypedQuery<GroupDescriptionP> q = em.createQuery("SELECT o FROM GroupDescriptionP AS o WHERE o.name = :name " + " and o.asset.user.project.department.company = :company", GroupDescriptionP.class);
         q.setParameter("name", name);
         q.setParameter("company", company);
         return q;
     }
 
-	public String toString() {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

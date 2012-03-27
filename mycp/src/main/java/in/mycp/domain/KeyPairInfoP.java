@@ -57,16 +57,16 @@ public class KeyPairInfoP {
         return (Number) q.getSingleResult();
     }
 
-    public static TypedQuery<KeyPairInfoP> findKeyPairInfoPsByKeyNameEqualsAndCompanyEquals(String keyName,Company company) {
+    public static TypedQuery<in.mycp.domain.KeyPairInfoP> findKeyPairInfoPsByKeyNameEqualsAndCompanyEquals(String keyName, Company company) {
         if (keyName == null || keyName.length() == 0) throw new IllegalArgumentException("The keyName argument is required");
         EntityManager em = entityManager();
-        TypedQuery<KeyPairInfoP> q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.keyName = :keyName " +
-        		" and o.asset.user.project.department.company = :company", KeyPairInfoP.class);
+        TypedQuery<KeyPairInfoP> q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.keyName = :keyName " + " and o.asset.user.project.department.company = :company", KeyPairInfoP.class);
         q.setParameter("keyName", keyName);
         q.setParameter("company", company);
         return q;
     }
-	public String toString() {
+
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

@@ -8,7 +8,6 @@
         ${propertyKey}.
     -->
     <context:property-placeholder location="classpath*:META-INF/spring/*.properties"/>
-    
     <!--
         Turn on AspectJ @Configurable support. As a result, any time you
         instantiate an object, Spring will attempt to perform dependency
@@ -69,6 +68,20 @@
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    
-    <bean class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService" id="imageCaptchaService"/>
+    <bean class="com.octo.captcha.engine.image.gimpy.SimpleListImageCaptchaEngine" id="captchaEngine"/>
+    <bean class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService" id="imageCaptchaService">
+        <property name="captchaEngine" ref="captchaEngine"/>
+    </bean>
+    <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
+        <property name="host" value="${email.host}"/>
+        <property name="port" value="${email.port}"/>
+        <property name="password" value="${email.account.password}"/>
+        <property name="username" value="${email.account.name}"/>
+        <property name="javaMailProperties">
+		    <props>
+		        <prop key="mail.smtp.auth">true</prop>
+		        <prop key="mail.smtp.starttls.enable">true</prop>
+		    </props>
+		</property>        
+    </bean>
 </beans>

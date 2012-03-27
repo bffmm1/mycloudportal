@@ -56,18 +56,17 @@ public class InstanceP {
         }
         return (Number) q.getSingleResult();
     }
-    
-    public static TypedQuery<InstanceP> findInstancePsByInstanceIdEqualsAndCompanyEquals(String instanceId,Company company) {
+
+    public static TypedQuery<in.mycp.domain.InstanceP> findInstancePsByInstanceIdEqualsAndCompanyEquals(String instanceId, Company company) {
         if (instanceId == null || instanceId.length() == 0) throw new IllegalArgumentException("The instanceId argument is required");
         EntityManager em = entityManager();
-        TypedQuery<InstanceP> q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.instanceId = :instanceId " +
-        		" and o.asset.user.project.department.company = :company", InstanceP.class);
+        TypedQuery<InstanceP> q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.instanceId = :instanceId " + " and o.asset.user.project.department.company = :company", InstanceP.class);
         q.setParameter("instanceId", instanceId);
         q.setParameter("company", company);
         return q;
     }
 
-	public String toString() {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

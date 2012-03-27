@@ -108,9 +108,12 @@
 			if(p[i].syncInProgress == 1){
 				p[i].syncInProgress='<img  title="Starting" alt="Starting" src=/images/preloader.gif>&nbsp;';
 			}else{
-				if(p[i].syncDate !=null){
+				if(p[i].syncDate !=null &&  p[i].syncstatus!=null && p[i].syncstatus == 2){
 					p[i].syncInProgress='Synced on '+dateFormat(p[i].syncDate,"mmm dd HH:MM");	
-				}else{
+				}else if(p[i].syncDate !=null && p[i].syncstatus!=null && p[i].syncstatus == 1){
+					p[i].syncInProgress='Synced Failed on '+dateFormat(p[i].syncDate,"mmm dd HH:MM");	
+					
+				}else {
 					p[i].syncInProgress='No Sync';
 				}
 				

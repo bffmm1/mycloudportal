@@ -50,24 +50,22 @@ public class AddressInfoP {
             queryStr = queryStr + "  where i.asset.user.project.department.company = :company";
         }
         Query q = entityManager().createQuery(queryStr);
-        //q.setParameter("status", status);
         if (company != null) {
             q.setParameter("company", company);
         }
         return (Number) q.getSingleResult();
     }
 
-    public static TypedQuery<AddressInfoP> findAddressInfoPsByPublicIpEqualsAndCompanyEquals(String publicIp,Company company) {
+    public static TypedQuery<in.mycp.domain.AddressInfoP> findAddressInfoPsByPublicIpEqualsAndCompanyEquals(String publicIp, Company company) {
         if (publicIp == null || publicIp.length() == 0) throw new IllegalArgumentException("The publicIp argument is required");
         EntityManager em = entityManager();
-        TypedQuery<AddressInfoP> q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.publicIp = :publicIp " +
-        		" and o.asset.user.project.department.company = :company", AddressInfoP.class);
+        TypedQuery<AddressInfoP> q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.publicIp = :publicIp " + " and o.asset.user.project.department.company = :company", AddressInfoP.class);
         q.setParameter("publicIp", publicIp);
         q.setParameter("company", company);
         return q;
     }
-    
-	public String toString() {
+
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

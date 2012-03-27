@@ -59,24 +59,39 @@ public class InfraService  {
 	
 	@RemoteMethod
 	public Infra syncDataFromEuca(String instanceId) {
+		Infra instance = Infra.findInfra(new Integer(instanceId));
 		try {
-			Infra instance = Infra.findInfra(new Integer(instanceId));
+			
 			if(instance.getSyncInProgress()!=null && instance.getSyncInProgress()){
 				log.error("Sync is in progress, Cannot start another one now. Wait till the current one gets over.");
 				return null;
 			}
 			instance.setSyncDate(new Date());
 			instance.setSyncInProgress(true);
+			instance.setSyncstatus(Commons.sync_status.running.ordinal());
 			instance.merge();
 			
 			eucalyptusService.syncDataFromEuca(instance);
 			instance.setSyncInProgress(false);
+			instance.setSyncstatus(Commons.sync_status.success.ordinal());
 			instance.merge();
 			
 			
 			return instance;
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			e.printStackTrace();
+			log.error("Sync failed.Error follows.");
+			log.error(e);
+			try {
+				instance.setSyncDate(new Date());
+				instance.setSyncInProgress(false);
+				instance.setSyncstatus(Commons.sync_status.failed.ordinal());
+				instance.merge();
+				
+			} catch (Exception e2) {
+				log.error(e2);
+			}
+			
 		}
 		return null;
 	}// end of saveOrUpdate(Infra

@@ -162,6 +162,7 @@ public class EucalyptusService {
 				infra.setDetails("Eucalyptus 2.x setup in Bangalore");
 				infra.setImportDate(new Date());
 				infra.setSyncInProgress(true);
+				infra.setSyncstatus(Commons.sync_status.running.ordinal());
 				infra = infra.merge();
 			}
 			logger.info("infra setp");
@@ -491,6 +492,7 @@ public class EucalyptusService {
 		} finally {
 			logger.info(" setting back sync setSyncInProgress(false)");
 			infra.setSyncInProgress(false);
+			infra.setSyncstatus(Commons.sync_status.success.ordinal());
 			infra = infra.merge();
 		}
 	}
@@ -606,16 +608,11 @@ public class EucalyptusService {
 	@RemoteMethod
 	public void syncDataFromEuca(Infra infra) {
 
-		try {
+		
 			User currentUser = null;
 			Company company =null;
-			try {
 				currentUser = Commons.getCurrentUser();
 				company = Company.findCompany(Commons.getCurrentSession().getCompanyId());
-			} catch (Exception e) {
-				logger.error(e.getMessage());//e.printStackTrace();
-				throw new Exception("Cannot find current user or the Company. Is the account created properly? ");
-			}
 
 			AssetType assetTypeIpAddress = AssetType.findAssetTypesByNameEquals("IpAddress").getSingleResult();
 			AssetType assetTypeSecurityGroup = AssetType.findAssetTypesByNameEquals("SecurityGroup").getSingleResult();
@@ -1253,9 +1250,7 @@ public class EucalyptusService {
 				e.printStackTrace();
 			}
 			
-		} catch (Exception e) {
-			logger.error(e.getMessage());//e.printStackTrace();
-		}
+		
 
 	}// end of sync
 	
