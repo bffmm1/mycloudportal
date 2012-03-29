@@ -228,7 +228,12 @@ $(function(){
 		  }
 		  dwr.engine.beginBatch();
 		  	GroupDescriptionP.saveOrUpdate(groupDescriptionp,function(p) {
-				
+				if(p == null){
+					CommonService.getSessionMsg(function(p){
+						$.sticky(p);
+					});
+					return;
+				}
 		  		var ids = $('input:hidden[name=ids]');
 		  		 var fromPortData = $('input:text[name=fromPort]');
 		  	     var toPortData = $('input:text[name=toPort]');

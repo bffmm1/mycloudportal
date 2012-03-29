@@ -21,20 +21,15 @@ import in.mycp.domain.Asset;
 import in.mycp.domain.AssetType;
 import in.mycp.domain.AttachmentInfoP;
 import in.mycp.domain.Company;
-import in.mycp.domain.ImageDescriptionP;
-import in.mycp.domain.Infra;
-import in.mycp.domain.InstanceP;
 import in.mycp.domain.ProductCatalog;
 import in.mycp.domain.User;
 import in.mycp.domain.VolumeInfoP;
-import in.mycp.domain.Workflow;
 import in.mycp.utils.Commons;
 import in.mycp.workers.VolumeWorker;
 
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.directwebremoting.annotations.RemoteMethod;
@@ -88,15 +83,10 @@ public class VolumeService {
 	}// end of requestVolume(VolumeInfoP
 
 	public void workflowApproved(VolumeInfoP volume) {
-		AssetType assetTypeVolume = AssetType.findAssetTypesByNameEquals("Volume").getSingleResult();
-		User currentUser = Commons.getCurrentUser();
 		volume = VolumeInfoP.findVolumeInfoP(volume.getId());
-		Asset asset = Commons.getNewAsset(assetTypeVolume, currentUser,ProductCatalog.findProductCatalogsByNameEquals("Volume @ Eucalyptus").getSingleResult());
-		volume.setAsset(asset);
+		volume.getAsset().setStartTime(new Date());
 		volume.setStatus(Commons.VOLUME_STATUS_CREATING+"");
-		
 		volume = volume.merge();
-		
 		createVolume(volume);
 	}
 

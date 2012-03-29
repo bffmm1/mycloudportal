@@ -99,7 +99,8 @@
 	            		'<img class="clickimg" title="Remove" alt="Remove" src=../images/remove.png onclick=delete_volume('+p[i].id+')>&nbsp;&nbsp;'+
 	    				'<img class="clickimg" title="Attach" alt="Attach" src=../images/attach.png onclick=selectAttach_volume('+p[i].id+')>&nbsp;&nbsp;';
                 	
-            	}else if('in-use'==p[i].status){
+            	}else if('in-use'==p[i].status ||
+            			'attached'==p[i].status){
             		p[i].status='<img  title="in-use" alt="in-use" src=/images/running.png>&nbsp;';
             		
             		actions=

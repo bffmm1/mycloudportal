@@ -298,8 +298,8 @@
 	  	 		onclick="$('#popupbutton_compute').click();"
 	  	 		style="height: 100px; width: 98%; border-radius: 5px 5px 5px 5px;
 	  	 		cursor:pointer; background-color: #F5F5F5;">
-			  	 	<div style="float: left; padding-top: 25px; padding-right: 40px;"><img alt="play video" src="/images/play-video.png"> Watch the getting started Video</div>
-			  	 	<div style="float: left; padding-top: 5px;"><img alt="video preview" src="http://img.youtube.com/vi/_RDMbzKTdQU/1.jpg"></div>
+			  	 	<div style="float: left; padding-top: 40px; padding-right: 40px;"><img alt="play video" src="/images/play-video.png"> Watch the getting started Video</div>
+			  	 	<div style="float: left; padding-top: 5px;"><img alt="video preview" src="http://img.youtube.com/vi/-JJ8_nFhZtQ/1.jpg"></div>
 	  	 	</div>
 	  	 	
 	  	 	
@@ -399,9 +399,9 @@
 							</div>
 								<div style="height: 520px;">
 									<object style="height: 510px; width: 854px">
-									<param name="movie" value="http://www.youtube.com/v/_RDMbzKTdQU?version=3&feature=player_detailpage">
+									<param name="movie" value="http://www.youtube.com/v/-JJ8_nFhZtQ?version=3&feature=player_detailpage">
 									<param name="allowFullScreen" value="false"><param name="allowScriptAccess" value="always">
-									<embed src="http://www.youtube.com/v/_RDMbzKTdQU?version=3&feature=player_detailpage" 
+									<embed src="http://www.youtube.com/v/-JJ8_nFhZtQ?version=3&feature=player_detailpage" 
 										type="application/x-shockwave-flash" allowfullscreen="false" 
 										allowScriptAccess="always" width="854" height="510">
 									</object>  	 	

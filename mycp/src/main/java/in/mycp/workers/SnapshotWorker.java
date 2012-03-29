@@ -69,7 +69,14 @@ public class SnapshotWorker extends Worker {
 			snapshot_local = snapshot_local.merge();
 			
 			int START_SLEEP_TIME = 10000;
+			long timeout = START_SLEEP_TIME *100;
+			long runDuration=0;
 			while(!"completed".equals(snapshotInfo.getStatus())){
+				runDuration = runDuration+START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break;
+				}
 				logger.info("SnapShot  " + snapshotInfo.getSnapshotId()+" still getting created; sleeping "+ START_SLEEP_TIME + "ms");
 				Thread.sleep(START_SLEEP_TIME);
 				

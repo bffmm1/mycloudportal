@@ -65,6 +65,19 @@ public class KeyPairService {
 	@RemoteMethod
 	public KeyPairInfoP saveOrUpdate(KeyPairInfoP instance) {
 		try {
+			
+			//check unique name per infra
+			try{if(KeyPairInfoP.findKeyPairInfoPsByKeyNameEqualsAndCompanyEquals(instance.getKeyName(),
+					Commons.getCurrentUser().getProject().getDepartment().getCompany()).getSingleResult().getId() > 0){
+				throw new Exception("Key with this name already exists for this account, Choose another name.");
+			}}catch(Exception e){
+				e.printStackTrace();
+				if(e.getMessage().contains("returns more than one elements")
+						|| e.getMessage().contains("Key with this name already exists for this account")){
+					throw new Exception("Key with this name already exists for this account, Choose another name.");
+				}
+			}
+			
 			AssetType assetTypeKeyPair = AssetType.findAssetTypesByNameEquals("KeyPair").getSingleResult();
 			if (instance.getId() != null && instance.getId() > 0) {
 			} else {
@@ -85,7 +98,12 @@ public class KeyPairService {
 			}
 			return instance;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			e.printStackTrace();
+			log.error(e.getMessage());
+			if(e.getMessage().contains("Key with this name already exists")){
+				Commons.setSessionMsg("Key with this name already exists for this account, Choose another name.");
+			}
+			
 		}
 		return null;
 	}// end of saveOrUpdate(KeyPairInfoP

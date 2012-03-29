@@ -21,7 +21,7 @@ privileged aspect GroupDescriptionP_Roo_DbManaged {
     @JoinColumn(name = "asset", referencedColumnName = "id")
     private Asset GroupDescriptionP.asset;
     
-    @Column(name = "name", length = 45, unique = true)
+    @Column(name = "name", length = 45)
     private String GroupDescriptionP.name;
     
     @Column(name = "descripton", length = 255)

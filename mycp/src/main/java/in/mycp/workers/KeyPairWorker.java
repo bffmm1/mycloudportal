@@ -60,7 +60,14 @@ public class KeyPairWorker extends Worker {
 			
 			boolean found =false;
 			int START_SLEEP_TIME = 10000;
+			long timeout = START_SLEEP_TIME *100;
+			long runDuration=0;
 			outer: while(!found ){
+				runDuration = runDuration+START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break outer;
+				}
 				List<KeyPairInfo> info = ec2.describeKeyPairs(new String[] {});
 				for (KeyPairInfo keypairinfo : info) {
 					logger.info("keypair : " + keypairinfo.getKeyName() + ", "
@@ -106,7 +113,14 @@ public class KeyPairWorker extends Worker {
 			}
 			boolean found =true;
 			int START_SLEEP_TIME = 10000;
+			long timeout = START_SLEEP_TIME *100;
+			long runDuration=0;
 			outer: while(found ){
+				runDuration = runDuration+START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break outer;
+				}
 				List<KeyPairInfo> info = ec2.describeKeyPairs(new String[] {});
 				found = false;
 				for (KeyPairInfo keypairinfo : info) {

@@ -126,7 +126,16 @@ public class ComputeWorker extends Worker {
 				Instance instanceEc2 = reservationDescription.getInstances().get(0);
 				instanceP = InstanceP.findInstancePsByInstanceIdEquals(instanceId).getSingleResult();
 
+				int INSTANCE_START_SLEEP_TIME = 5000;
+				long timeout = INSTANCE_START_SLEEP_TIME *100;
+				long runDuration=0;
 				while (!instanceEc2.isRunning() && !instanceEc2.isTerminated()) {
+					runDuration = runDuration+INSTANCE_START_SLEEP_TIME;
+					if(runDuration > timeout){
+						logger.info("Tried enough.Am bored, quitting.");
+						break;
+					}
+					
 					try {
 						instanceP.setState(Commons.REQUEST_STATUS.STARTING + "");
 						instanceP.merge();
@@ -194,8 +203,16 @@ public class ComputeWorker extends Worker {
 				ReservationDescription reservationDescription = ec2.describeInstances(Collections.singletonList(instanceId)).get(0);
 				Instance instanceEc2 = reservationDescription.getInstances().get(0);
 				instanceP = InstanceP.findInstancePsByInstanceIdEquals(instanceId).getSingleResult();
-
+				int INSTANCE_START_SLEEP_TIME = 5000;
+				long timeout = INSTANCE_START_SLEEP_TIME *100;
+				long runDuration=0;
+						
 				while (instanceEc2.isRunning() || instanceEc2.isShuttingDown()) {
+					runDuration = runDuration+INSTANCE_START_SLEEP_TIME;
+					if(runDuration > timeout){
+						logger.info("Tried enough.Am bored, quitting.");
+						break;
+					}
 					try {
 						instanceP.setState(Commons.REQUEST_STATUS.SHUTTING_DOWN + "");
 						instanceP.merge();
@@ -269,8 +286,15 @@ public class ComputeWorker extends Worker {
 				}
 				Instance instanceEc2 = reservationDescription.getInstances().get(0);
 				InstanceP instanceP = InstanceP.findInstancePsByInstanceIdEquals(instanceId).getSingleResult();
-
+				int INSTANCE_START_SLEEP_TIME = 5000;
+				long timeout = INSTANCE_START_SLEEP_TIME *100;
+				long runDuration=0;
 				while (!instanceEc2.isTerminated()) {
+						runDuration = runDuration+INSTANCE_START_SLEEP_TIME;
+						if(runDuration > timeout){
+							logger.info("Tried enough.Am bored, quitting.");
+							break;
+						}
 					try {
 						instanceP.setState(Commons.REQUEST_STATUS.TERMINATING + "");
 						instanceP.merge();
@@ -364,18 +388,18 @@ public class ComputeWorker extends Worker {
 
 			int INSTANCE_START_SLEEP_TIME = 5000;
 			int preparationSleepTime = 0;
-			// int sigVer= infra.getSignatureVersion();
-
+			long timeout = INSTANCE_START_SLEEP_TIME *400;
+			long runDuration=0;
 			while (!instanceEc2.isRunning() && !instanceEc2.isTerminated()) {
+				runDuration = runDuration+INSTANCE_START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break;
+				}
 				try {
 					logger.info("Instance " + instanceEc2.getInstanceId() + " still starting up; sleeping " + INSTANCE_START_SLEEP_TIME
 							+ "ms");
 					Thread.sleep(INSTANCE_START_SLEEP_TIME);
-					// to avoid Message replay detected. Same signature was used
-					// within the last 5 minutes
-					// sigVer= sigVer+1;
-					// ec2.setSignatureVersion(sigVer);
-
 					reservationDescription = ec2.describeInstances(Collections.singletonList(instanceEc2.getInstanceId())).get(0);
 					instanceEc2 = reservationDescription.getInstances().get(0);
 				} catch (Exception e) {

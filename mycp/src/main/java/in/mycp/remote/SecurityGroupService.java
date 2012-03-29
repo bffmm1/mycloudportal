@@ -59,15 +59,28 @@ public class SecurityGroupService {
 	@RemoteMethod
 	public GroupDescriptionP saveOrUpdate(GroupDescriptionP instance) {
 		try {
-			String companyName = Commons.getCurrentSession().getCompany();
-			String pId="";String dId="";String cId="";
+			//String companyName = Commons.getCurrentSession().getCompany();
+			/*String pId="";String dId="";String cId="";
 			try{pId = Commons.getCurrentUser().getProject().getId()+"";}catch(Exception e){}
 			try{dId = Commons.getCurrentUser().getProject().getDepartment().getId()+"";}catch(Exception e){}
 			try{cId = Commons.getCurrentUser().getProject().getDepartment().getCompany().getId()+"";}catch(Exception e){}
 			
 			if(instance!=null && instance.getName()!=null && instance.getName().indexOf("_"+companyName) <0){
 				instance.setName(instance.getName()+"_"+pId+"_"+dId+"_"+cId);
+			}*/
+			//check unique name per infra
+			try{if(GroupDescriptionP.findGroupDescriptionPsByNameEqualsAndCompanyEquals(instance.getName(),
+					Commons.getCurrentUser().getProject().getDepartment().getCompany()).getSingleResult().getId() > 0){
+				throw new Exception("Security group with this name already exists for this account, Choose another name.");
+			}}catch(Exception e){
+				e.printStackTrace();
+				if(e.getMessage().contains("returns more than one elements")
+						|| e.getMessage().contains("Security group with this name already exists")){
+					throw new Exception("Security group with this name already exists for this account, Choose another name.");
+				}
 			}
+				
+			
 			AssetType assetTypeSecurityGroup = AssetType.findAssetTypesByNameEquals(Commons.ASSET_TYPE.SecurityGroup + "")
 					.getSingleResult();
 			if (instance.getId() != null && instance.getId() > 0) {
@@ -92,7 +105,11 @@ public class SecurityGroupService {
 			}
 			return instance;
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			e.printStackTrace();
+			if(e.getMessage().contains("Security group with this name already exists for this account")){
+				Commons.setSessionMsg("Security group with this name already exists for this account, Choose another name.");
+			}
+			log.error(e.getMessage());
 		}
 		return null;
 	}// end of saveOrUpdate(GroupDescriptionP

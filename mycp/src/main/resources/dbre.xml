@@ -217,9 +217,6 @@
         <unique name="PRIMARY">
             <unique-column name="id"/>
         </unique>
-        <unique name="name_UNIQUE">
-            <unique-column name="name"/>
-        </unique>
         <index name="ix_Group_Description_Asset1">
             <index-column name="asset"/>
         </index>

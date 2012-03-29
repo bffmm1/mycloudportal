@@ -125,7 +125,7 @@ public class SignupService {
             		  public void run() {
                         	sendMessage("mycloudportal@gmail.com", "Activation of MyCP test drive",useremail , "\n\nDear "+username+", \n" +
                         			" Thank you for your interest in My Cloud Portal, the open source self service portal for the cloud.\n" +
-                        			" Take a look into http://www.youtube.com/user/mycloudportal for getting started videos.\n" +
+                        			" " +
                         			"\n MyCP is open source and free to download and use as a standalone installation too. Its a simple standards compliant \n" +
                         			" java web application backed by MySQL.\n" +
                         			" If you are a developer, please think about participating in the project at http://code.google.com/p/mycloudportal\n" +

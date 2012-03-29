@@ -208,7 +208,13 @@
 		KeyPairInfoP.remove(id,afterSave_keys);
 		dwr.engine.endBatch();
 	}
-	function afterSave_keys(){
+	function afterSave_keys(p){
+		if(p == null){
+			CommonService.getSessionMsg(function(p){
+				$.sticky(p);
+			});
+			return;
+		}
 		viewed_keys = -1;
 		$("#popupbutton_keyslist").click();}
 	

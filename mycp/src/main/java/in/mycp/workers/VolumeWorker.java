@@ -73,7 +73,14 @@ public class VolumeWorker extends Worker {
 			int START_SLEEP_TIME = 10000;
 			String attachedStatus = "";
 
+			long timeout = START_SLEEP_TIME *100;
+			long runDuration=0;
 			outer: while (!Commons.VOLUME_STATUS_AVAILABLE.equals(attachedStatus)) {
+				runDuration = runDuration+START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break outer;
+				}
 				try {
 					logger.info("Volume  " + attachmentInfo.getVolumeId() + " still detaching; sleeping " + START_SLEEP_TIME + "ms");
 					Thread.sleep(START_SLEEP_TIME);
@@ -131,7 +138,14 @@ public class VolumeWorker extends Worker {
 
 			boolean found = false;
 			int START_SLEEP_TIME = 10000;
+			long timeout = START_SLEEP_TIME *100;
+			long runDuration=0;
 			outer: while (volumeInfo != null) {
+				runDuration = runDuration+START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break outer;
+				}
 				found = false;
 				try {
 					// if the delete went thorugh fine ,
@@ -191,8 +205,16 @@ public class VolumeWorker extends Worker {
 			VolumeInfo volumeInfo = null;
 
 			String attachedStatus = "";
+			long timeout = START_SLEEP_TIME *100;
+			long runDuration=0;
 
+				
 			outer: while (!Commons.VOLUME_STATUS_INUSE.equals(attachedStatus)) {
+				runDuration = runDuration+START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break outer;
+				}
 				try {
 					logger.info("Volume  " + attachmentInfo.getVolumeId() + " still attaching; sleeping " + START_SLEEP_TIME + "ms");
 					Thread.sleep(START_SLEEP_TIME);
@@ -267,8 +289,14 @@ public class VolumeWorker extends Worker {
 			VolumeInfoP volumeInfoPlocal = volumeInfoP.merge();
 
 			int INSTANCE_START_SLEEP_TIME = 10000;
-
+			long timeout = INSTANCE_START_SLEEP_TIME *100;
+			long runDuration=0;
 			while (!volumeInfo.getStatus().equals("available")) {
+				runDuration = runDuration+INSTANCE_START_SLEEP_TIME;
+				if(runDuration > timeout){
+					logger.info("Tried enough.Am bored, quitting.");
+					break;
+				}
 				try {
 					logger.info("Volume  " + volumeInfo.getVolumeId() + " still starting up; sleeping " + INSTANCE_START_SLEEP_TIME + "ms");
 					Thread.sleep(INSTANCE_START_SLEEP_TIME);
