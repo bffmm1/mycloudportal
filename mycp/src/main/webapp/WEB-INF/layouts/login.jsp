@@ -9,11 +9,12 @@
 <html >
 	<head>
 	<title>Open Source Self Service Portal for the Cloud</title>
-	
-	<meta name="description" content="Open Source Self Service Portal for the Cloud" />
-	<meta name="keywords" content="cloud portal, self service portal, cloud services gateway, cloud gateway, cloud management solution, eucalyptus and AWS management portal, cloud skin, open source, single pane of glass, my cloud portal, mycp, connect and manage eucalyptus, dashboards, workflows, usage and cost reports, user and access control, product catalog" />
 	<meta name="author" content="Charudath Doddanakatte" />
-	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta id="MetaDescription" name="DESCRIPTION" content="mycloudportal - Open Source Self Service Portal for the Cloud; Control Panel for Eucalyptus Private Cloud" />
+	<meta id="MetaKeywords" name="KEYWORDS" content="self service portal, cloud services gateway, cloud control panel, cloud management solution, connect and manage eucalyptus" />
+	<meta id="MetaCopyright" name="COPYRIGHT" content="Copyright 2012 my cloud portal" />
+	<meta name="ROBOTS" content="INDEX, FOLLOW"/>
 
 	<script type="text/javascript" src="/dwr/engine.js"></script>
 	<script type="text/javascript" src="/dwr/util.js"></script>
@@ -21,16 +22,14 @@
 	<script type="text/javascript" src="/js/jquery-ui-1.8.16.custom.min.js"></script>	
 	<script type="text/javascript" src="/js/jqueryplugins/jquery.validate.js"></script>
 	<script type="text/javascript" src="/js/jqueryplugins/sticky/sticky.full.js"></script>
-	<script type="text/javascript" src="/js/jqueryplugins/nospam.js"></script>
 	<script type="text/javascript" src="/js/myccep.js"></script>
+	<script type="text/javascript" src="/js/jqueryplugins/nospam.js"></script>
 	<script type="text/javascript" src="/dwr/interface/SignupService.js"></script>
 	<script type='text/javascript' src='/dwr/interface/RealmService.js'></script>
 	
 	<link type="text/css" href="/js/jqueryplugins/sticky/sticky.full.css" rel="Stylesheet" />
 	<link type="text/css" href="/styles/vader/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
 	<link type="text/css" href="/styles/popup.css" rel="Stylesheet" />
-	
-	
 	
 <script type="text/javascript">
 
@@ -89,8 +88,9 @@
 		 	
 		$("#thisform").validate({
 			 submitHandler: function(form) {
-				 submitForm_signup(form);
-				return false;
+				//submitForm_signup(form);
+				form.submit();
+				return true;
 			 }
 			});
 	});
@@ -191,6 +191,19 @@
 				}
 
 			</style>
+			<script type="text/javascript">
+
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-30466112-1']);
+			  _gaq.push(['_trackPageview']);
+			
+			  (function() {
+			    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			
+			</script>
 	</head>
 	
   	<body>
@@ -223,6 +236,7 @@
 				    </td>
 				  </tr>
 				  <tr >
+				  
 				  <td colspan="3" style="color: red;">
 					  <%try{
 					  String s = ((BadCredentialsException)session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION")).getMessage();
@@ -299,7 +313,7 @@
 	  	 		style="height: 100px; width: 98%; border-radius: 5px 5px 5px 5px;
 	  	 		cursor:pointer; background-color: #F5F5F5;">
 			  	 	<div style="float: left; padding-top: 40px; padding-right: 40px;"><img alt="play video" src="/images/play-video.png"> Watch the getting started Video</div>
-			  	 	<div style="float: left; padding-top: 5px;"><img alt="video preview" src="http://img.youtube.com/vi/-JJ8_nFhZtQ/1.jpg"></div>
+			  	 	<div style="float: left; padding-top: 5px;"><img alt="video preview" src="http://img.youtube.com/vi/G4zwfKRqEYY/1.jpg"></div>
 	  	 	</div>
 	  	 	
 	  	 	
@@ -310,8 +324,7 @@
 	  	 	<div style="height: 10px; "></div>
 	  	 	<div style="width: 98%;text-align: left; border-radius: 5px 5px 5px 5px; font-weight:lighter; ;float: left; font-stretch: wider;font-size: 17px;
 	  	 	background-color: #F5F5F5;">
- 					
-					<form class="cmxform" id="thisform" method="post" name="thisform">
+ 					<form class="cmxform" id="thisform" method="post" name="thisform" action="/login/signup" >
 						<p id="contactArea_signup" class="contactArea" >
 						<input type="hidden" id="id" name="id">
 						<table style="width: 80%;">
@@ -348,7 +361,7 @@
 						    <td style="width: 30%;"><img  style="border:1px solid grey;" src="/jcaptcha.jsp" /></td>
 						    <td style="width: 70%;">
 						    Enter text in the box 
-						    <input type="text" id="captchaResp" name="captchaResp" value="" maxlength="25" size="30" class="required"/>
+						    <input type="text" id="captchaResp" name="captchaResp" value="" maxlength="5" size="30" class="required"/>
 						    </td>
 						  </tr> 
 						   
@@ -368,7 +381,7 @@
 						    <td style="width: 50%;">
 						    <br>
 								<div class="demo" id="popupbutton_signup_create">
-									<input class="submit" type="submit" value="Sign Up"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="submit" value="Sign Up">&nbsp;&nbsp;&nbsp;&nbsp;
 								</div>
 							</td>
 						  </tr>
@@ -399,9 +412,9 @@
 							</div>
 								<div style="height: 520px;">
 									<object style="height: 510px; width: 854px">
-									<param name="movie" value="http://www.youtube.com/v/-JJ8_nFhZtQ?version=3&feature=player_detailpage">
+									<param name="movie" value="http://www.youtube.com/v/G4zwfKRqEYY?version=3&feature=player_detailpage">
 									<param name="allowFullScreen" value="false"><param name="allowScriptAccess" value="always">
-									<embed src="http://www.youtube.com/v/-JJ8_nFhZtQ?version=3&feature=player_detailpage" 
+									<embed src="http://www.youtube.com/v/G4zwfKRqEYY?version=3&feature=player_detailpage" 
 										type="application/x-shockwave-flash" allowfullscreen="false" 
 										allowScriptAccess="always" width="854" height="510">
 									</object>  	 	

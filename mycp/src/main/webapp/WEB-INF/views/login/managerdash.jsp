@@ -103,6 +103,9 @@
 						 if(p[i].status == 'loading'){
 							 p[i].status =  '<div id=cloudStatus'+p[i].server+'><img title="Loading" alt=loading src=../images/preloader.gif></div>'; 
 	                	 }
+
+						p[i].server = '<a href="/config/infra">'+p[i].server+'</a>';
+						 
 						 
 						 oTable1.fnAddData( [	p[i].name,p[i].server, p[i].status
 						                  ] );
@@ -160,12 +163,7 @@
 						dwr.util.setValue('productCompute', p[i].name+'<br>'+p[i].price+' '+p[i].currency+"/Hr ",{ escapeHtml:false });
 					}
 				}
-				
-		        
 			}//end findAll_product
-			
-			
-
 			
 		$(document).ready(function() {
 			WorkflowService.findAll(findAll_workflow);

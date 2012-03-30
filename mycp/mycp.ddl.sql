@@ -390,6 +390,8 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 58
 DEFAULT CHARACTER SET = utf8;
 
+alter table group_description_p drop INDEX name_UNIQUE;
+
 
 -- -----------------------------------------------------
 -- Table  `instance_p`
@@ -1157,6 +1159,7 @@ DEFAULT CHARACTER SET = utf8;
 
 ALTER TABLE infra ADD COLUMN syncstatus INT(1) NULL;
 
+alter table group_description_p drop INDEX name_UNIQUE;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

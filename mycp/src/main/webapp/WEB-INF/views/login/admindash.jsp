@@ -104,6 +104,8 @@
 							 p[i].status =  '<div id=cloudStatus'+p[i].server+'><img title="Loading" alt=loading src=../images/preloader.gif></div>'; 
 	                	 }
 						 
+						 p[i].server = '<a href="/config/infra">'+p[i].server+'</a>';
+						 
 						 oTable1.fnAddData( [	p[i].name,p[i].server, p[i].status
 						                  ] );
 					}

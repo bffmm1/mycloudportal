@@ -1,6 +1,5 @@
 
 
 <%
-response.sendRedirect("/login");
-
+	response.sendRedirect("http://www.mycloudportal.in/login");
 %>

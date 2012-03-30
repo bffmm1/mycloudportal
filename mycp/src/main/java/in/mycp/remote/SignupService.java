@@ -125,7 +125,12 @@ public class SignupService {
             		  public void run() {
                         	sendMessage("mycloudportal@gmail.com", "Activation of MyCP test drive",useremail , "\n\nDear "+username+", \n" +
                         			" Thank you for your interest in My Cloud Portal, the open source self service portal for the cloud.\n" +
-                        			" " +
+                        			" You can now configure your Eucalyptus private cloud access details at http://www.mycloudportal.in/config/infra \n" +
+                        			" and start the sync process to import your data from eucalyptus cloud into my cloud portal." +
+                        			" After you configure your account, you can\n" +
+                        			" \t 1. Go to Setup, edit the currency, create your users, projects and departments.\n" +
+                        			" \t 2. Go to Resources, start requesting and consuming infrastructure services.\n" +
+                        			" \t 3. Usage reports menu will give you the metering data of your comsumption.\n" +
                         			"\n MyCP is open source and free to download and use as a standalone installation too. Its a simple standards compliant \n" +
                         			" java web application backed by MySQL.\n" +
                         			" If you are a developer, please think about participating in the project at http://code.google.com/p/mycloudportal\n" +
@@ -208,7 +213,16 @@ public class SignupService {
         pc.setProductType(Commons.ProductType.ComputeImage.getName());
         pc.merge();
     }
-
+   
+    public void sendMessage(String mailFrom, String subject, String mailTo, String message) {
+        org.springframework.mail.SimpleMailMessage mailMessage = new org.springframework.mail.SimpleMailMessage();
+        mailMessage.setFrom(mailFrom);
+        mailMessage.setSubject(subject);
+        mailMessage.setTo(mailTo);
+        mailMessage.setText(message);
+        mailTemplate.send(mailMessage);
+    }
+    
     @RemoteMethod
     public void cleanupUser(int userId) {
         User u = User.findUser(userId);
@@ -232,16 +246,5 @@ public class SignupService {
             infra.remove();
         }
         c.remove();
-    }
-
-   
-    public void sendMessage(String mailFrom, String subject, String mailTo, String message) {
-        org.springframework.mail.SimpleMailMessage mailMessage = new org.springframework.mail.SimpleMailMessage();
-        
-        mailMessage.setFrom(mailFrom);
-        mailMessage.setSubject(subject);
-        mailMessage.setTo(mailTo);
-        mailMessage.setText(message);
-        mailTemplate.send(mailMessage);
     }
 }
