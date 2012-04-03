@@ -46,8 +46,8 @@
 								<td>Start</td>
 								<td>End</td>
 								<td>Duration (Hrs)</td>
-								<td>Rate (INR/Hr)</td>
-								<td>Cost (INR)</td>
+								<td>Rate ( _ / Hr)</td>
+								<td>Cost ( _ )</td>
 								<td></td>
 							</tr>
 						</thead>

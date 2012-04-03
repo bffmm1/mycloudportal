@@ -132,7 +132,7 @@
 				state='<img class="clickimg" title="Pending Approval" alt="Pending Approval" src=/images/pending.png>&nbsp;';
 				 actions =
 		                '<img class="clickimg" title="Delete" alt="Delete" src=/images/deny.png onclick=remove_compute('+p[i].id+')>'
-			}else if('STARTING' == state ){
+			}else if('STARTING' == state || 'pending' == state){
 				state='<img  title="Starting" alt="Starting" src=/images/preloader.gif>&nbsp;';
 				actions='';
 			}else if('FAILED' == state ){
@@ -212,12 +212,12 @@ $(function(){
   				//dwr.util.setValue(id, sel);
   			});
 			
-			KeyPairInfoP.findAll(function(p){
+			KeyPairInfoP.findAll4List(function(p){
 				dwr.util.removeAllOptions('keyName');
 				dwr.util.addOptions('keyName', p, 'id', 'keyName');
 				//dwr.util.setValue(id, sel);
 			});
-			ImageDescriptionP.findAll(function(p){
+			ImageDescriptionP.findAll4List(function(p){
 				//alert(dwr.util.toDescriptiveString(p,3));
 				dwr.util.removeAllOptions('imageId');
 				dwr.util.addOptions('imageId', p, 'imageId', function(p) {
@@ -225,7 +225,7 @@ $(function(){
 				});
 				//dwr.util.setValue(id, sel);
 			});
-			GroupDescriptionP.findAll(function(p){
+			GroupDescriptionP.findAll4List(function(p){
 				dwr.util.removeAllOptions('groupName');
 				dwr.util.addOptions('groupName', p, 'name', 'name');
 				//dwr.util.setValue(id, sel);

@@ -62,7 +62,7 @@ public class ImageService {
 				instance.persist();
 
 			}catch (Exception e) {
-				log.error(e.getMessage());//e.printStackTrace();
+				log.error(e);//e.printStackTrace();
 			}
 		}//end of save(ImageDescriptionP
     	
@@ -71,7 +71,7 @@ public class ImageService {
 			try{
 				return requestImage(instance);
 			}catch (Exception e) {
-				log.error(e.getMessage());//e.printStackTrace();
+				log.error(e);//e.printStackTrace();
 			}
 			return null;
 		}//end of saveOrUpdate(ImageDescriptionP
@@ -82,7 +82,7 @@ public class ImageService {
 			try{
 				ImageDescriptionP.findImageDescriptionP(id).remove();
 			}catch (Exception e) {
-				log.error(e.getMessage());//e.printStackTrace();
+				log.error(e);//e.printStackTrace();
 			}
 		}//end of method remove(int id
 		
@@ -91,13 +91,29 @@ public class ImageService {
 			try{
 				return ImageDescriptionP.findImageDescriptionP(id);
 			}catch (Exception e) {
-				log.error(e.getMessage());//e.printStackTrace();
+				log.error(e);//e.printStackTrace();
 			}
 			return null;
 		}//end of method findById(int id
 
     	@RemoteMethod
-		public List findAll(){
+		public List<ImageDescriptionP> findAll4List(){
+			try{
+				User user = Commons.getCurrentUser();
+				if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+					return ImageDescriptionP.findAllImageDescriptionPs();
+				}else {
+					return ImageDescriptionP.findImageDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				}				
+				
+				}catch (Exception e) {
+				log.error(e);//e.printStackTrace();
+			}
+			return null;
+		}//end of method findAll4List
+    	
+    	@RemoteMethod
+		public List<ImageDescriptionP> findAll(){
 			try{
 				User user = Commons.getCurrentUser();
 				if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
@@ -105,9 +121,9 @@ public class ImageService {
 				}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
 					return ImageDescriptionP.findImageDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
 				}				
-				//return ImageDescriptionP.findAllImageDescriptionPs();
+				return ImageDescriptionP.findAllImageDescriptionPs();
 				}catch (Exception e) {
-				log.error(e.getMessage());//e.printStackTrace();
+				log.error(e);//e.printStackTrace();
 			}
 			return null;
 		}//end of method findAll
@@ -116,13 +132,11 @@ public class ImageService {
     	public ImageDescriptionP requestImage(ImageDescriptionP instance){
     		try {
     			String instanceIdForImgCreation = instance.getInstanceIdForImgCreation();
-    			
     			AssetType assetTypeImageDescription = AssetType.findAssetTypesByNameEquals("" + Commons.ASSET_TYPE.ComputeImage).getSingleResult();
     			User currentUser = Commons.getCurrentUser();
     			Asset asset = Commons.getNewAsset(assetTypeImageDescription, currentUser,"");
     			instance.setAsset(asset);
     			instance = instance.merge();
-    			
     			if(true == assetTypeImageDescription.getWorkflowEnabled()){
     				Workflow workflow = Commons.createNewWorkflow(
         					workflowService.createProcessInstance(Commons.PROCESS_DEFN.Image_Request + ""), instance.getId(), asset
@@ -131,23 +145,19 @@ public class ImageService {
     				instance.setInstanceIdForImgCreation(instanceIdForImgCreation);
     				workflowApproved(instance);
     			}
-    			
-
     			log.info("end of requestImage");
     			return instance;
     		} catch (Exception e) {
-    			log.error(e.getMessage());//e.printStackTrace();
+    			log.error(e);//e.printStackTrace();
     		}
     		return null;
-    		
     	}// end of requestSnapshot(SnapshotInfoP
     	
     	public void workflowApproved(ImageDescriptionP instance){
     		try {
-    			
     			imageWorker.createImage(instance.getAsset().getProductCatalog().getInfra(), instance);
     		} catch (Exception e) {
-    			log.error(e.getMessage());//e.printStackTrace();
+    			log.error(e);//e.printStackTrace();
     		}
     	}
     	

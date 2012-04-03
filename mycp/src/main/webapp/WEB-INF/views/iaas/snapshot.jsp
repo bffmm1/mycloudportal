@@ -137,7 +137,7 @@ $(function(){
 		$(document).ready(function() {
 			$("#popupbutton_backuplist").click();
 			
-			VolumeInfoP.findAll(function(p){
+			VolumeInfoP.findAll4List(function(p){
 				dwr.util.removeAllOptions('instance');
 				dwr.util.addOptions('volumeId', p, 'volumeId', function(p) {
 					if(p.volumeId !=null){

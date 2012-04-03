@@ -31,8 +31,8 @@
 	            { "sTitle": "User" },
 	            { "sTitle": "Status" },
 	            { "sTitle": "Start" },
-	            { "sTitle": "Asset" },
-	            { "sTitle": "Actions" }
+	            { "sTitle": "Asset" }
+	            
 	        ]
 	    } );
 		var i=0;

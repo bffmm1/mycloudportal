@@ -207,7 +207,8 @@ public class WorkflowService {
 						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.SecurityGroup)) {
-					// nothing here
+					GroupDescriptionP g = GroupDescriptionP.findGroupDescriptionP(workflow.getAssetId());
+					workflow.setAssetDetails(workflow.getAssetType() + " " + g.getName());
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.Volume)) {
 					try {
 						VolumeInfoP volume = VolumeInfoP.findVolumeInfoP(workflow.getAssetId());

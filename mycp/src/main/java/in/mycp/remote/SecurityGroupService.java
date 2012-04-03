@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
@@ -59,6 +60,12 @@ public class SecurityGroupService {
 	@RemoteMethod
 	public GroupDescriptionP saveOrUpdate(GroupDescriptionP instance) {
 		try {
+			try {
+				String s = instance.getName();
+				instance.setName( StringUtils.replace(s, " ", "_"));
+				
+			} catch (Exception e) {
+			}
 			//String companyName = Commons.getCurrentSession().getCompany();
 			/*String pId="";String dId="";String cId="";
 			try{pId = Commons.getCurrentUser().getProject().getId()+"";}catch(Exception e){}
@@ -109,7 +116,7 @@ public class SecurityGroupService {
 			if(e.getMessage().contains("Security group with this name already exists for this account")){
 				Commons.setSessionMsg("Security group with this name already exists for this account, Choose another name.");
 			}
-			log.error(e.getMessage());
+			log.error(e);
 		}
 		return null;
 	}// end of saveOrUpdate(GroupDescriptionP
@@ -126,7 +133,7 @@ public class SecurityGroupService {
 				ipPermissionService.workflowApproved(ipPermissionP);
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}// end of createCompute(InstanceP
 
@@ -143,7 +150,7 @@ public class SecurityGroupService {
 				securityGroupWorker.deleteSecurityGroup(GroupDescriptionP.findGroupDescriptionP(id).getAsset().getProductCatalog().getInfra(), GroupDescriptionP.findGroupDescriptionP(id));	
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error(e.getMessage());
+				log.error(e);
 			}
 			
 			GroupDescriptionP g = GroupDescriptionP.findGroupDescriptionP(id);
@@ -152,7 +159,7 @@ public class SecurityGroupService {
 			/*g.setStatus(Commons.secgroup_STATUS.inactive+"");
 			g.merge();*/
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			log.error(e);e.printStackTrace();
 		}
 	}// end of method remove(int id
 
@@ -164,13 +171,48 @@ public class SecurityGroupService {
 			return instance;
 			//return GroupDescriptionP.findGroupDescriptionP(id);
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findById(int id
 
+	
 	@RemoteMethod
-	public List findAll() {
+	public List<GroupDescriptionP>  findAll4List() {
+		try {
+			List<GroupDescriptionP> gds = null;
+			User user = Commons.getCurrentUser();
+			if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+				gds = GroupDescriptionP.findAllActiveGroupDescriptionPs();
+			}else {
+				gds = GroupDescriptionP.findActiveGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+			}
+			for (Iterator iterator = gds.iterator(); iterator.hasNext();) {
+				GroupDescriptionP groupDescriptionP = (GroupDescriptionP) iterator.next();
+
+				List<IpPermissionP> ips = IpPermissionP.findIpPermissionPsByGroupDescription(groupDescriptionP).getResultList();
+
+				Set<IpPermissionP> hset = new HashSet<IpPermissionP>();
+
+				for (Iterator iterator2 = ips.iterator(); iterator2.hasNext();) {
+					IpPermissionP ipPermissionP = (IpPermissionP) iterator2.next();
+					hset.add(ipPermissionP);
+				}
+
+				groupDescriptionP.setIpPermissionPs(hset);
+
+			}
+
+			return gds;
+		} catch (Exception e) {
+			log.error(e);//e.printStackTrace();
+		}
+		return null;
+	}// end of method findAll4List
+	
+	
+	@RemoteMethod
+	public List<GroupDescriptionP>  findAll() {
 		try {
 			List<GroupDescriptionP> gds = null;
 			
@@ -202,7 +244,7 @@ public class SecurityGroupService {
 
 			return gds;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll
@@ -239,7 +281,7 @@ public class SecurityGroupService {
 
 			return gds;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll

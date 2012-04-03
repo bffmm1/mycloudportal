@@ -55,7 +55,7 @@ public class KeyPairService {
 		try {
 			instance.persist();
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}// end of save(KeyPairInfoP
 
@@ -99,7 +99,7 @@ public class KeyPairService {
 			return instance;
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error(e.getMessage());
+			log.error(e);
 			if(e.getMessage().contains("Key with this name already exists")){
 				Commons.setSessionMsg("Key with this name already exists for this account, Choose another name.");
 			}
@@ -115,7 +115,7 @@ public class KeyPairService {
 			instance = instance.merge();
 			createKeyPair(instance.getKeyName());
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}
 	
@@ -125,7 +125,7 @@ public class KeyPairService {
 			deleteKeyPair(id);
 			KeyPairInfoP.findKeyPairInfoP(id).remove();
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}// end of method remove(int id
 
@@ -138,11 +138,27 @@ public class KeyPairService {
 			return instance;
 			//return KeyPairInfoP.findKeyPairInfoP(id);
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findById(int id
 
+	@RemoteMethod
+	public List<KeyPairInfoP> findAll4List() {
+		try {
+			
+			User user = Commons.getCurrentUser();
+			if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+				return KeyPairInfoP.findAllKeyPairInfoPs();
+			}else {
+				return KeyPairInfoP.findKeyPairInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+			}
+		} catch (Exception e) {
+			log.error(e);//e.printStackTrace();
+		}
+		return null;
+	}// end of method findAll4List
+	
 	@RemoteMethod
 	public List<KeyPairInfoP> findAll() {
 		try {
@@ -156,7 +172,7 @@ public class KeyPairService {
 			
 			return KeyPairInfoP.findAllKeyPairInfoPs();
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 			
 		}
 		return null;
@@ -171,7 +187,7 @@ public class KeyPairService {
 			keyPairWorker.deleteKeyPair(keyPairInfoP.getAsset().getProductCatalog().getInfra(), keyPairInfoP);
 
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}
 
@@ -181,7 +197,7 @@ public class KeyPairService {
 			KeyPairInfoP keyPairInfoP = KeyPairInfoP.findKeyPairInfoPsByKeyNameEquals(name).getSingleResult();
 			keyPairWorker.createKeyPair(keyPairInfoP.getAsset().getProductCatalog().getInfra(), keyPairInfoP);
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}
 	

@@ -77,7 +77,7 @@ public class VolumeService {
 			log.info("end of requestVolume");
 			return volume;
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			log.error(e);e.printStackTrace();
 		}
 		return null;
 	}// end of requestVolume(VolumeInfoP
@@ -97,7 +97,7 @@ public class VolumeService {
 			Commons.setAssetEndTime(volumeInfoP.getAsset());
 			volumeWorker.deleteVolume(volumeInfoP.getAsset().getProductCatalog().getInfra(), volumeInfoP);
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 
 	}// end of deleteVolume(VolumeInfoP
@@ -111,7 +111,7 @@ public class VolumeService {
 			volumeWorker.attachVolume(VolumeInfoP.findVolumeInfoP(volume.getId()).getAsset().getProductCatalog().getInfra(), volume);
 			log.info("scheduled Worker for " + volume);
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			log.error(e);e.printStackTrace();
 		}
 	}// end of deleteVolume(VolumeInfoP
 
@@ -123,7 +123,7 @@ public class VolumeService {
 			volumeWorker.detachVolume(volume.getAsset().getProductCatalog().getInfra(), volume);
 			log.info("scheduled detachVolume Worker for " + volume.getSize() + ", " + volume.getSnapshotId() + ", " + volume.getZone());
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}// end of deleteVolume(VolumeInfoP
 
@@ -134,7 +134,7 @@ public class VolumeService {
 			volumeWorker.createVolume(volume.getAsset().getProductCatalog().getInfra(), volume);
 			log.info("scheduled Worker for " + volume.getSize() + ", " + volume.getSnapshotId() + ", " + volume.getZone());
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}// end of createVolume(VolumeInfoP
 
@@ -145,7 +145,7 @@ public class VolumeService {
 		try {
 			return requestVolume(instance);
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of saveOrUpdate(VolumeInfoP
@@ -156,7 +156,7 @@ public class VolumeService {
 			//deleteVolume(id);
 			VolumeInfoP.findVolumeInfoP(id).remove();
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 	}// end of method remove(int id
 
@@ -167,11 +167,27 @@ public class VolumeService {
 			instance.setProduct(""+instance.getAsset().getProductCatalog().getId());
 			return instance;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findById(int id
 
+	
+	@RemoteMethod
+	public List<VolumeInfoP> findAll4List() {
+		try {
+			User user = Commons.getCurrentUser();
+			if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+				return VolumeInfoP.findAllVolumeInfoPs();
+			}else {
+				return VolumeInfoP.findVolumeInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+			}
+		} catch (Exception e) {
+			log.error(e);//e.printStackTrace();
+		}
+		return null;
+	}// end of method findAll4List
+	
 	@RemoteMethod
 	public List<VolumeInfoP> findAll() {
 		try {
@@ -184,7 +200,7 @@ public class VolumeService {
 			}
 			return VolumeInfoP.findAllVolumeInfoPs();
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll
@@ -211,7 +227,7 @@ public class VolumeService {
 			return volumes;
 
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll
