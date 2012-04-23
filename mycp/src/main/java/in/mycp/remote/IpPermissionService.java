@@ -64,9 +64,10 @@ public class IpPermissionService {
 					&& instance.getGroupDescription().getStatus().equals(Commons.secgroup_STATUS.active+""))){
 				workflowApproved(instance);
 			}
-			
+			Commons.setSessionMsg("Scheduling Ip permission Save");
 			return instance;
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Ip permission Save");
 			log.error(e);e.printStackTrace();
 		}
 		return null;
@@ -89,7 +90,9 @@ public class IpPermissionService {
 			securityGroupWorker.revokeSecurityGroupIngress(IpPermissionP.findIpPermissionP(id).getGroupDescription().getAsset()
 					.getProductCatalog().getInfra(), IpPermissionP.findIpPermissionP(id));
 			IpPermissionP.findIpPermissionP(id).remove();
+			Commons.setSessionMsg("Scheduling Ip permission remove");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Ip permission remove");
 			log.error(e);e.printStackTrace();
 		}
 	}// end of method remove(int id

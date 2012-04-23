@@ -123,7 +123,7 @@ public class SignupService {
             	final String useremail = user.getEmail();
             	new Thread(new Runnable() {
             		  public void run() {
-                        	sendMessage("mycloudportal@gmail.com", "Activation of MyCP test drive",useremail , "\n\nDear "+username+", \n" +
+                        	/*sendMessage("mycloudportal@gmail.com", "Activation of MyCP test drive",useremail , "\n\nDear "+username+", \n" +
                         			" Thank you for your interest in My Cloud Portal, the open source self service portal for the cloud.\n" +
                         			" You can now configure your Eucalyptus private cloud access details at http://www.mycloudportal.in/config/infra \n" +
                         			" and start the sync process to import your data from eucalyptus cloud into my cloud portal." +
@@ -136,7 +136,7 @@ public class SignupService {
                         			" If you are a developer, please think about participating in the project at http://code.google.com/p/mycloudportal\n" +
                         			"\n\nRegards\n" +
                         			"MyCP Team\n" +
-                        			"www.mycloudportal.in\n");
+                        			"www.mycloudportal.in\n");*/
             		  }
             		}).start();
 			} catch (Exception e) {

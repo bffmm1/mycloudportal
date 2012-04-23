@@ -96,6 +96,7 @@ public class KeyPairService {
 					workflowApproved(instance);
 				}
 			}
+			Commons.setSessionMsg("Key Saved");
 			return instance;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,8 +115,10 @@ public class KeyPairService {
 			instance.setStatus(Commons.keypair_STATUS.starting+"");
 			instance = instance.merge();
 			createKeyPair(instance.getKeyName());
+			Commons.setSessionMsg("Scheduled Key creation");
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
+			Commons.setSessionMsg("Error while scheduling Key creation");
 		}
 	}
 	
@@ -124,8 +127,10 @@ public class KeyPairService {
 		try {
 			deleteKeyPair(id);
 			KeyPairInfoP.findKeyPairInfoP(id).remove();
+			Commons.setSessionMsg("Scheduled Key removal");
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
+			Commons.setSessionMsg("Error during Scheduled Key removal");
 		}
 	}// end of method remove(int id
 

@@ -73,7 +73,7 @@
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
 	            { "sTitle": "Volume Id" },
-	            { "sTitle": "Size" },
+	            { "sTitle": "Size(GB)" },
 	            { "sTitle": "Create Time" },
 	            { "sTitle": "Status" },
 	            { "sTitle": "Details" },
@@ -381,7 +381,7 @@ $(function(){
 								    <td style="width: 50%;"><input type="text" name="name" id="name" size="30" class="required"></td>
 								  </tr>
 								  <tr>
-								    <td style="width: 50%;">Size : </td>
+								    <td style="width: 50%;">Size(GB) : </td>
 								    <td style="width: 50%;"><input type="text" name="size" id="size" size="30" class="required number"></td>
 								  </tr>
 								  

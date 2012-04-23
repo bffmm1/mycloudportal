@@ -27,7 +27,6 @@ import in.mycp.domain.VolumeInfoP;
 import in.mycp.domain.Workflow;
 import in.mycp.service.WorkflowImpl4Jbpm;
 import in.mycp.utils.Commons;
-import in.mycp.utils.Commons.secgroup_STATUS;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -207,8 +206,12 @@ public class WorkflowService {
 						log.error(e.getMessage());e.printStackTrace();
 					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.SecurityGroup)) {
-					GroupDescriptionP g = GroupDescriptionP.findGroupDescriptionP(workflow.getAssetId());
-					workflow.setAssetDetails(workflow.getAssetType() + " " + g.getName());
+					try {
+						GroupDescriptionP g = GroupDescriptionP.findGroupDescriptionP(workflow.getAssetId());
+						workflow.setAssetDetails(workflow.getAssetType() + " " + g.getName());
+					} catch (Exception e) {
+						log.error(e.getMessage());e.printStackTrace();
+					}
 				} else if (workflow.getAssetType().equals("" + Commons.ASSET_TYPE.Volume)) {
 					try {
 						VolumeInfoP volume = VolumeInfoP.findVolumeInfoP(workflow.getAssetId());
@@ -271,7 +274,7 @@ public class WorkflowService {
 			ProcessInstance pi = workflowImpl4Jbpm.createProcessInstance(processDefnKey);
 			return pi;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e);e.printStackTrace();
 		}
 		return null;
 	}
@@ -394,7 +397,7 @@ public class WorkflowService {
 
 			return pi;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e.getMessage());e.printStackTrace();
 		}
 		return null;
 	}

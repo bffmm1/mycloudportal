@@ -672,7 +672,7 @@ public class EucalyptusService {
 					addressInfoP = AddressInfoP.findAddressInfoPsByPublicIpEqualsAndCompanyEquals(addressInfo.getPublicIp(),company).getSingleResult();
 
 				} catch (Exception e) {
-					logger.error(e.getMessage());//e.printStackTrace();
+					//logger.error(e.getMessage());//e.printStackTrace();
 				}
 				if (addressInfoP == null) {
 					addressInfoP = new AddressInfoP();
@@ -738,7 +738,7 @@ public class EucalyptusService {
 					try {
 						availabilityZoneP = AvailabilityZoneP.findAvailabilityZonePsByNameEquals(availabilityZone.getName()).getSingleResult();
 					} catch (Exception e) {
-						logger.error(e.getMessage());//e.printStackTrace();
+						//logger.error(e.getMessage());//e.printStackTrace();
 					}
 	
 					if (availabilityZoneP != null) {
@@ -770,7 +770,7 @@ public class EucalyptusService {
 					try {
 						descriptionP = GroupDescriptionP.findGroupDescriptionPsByNameEqualsAndCompanyEquals(groupDescription.getName(),company).getSingleResult();
 					} catch (Exception e) {
-						logger.error(e.getMessage());//e.printStackTrace();
+						//logger.error(e.getMessage());//e.printStackTrace();
 					}
 	
 					if (descriptionP != null) {
@@ -804,7 +804,7 @@ public class EucalyptusService {
 							// ipPermission.getProtocol(), ipPermission.getToPort(),
 							// ipPermission.getFromPort()).getSingleResult();
 						} catch (Exception e) {
-							logger.error(e.getMessage());//e.printStackTrace();
+							//logger.error(e.getMessage());//e.printStackTrace();
 						}
 	
 						if (ipPermissionP != null) {
@@ -892,7 +892,7 @@ public class EucalyptusService {
 					try {
 						volumeInfoP = VolumeInfoP.findVolumeInfoPsByVolumeIdEqualsAndCompanyEquals(volumeInfo.getVolumeId(),company).getSingleResult();
 					} catch (Exception e) {
-						logger.error(e.getMessage());//e.printStackTrace();
+						//logger.error(e.getMessage());//e.printStackTrace();
 					}
 					if (volumeInfoP != null) {
 	
@@ -980,7 +980,7 @@ public class EucalyptusService {
 					try {
 						snapshotInfoP = SnapshotInfoP.findSnapshotInfoPsBySnapshotIdEqualsAndCompanyEquals(snapshotInfo.getSnapshotId(),company).getSingleResult();
 					} catch (Exception e) {
-						logger.error(e.getMessage());//e.printStackTrace();
+						//logger.error(e.getMessage());//e.printStackTrace();
 					}
 	
 					if (snapshotInfoP != null) {
@@ -1041,7 +1041,7 @@ public class EucalyptusService {
 					try {
 						imageDescriptionP = ImageDescriptionP.findImageDescriptionPsByImageIdEqualsAndCompanyEquals(img.getImageId(),company).getSingleResult();
 					} catch (Exception e) {
-						logger.error(e.getMessage());//e.printStackTrace();
+						//logger.error(e.getMessage());//e.printStackTrace();
 					}
 					if (imageDescriptionP != null) {
 
@@ -1118,7 +1118,7 @@ public class EucalyptusService {
 						try {
 							instanceP = InstanceP.findInstancePsByInstanceIdEqualsAndCompanyEquals(inst.getInstanceId(),company).getSingleResult();
 						} catch (Exception e) {
-							logger.error(e.getMessage());//e.printStackTrace();
+							//logger.error(e.getMessage());//e.printStackTrace();
 						}
 
 						if (instanceP != null) {
@@ -1211,7 +1211,7 @@ public class EucalyptusService {
 					try {
 						keyPairInfoP = KeyPairInfoP.findKeyPairInfoPsByKeyNameEqualsAndCompanyEquals(keypairinfo.getKeyName(),company).getSingleResult();
 					} catch (Exception e) {
-						logger.error(e);//e.printStackTrace();
+						//logger.error(e);//e.printStackTrace();
 					}
 	
 					if (keyPairInfoP != null) {

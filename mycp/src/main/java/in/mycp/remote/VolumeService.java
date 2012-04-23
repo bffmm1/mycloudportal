@@ -73,10 +73,11 @@ public class VolumeService {
 				volume = volume.merge();
 				workflowApproved(volume);
 			}
-
+			Commons.setSessionMsg("Scheduling Volume create");
 			log.info("end of requestVolume");
 			return volume;
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Volume create");
 			log.error(e);e.printStackTrace();
 		}
 		return null;
@@ -96,7 +97,9 @@ public class VolumeService {
 			VolumeInfoP volumeInfoP = VolumeInfoP.findVolumeInfoP(id);
 			Commons.setAssetEndTime(volumeInfoP.getAsset());
 			volumeWorker.deleteVolume(volumeInfoP.getAsset().getProductCatalog().getInfra(), volumeInfoP);
+			Commons.setSessionMsg("Scheduling Volume remove");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Volume remove");
 			log.error(e);//e.printStackTrace();
 		}
 
@@ -110,7 +113,9 @@ public class VolumeService {
 			// TODO - whats a better way to find the infra object
 			volumeWorker.attachVolume(VolumeInfoP.findVolumeInfoP(volume.getId()).getAsset().getProductCatalog().getInfra(), volume);
 			log.info("scheduled Worker for " + volume);
+			Commons.setSessionMsg("Scheduling Volume attach");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Volume attach");
 			log.error(e);e.printStackTrace();
 		}
 	}// end of deleteVolume(VolumeInfoP
@@ -122,7 +127,9 @@ public class VolumeService {
 			log.info("calling detachVolume Worker for " + volume.getSize() + ", " + volume.getSnapshotId() + ", " + volume.getZone());
 			volumeWorker.detachVolume(volume.getAsset().getProductCatalog().getInfra(), volume);
 			log.info("scheduled detachVolume Worker for " + volume.getSize() + ", " + volume.getSnapshotId() + ", " + volume.getZone());
+			Commons.setSessionMsg("Scheduling Volume detach");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Volume detach");
 			log.error(e);//e.printStackTrace();
 		}
 	}// end of deleteVolume(VolumeInfoP
@@ -155,7 +162,9 @@ public class VolumeService {
 		try {
 			//deleteVolume(id);
 			VolumeInfoP.findVolumeInfoP(id).remove();
+			Commons.setSessionMsg("Scheduling Volume remove");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Volume remove");
 			log.error(e);//e.printStackTrace();
 		}
 	}// end of method remove(int id

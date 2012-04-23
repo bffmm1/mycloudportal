@@ -79,9 +79,11 @@ public class AddressInfoPService {
 				instance = instance.merge();
 				workflowApproved(instance);
 			}
+			Commons.setSessionMsg("Ip Address saved");
 			return instance;
 		} catch (Exception e) {
 			//e.printStackTrace();
+			Commons.setSessionMsg("Error during Ip Address save");
 			log.error(e);
 		}
 		return null;
@@ -107,8 +109,10 @@ public class AddressInfoPService {
 			//releaseAddress(id);
 			Commons.setAssetEndTime(AddressInfoP.findAddressInfoP(id).getAsset());
 			AddressInfoP.findAddressInfoP(id).remove();
+			Commons.setSessionMsg("Scheduled Ip Address remove");
 		} catch (Exception e) {
 			//e.printStackTrace();
+			Commons.setSessionMsg("Error while Scheduling Ip Address remove");
 			log.error(e);
 		}
 	}// end of method remove(int id
@@ -163,9 +167,10 @@ public class AddressInfoPService {
 			
 			ipAddressWorker.associateAddress(
 					AddressInfoP.findAddressInfoP(instance.getId()).getAsset().getProductCatalog().getInfra(), instance);
-
+			Commons.setSessionMsg("Scheduling Ip Address association");
 			// AddressInfoP.findAddressInfoP(id).remove();
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Ip Address association");
 			e.printStackTrace();
 			log.error(e);
 		}
@@ -177,7 +182,9 @@ public class AddressInfoPService {
 			AddressInfoP instance = AddressInfoP.findAddressInfoP(id);
 			ipAddressWorker.disassociateAddress(
 					AddressInfoP.findAddressInfoP(instance.getId()).getAsset().getProductCatalog().getInfra(), instance);
+			Commons.setSessionMsg("Scheduling Ip Address disassociation");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Ip Address disassociation");
 			e.printStackTrace();
 			log.error(e);
 		}
@@ -191,8 +198,9 @@ public class AddressInfoPService {
 			log.info("Calling allocate address for Workflow approved for "+adressInfoP.getId()+" "+adressInfoP.getName());
 			ipAddressWorker.allocateAddress(AddressInfoP.findAddressInfoP(
 					adressInfoP.getId()).getAsset().getProductCatalog().getInfra(), adressInfoP);
-
+			Commons.setSessionMsg("Scheduling Ip Address allocate");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Ip Address allocate");
 			e.printStackTrace();
 			log.error(e);
 		}
@@ -208,8 +216,9 @@ public class AddressInfoPService {
 			} else {
 				log.error("Cant release addresses not marked as available.");
 			}
-
+			Commons.setSessionMsg("Scheduling Ip Address release");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Ip Address release");
 			e.printStackTrace();
 			log.error(e);
 		}

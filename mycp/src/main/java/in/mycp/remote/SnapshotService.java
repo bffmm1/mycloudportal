@@ -128,9 +128,11 @@ public class SnapshotService {
 				snapshotInfoP = snapshotInfoP.merge();
 				workflowApproved(snapshotInfoP);
 			}
+			Commons.setSessionMsg("Scheduling Snapshot request");
 			log.info("end of requestSnapshot");
 			return snapshotInfoP;
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Snapshot request");
 			log.error(e.getMessage());//e.printStackTrace();
 		}
 		return null;
@@ -153,7 +155,9 @@ public class SnapshotService {
 			SnapshotInfoP snapshotInfoP = SnapshotInfoP.findSnapshotInfoP(id);
 			Commons.setAssetEndTime(snapshotInfoP.getAsset());
 			snapshotWorker.deleteSnapshot( snapshotInfoP.getAsset().getProductCatalog().getInfra(), snapshotInfoP);
+			Commons.setSessionMsg("Scheduling Snapshot remove");
 		} catch (Exception e) {
+			Commons.setSessionMsg("Error while Scheduling Snapshot remove");
 			log.error(e.getMessage());//e.printStackTrace();
 		}
 	}
