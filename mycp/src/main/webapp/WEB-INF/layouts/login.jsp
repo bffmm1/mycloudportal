@@ -226,6 +226,9 @@
 				  </td>
 				  </tr>
 				  <tr>
+				  	<td colspan="3" style="height: 6px;"></td>
+				  </tr>
+				  <tr>
 				  <td colspan="3" style="color: red;">
 						  <table >
 					  	<tr>
