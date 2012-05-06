@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -32,39 +31,40 @@ public class ImageDescriptionP {
         this.instanceIdForImgCreation = instanceIdForImgCreation;
     }
 
-    public static TypedQuery<in.mycp.domain.ImageDescriptionP> findImageDescriptionPsByUser(User user, int start, int max,String search) {
+    public static TypedQuery<in.mycp.domain.ImageDescriptionP> findImageDescriptionPsByUser(User user, int start, int max, String search) {
         if (user == null) throw new IllegalArgumentException("The user argument is required");
         EntityManager em = entityManager();
         TypedQuery<ImageDescriptionP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user = :user", ImageDescriptionP.class);	
-        }else {
-        	q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user = :user "+
-        			" and o.name like :search or o.imageId like :search", ImageDescriptionP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user = :user", ImageDescriptionP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user = :user " + " and " +
+            		" (o.name like :search or o.imageId like :search" +
+            		" or o.imageLocation like :search )", ImageDescriptionP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
-        
         q.setFirstResult(start);
         q.setMaxResults(max);
         q.setParameter("user", user);
         return q;
     }
 
-    public static List<in.mycp.domain.ImageDescriptionP> findAllImageDescriptionPs(int start, int max,String search) {
+    public static List<in.mycp.domain.ImageDescriptionP> findAllImageDescriptionPs(int start, int max, String search) {
         EntityManager em = entityManager();
         TypedQuery<ImageDescriptionP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM ImageDescriptionP o ", ImageDescriptionP.class);	
-        }else{
-        	q = em.createQuery("SELECT o FROM ImageDescriptionP o " +
-        			" where o.name like :search or o.imageId like :search", ImageDescriptionP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM ImageDescriptionP o ", ImageDescriptionP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM ImageDescriptionP o " + " where " +
+            		" (o.name like :search or o.imageId like :search" +
+            		" or o.imageLocation like :search )", ImageDescriptionP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
@@ -75,24 +75,25 @@ public class ImageDescriptionP {
         return q.getResultList();
     }
 
-    public static TypedQuery<in.mycp.domain.ImageDescriptionP> findImageDescriptionPsByCompany(Company company, int start, int max,String search) {
+    public static TypedQuery<in.mycp.domain.ImageDescriptionP> findImageDescriptionPsByCompany(Company company, int start, int max, String search) {
         if (company == null) throw new IllegalArgumentException("The company argument is required");
         EntityManager em = entityManager();
         TypedQuery<ImageDescriptionP> q = null;
-        
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user.project.department.company = :company ", ImageDescriptionP.class);
-        }else {
-        	q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user.project.department.company = :company " +
-        			" and o.name like :search or o.imageId like :search", ImageDescriptionP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user.project.department.company = :company ", ImageDescriptionP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM ImageDescriptionP AS o WHERE o.asset.user.project.department.company = :company " + " " +
+            		" and (o.name like :search or o.imageId like :search or o.imageLocation like :search) ", ImageDescriptionP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
+        
         q.setFirstResult(start);
         q.setMaxResults(max);
         q.setParameter("company", company);
+        
         return q;
     }
 
@@ -115,7 +116,6 @@ public class ImageDescriptionP {
         return (Number) q.getSingleResult();
     }
 
-    //no pagination required since this is used by euca service only
     public static TypedQuery<in.mycp.domain.ImageDescriptionP> findImageDescriptionPsByImageIdEqualsAndCompanyEquals(String imageId, Company company) {
         if (imageId == null || imageId.length() == 0) throw new IllegalArgumentException("The imageId argument is required");
         EntityManager em = entityManager();

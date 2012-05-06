@@ -73,6 +73,7 @@
 		<li><a class="right dropdown" href="#">Configuration<span class="arrow"></span></a>
 		<ul class="width-2">
 		    <li><a href="/config/infra">Cloud</a></li>
+		    <li><a href="/config/zone">Availability Zone</a></li>
 		    <li><a href="/config/assettype">Product Type</a></li>
 		    <li><a href="/config/product">Product</a></li>
 

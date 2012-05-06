@@ -756,7 +756,7 @@ public class EucalyptusService {
 					availabilityZoneP.setName(availabilityZone.getName());
 					availabilityZoneP.setRegionName(availabilityZone.getRegionName());
 					availabilityZoneP.setState(availabilityZone.getState());
-					
+					availabilityZoneP.setInfraId(infra);
 					infra.setZone(availabilityZone.getName());
 					
 					availabilityZoneP = availabilityZoneP.merge();
@@ -1037,11 +1037,33 @@ public class EucalyptusService {
 			try{
 			List<ImageDescription> images = ec2.describeImages(params);
 			logger.info("Available Images");
-			for (ImageDescription img : images) {
+			
+			int imageCount=0;
+			outer: for (ImageDescription img : images) {
+				
 				try {
 					
 				
 				if (img.getImageState().equals("available")) {
+					
+					if(infra.getServer()!=null && infra.getServer().contains("ec2.amazon")){
+						//if syncing from ec2, just load 100 bitnami ubuntu images 
+						// and check if they are public ones.
+						if(!img.isPublic()){
+							continue;
+						}
+						if(img.getName()!=null &&
+								(img.getName().contains("bitnami") && img.getName().contains("ubuntu"))){
+							imageCount = imageCount+1;
+							if(imageCount > 100){
+								logger.info("more than 100 images, cutting short the import process.");
+								break outer;
+							}
+						}else{
+							continue;
+						}
+						
+					}
 					logger.info(img.getImageId() + "\t" + img.getImageLocation() + "\t" + img.getImageOwnerId());
 					ImageDescriptionP imageDescriptionP = null;
 					try {

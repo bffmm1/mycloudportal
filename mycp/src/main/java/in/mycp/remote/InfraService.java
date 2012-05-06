@@ -100,6 +100,7 @@ public class InfraService  {
 	@RemoteMethod
 	public Infra saveOrUpdate(Infra instance) {
 		try {
+			
 			//instance.setRegion(RegionP.findRegionP(instance.getRegion().getId()));
 			instance.setCompany(Company.findCompany(instance.getCompany().getId()));
 			
@@ -123,9 +124,10 @@ public class InfraService  {
 				}
 				
 			}
-			return instance.merge();
+			instance = instance.merge();
+			return instance;
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e.getMessage());e.printStackTrace();
 		}
 		return null;
 	}// end of saveOrUpdate(Infra

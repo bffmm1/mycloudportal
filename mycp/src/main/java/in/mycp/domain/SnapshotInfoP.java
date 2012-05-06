@@ -1,12 +1,10 @@
 package in.mycp.domain;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -32,39 +30,37 @@ public class SnapshotInfoP {
         this.product = product;
     }
 
-    public static List<SnapshotInfoP> findAllSnapshotInfoPs(int start, int max,String search) {
-        //return entityManager().createQuery("SELECT o FROM SnapshotInfoP o", SnapshotInfoP.class).getResultList();
-        
+    public static List<in.mycp.domain.SnapshotInfoP> findAllSnapshotInfoPs(int start, int max, String search) {
         EntityManager em = entityManager();
         TypedQuery<SnapshotInfoP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM SnapshotInfoP o", SnapshotInfoP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM SnapshotInfoP o "+
-        			" where o.snapshotId like :search or o.volumeId like :search", SnapshotInfoP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM SnapshotInfoP o", SnapshotInfoP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM SnapshotInfoP o " + " where " +
+            		" (o.snapshotId like :search or o.volumeId like :search)", SnapshotInfoP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
         return q.getResultList();
     }
-    
-    public static TypedQuery<in.mycp.domain.SnapshotInfoP> findSnapshotInfoPsByUser(User user,int start, int max,String search) {
+
+    public static TypedQuery<in.mycp.domain.SnapshotInfoP> findSnapshotInfoPsByUser(User user, int start, int max, String search) {
         if (user == null) throw new IllegalArgumentException("The user argument is required");
         EntityManager em = entityManager();
         TypedQuery<SnapshotInfoP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user = :user", SnapshotInfoP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user = :user "+
-        			" and o.snapshotId like :search or o.volumeId like :search", SnapshotInfoP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user = :user", SnapshotInfoP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user = :user " + " and " +
+            		" (o.snapshotId like :search or o.volumeId like :search)", SnapshotInfoP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
@@ -72,19 +68,19 @@ public class SnapshotInfoP {
         return q;
     }
 
-    public static TypedQuery<in.mycp.domain.SnapshotInfoP> findSnapshotInfoPsByCompany(Company company,int start, int max,String search) {
+    public static TypedQuery<in.mycp.domain.SnapshotInfoP> findSnapshotInfoPsByCompany(Company company, int start, int max, String search) {
         if (company == null) throw new IllegalArgumentException("The company argument is required");
         EntityManager em = entityManager();
         TypedQuery<SnapshotInfoP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user.project.department.company = :company", SnapshotInfoP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user.project.department.company = :company "+
-        			" and o.snapshotId like :search or o.volumeId like :search", SnapshotInfoP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user.project.department.company = :company", SnapshotInfoP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM SnapshotInfoP AS o WHERE o.asset.user.project.department.company = :company " + " and " +
+            		" ( o.snapshotId like :search or o.volumeId like :search)", SnapshotInfoP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);

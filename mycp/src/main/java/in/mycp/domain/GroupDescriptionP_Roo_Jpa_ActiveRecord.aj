@@ -24,8 +24,6 @@ privileged aspect GroupDescriptionP_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT COUNT(o) FROM GroupDescriptionP o", Long.class).getSingleResult();
     }
     
-    
-    
     public static GroupDescriptionP GroupDescriptionP.findGroupDescriptionP(Integer id) {
         if (id == null) return null;
         return entityManager().find(GroupDescriptionP.class, id);

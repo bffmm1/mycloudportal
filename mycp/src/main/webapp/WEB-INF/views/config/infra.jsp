@@ -11,13 +11,9 @@
 //@email: yensamg@gmail.com
 //@license: Feel free to use it, but keep this credits please!					
 /***************************/
-//SETTING UP OUR POPUP
-	//0 means disabled; 1 means enabled;
 	var popupStatus_infra = 0;
 
-	//loading popup with jQuery magic!
 	function loadPopup_infra(){
-		//loads popup only if it is disabled
 		if(popupStatus_infra==0){
 			$("#backgroundPopup_infra").css({
 				"opacity": "0.7"
@@ -28,9 +24,7 @@
 		}
 	}
 
-	//disabling popup with jQuery magic!
 	function disablePopup_infra(){
-		//disables popup only if it is enabled
 		if(popupStatus_infra==1){
 			$("#backgroundPopup_infra").fadeOut("slow");
 			$("#popupContact_infra").fadeOut("slow");
@@ -38,26 +32,61 @@
 		}
 	}
 
-	//centering popup
 	function centerPopup_infra(){
-		//request data for centering
 		var windowWidth = document.documentElement.clientWidth;
 		var windowHeight = document.documentElement.clientHeight;
 		var popupHeight = $("#popupContact_infra").height();
 		var popupWidth = $("#popupContact_infra").width();
-		//centering
 		$("#popupContact_infra").css({
 			"position": "absolute",
 			"top": windowHeight/2-popupHeight/2,
 			"left": windowWidth/2-popupWidth/2
 		});
-		//only need force for IE6
 		
 		$("#backgroundPopup_infra").css({
 			"height": windowHeight
 		});
 		
 	}
+	
+	var popupStatus_infra_aws = 0;
+
+	function loadPopup_infra_aws(){
+		if(popupStatus_infra_aws==0){
+			$("#backgroundPopup_infra_aws").css({
+				"opacity": "0.7"
+			});
+			$("#backgroundPopup_infra_aws").fadeIn("slow");
+			$("#popupContact_infra_aws").fadeIn("slow");
+			popupStatus_infra_aws = 1;
+		}
+	}
+
+	function disablePopup_infra_aws(){
+		if(popupStatus_infra_aws==1){
+			$("#backgroundPopup_infra_aws").fadeOut("slow");
+			$("#popupContact_infra_aws").fadeOut("slow");
+			popupStatus_infra_aws = 0;
+		}
+	}
+
+	function centerPopup_infra_aws(){
+		var windowWidth = document.documentElement.clientWidth;
+		var windowHeight = document.documentElement.clientHeight;
+		var popupHeight = $("#popupContact_infra_aws").height();
+		var popupWidth = $("#popupContact_infra_aws").width();
+		$("#popupContact_infra_aws").css({
+			"position": "absolute",
+			"top": windowHeight/2-popupHeight/2,
+			"left": windowWidth/2-popupWidth/2
+		});
+		
+		$("#backgroundPopup_infra_aws").css({
+			"height": windowHeight
+		});
+		
+	}
+	
 	var isMycpAdmin = false;
 	var isAdmin = false;
 	function findAll_infra(p){
@@ -130,15 +159,10 @@
 	
 	var viewed_infra = -1;	
 $(function(){
-	
-	
-	//LOADING POPUP
-		//Click the button event!
-		$("#popupbutton_infra").click(function(){
+
+	$("#popupbutton_infra").click(function(){
 			viewed_infra = -1;
-			//centering with css
 			centerPopup_infra();
-			//load popup
 			loadPopup_infra();
 		});
 	
@@ -147,39 +171,49 @@ $(function(){
 				InfraService.findAll(findAll_infra);
 			  dwr.engine.endBatch();
 		} );
-		
 		});
 		
-		
-		
-					
-		//CLOSING POPUP
-		//Click the x event!
 		$("#popupContactClose_infra").click(function(){
 			viewed_infra = -1;
 			disablePopup_infra();
 		});
-		//Click out event!
+
 		$("#backgroundPopup_infra").click(function(){
 			viewed_infra = -1;
 			disablePopup_infra();
 		});
-		//Press Escape event!
+		
+		$("#popupContactClose_infra_aws").click(function(){
+			viewed_infra = -1;
+			disablePopup_infra_aws();
+		});
+
+		$("#backgroundPopup_infra_aws").click(function(){
+			viewed_infra = -1;
+			disablePopup_infra_aws();
+		});
+
 		$(document).keypress(function(e){
-			if(e.keyCode==27 && popupStatus_infra==1){
+			if(e.keyCode==27 && (popupStatus_infra==1 ||
+					popupStatus_infra_aws==1)){
 				disablePopup_infra();
+				disablePopup_infra_aws();
 			}
 		});
 		
 		
 		
 		$(document).ready(function() {
-			
-			
-			
 			$("#thisform").validate({
 				 submitHandler: function(form) {
 					 submitForm_infra(form);
+					 return false;
+				 }
+			});
+			
+			$("#thisform_aws").validate({
+				 submitHandler: function(form) {
+					 submitForm_infra_aws(form);
 					 return false;
 				 }
 			});
@@ -204,39 +238,128 @@ $(function(){
 				//dwr.util.setValue(id, sel);
 			});
 			
+			CompanyService.findAll(function(p){
+				dwr.util.removeAllOptions('company_aws');
+				dwr.util.addOptions('company_aws', p, 'id', 'name');
+				//dwr.util.setValue(id, sel);
+			});
 			
-			  
+			
+			function loadCloudType(sel)  {
+				var value = sel.options[sel.selectedIndex].value;
+				//alert(sel.selectedIndex);
+				viewed_infra = -1;
+				if('AWS' == value){
+					disablePopup_infra();
+					
+					centerPopup_infra_aws();
+					loadPopup_infra_aws();
+					var selObj = document.getElementById('cloudtype_aws');
+					selObj.selectedIndex = 1;
+					
+				}else if('Euca' == value){
+					disablePopup_infra_aws();
+					
+					centerPopup_infra();
+					loadPopup_infra();
+					var selObj = document.getElementById('cloudtype');
+					selObj.selectedIndex = 0;
+				}
+				
+			}
 		
 		
-function submitForm_infra(f){
-	var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null, company:{},zone:null };
-	  dwr.util.getValues(infra);
-	  infra.company.id= dwr.util.getValue("company");
-	  if(viewed_infra == -1){
-		  infra.id  = null; 
-	  }
-	  dwr.engine.beginBatch();
-	  InfraService.saveOrUpdate(infra,afterSave_infra);
-	 
-	  dwr.engine.endBatch();
-	  disablePopup_infra();
-	  viewed_infra=-1;
-}
+	function submitForm_infra(f){
+		var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null, company:{} };
+		  dwr.util.getValues(infra);
+		  infra.company.id= dwr.util.getValue("company");
+		  
+		  if(viewed_infra == -1){
+			  infra.id  = null; 
+		  }
+		 
+		  
+		  InfraService.saveOrUpdate(infra,afterSave_infra);
+
+		  dwr.util.setValue('cloudtype_aws','');
+		  dwr.util.setValue('cloudtype','');
+		  disablePopup_infra();
+		  viewed_infra=-1;
+		  
+	}
+
+	function submitForm_infra_aws(f){
+		var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, server:null, details:null, company:{} };
+		  
+		  infra.company.id= dwr.util.getValue("company_aws");
+		  infra.name=dwr.util.getValue("name_aws");
+		  infra.accessId=dwr.util.getValue("accessId_aws");
+		  infra.secretKey=dwr.util.getValue("secretKey_aws");
+		  infra.server=dwr.util.getValue("server_aws");
+		  infra.details=dwr.util.getValue("details_aws");
+		  
+		  if(viewed_infra == -1){
+			  infra.id  = null; 
+		  }
+		  
+		  InfraService.saveOrUpdate(infra,afterSave_infra);
+		 
+		  dwr.util.setValue('cloudtype_aws','');
+		  dwr.util.setValue('cloudtype','');
+		  disablePopup_infra_aws();
+		  viewed_infra=-1;
+		  
+	}
+
 function cancelForm_infra(f){
 
-	var infra = {  id:null,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null,zone:null };
+	var infra = {  id:null,name:null,accessId:null, secretKey:null, isSecure:null, server:null,resourcePrefix:null,signatureVersion:null, port:null, details:null };
 	  dwr.util.setValues(infra);
+	  dwr.util.setValue('cloudtype_aws','');
+	  dwr.util.setValue('cloudtype','');
 	  viewed_infra = -1;
 	  disablePopup_infra();
 }
 
+function cancelForm_infra_aws(f){
+
+	var infra = {  id:null,name:null,accessId:null, secretKey:null, isSecure:null, server:null, details:null };
+	  dwr.util.setValues(infra);
+	  dwr.util.setValue('cloudtype_aws','');
+	  dwr.util.setValue('cloudtype','');
+	  viewed_infra_aws = -1;
+	  disablePopup_infra_aws();
+}
+
 function afterEdit_infra(p){
 	var infra = eval(p);
-	viewed_infra=p.id;
-	centerPopup_infra();
-	loadPopup_infra();
-	dwr.util.setValues(infra);
-	dwr.util.setValue('company',p.company.id);
+	if(infra.server=='ec2.amazonaws.com'){
+		viewed_infra_aws=p.id;
+		viewed_infra=p.id;
+		centerPopup_infra_aws();
+		loadPopup_infra_aws();
+		dwr.util.setValues(infra);
+			dwr.util.setValue("company_aws",p.company.id);
+		  	dwr.util.setValue("name_aws",p.name);
+		  	dwr.util.setValue("accessId_aws",p.accessId);
+		  	dwr.util.setValue("secretKey_aws",p.secretKey);
+		  	dwr.util.setValue("server_aws",p.server);
+		  	dwr.util.setValue("details_aws",p.details);
+		  
+		
+		var selObj = document.getElementById('cloudtype_aws');
+		selObj.selectedIndex = 1;
+	}else{
+		viewed_infra=p.id;
+		centerPopup_infra();
+		loadPopup_infra();
+		dwr.util.setValues(infra);
+		dwr.util.setValue('company',p.company.id);
+		var selObj = document.getElementById('cloudtype');
+		selObj.selectedIndex = 0;
+	}
+	
+	
 }
 
 function edit_infra(id){
@@ -290,10 +413,10 @@ function sync_infra(id){
 								
 								</td>
 								<td width="10%">
-									<span id="only4mycpadmin"><div class="demo" id="popupbutton_infra"><button>New Cloud</button></div></span>
+									<span id="only4mycpadmin"><div class="demo" id="popupbutton_infra"><button>Configure New Cloud</button></div></span>
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_infralist"><button>List Cloud</button></div>
+									<div class="demo" id="popupbutton_infralist"><button>List All Clouds</button></div>
 								</td>
 							</tr>
 						</table>
@@ -310,6 +433,16 @@ function sync_infra(id){
 								<p id="contactArea_infra" class="contactArea" >
 								<input type="hidden" id="id" name="id">
 								<table style="width: 100%;">
+								<tr>
+								    <td style="width: 50%;">Cloud Type: </td>
+								    <td style="width: 50%;"> 
+									    <select id="cloudtype" name="cloudtype" style="width: 205px;" class="required" onchange="loadCloudType(this)" >
+									    	<option value="Euca" selected="selected">Eucalyptus</option>
+									    	<option value="AWS" >Amazon Web Services</option>
+									    </select>
+								    </td>
+								  </tr>
+								  
 								<tr>
 								    <td style="width: 50%;">Name : </td>
 								    <td style="width: 50%;"><input type="text" name="name" id="name" size="30" class="required"></td>
@@ -341,7 +474,7 @@ function sync_infra(id){
 								  
 								  <tr>
 								    <td style="width: 50%;">Signature Version : </td>
-								    <td style="width: 50%;"><input type="text" name="signatureVersion" id="signatureVersion" size="30" ></td>
+								    <td style="width: 50%;"><input type="text" name="signatureVersion" id="signatureVersion" size="30" class="number" ></td>
 								  </tr>
 								  
 								  
@@ -349,10 +482,7 @@ function sync_infra(id){
 								    <td style="width: 50%;">Port : </td>
 								    <td style="width: 50%;"><input type="text" name="port" id="port" size="30" class="required number"></td>
 								  </tr>
-								  <tr>
-								    <td style="width: 50%;">Zone : </td>
-								    <td style="width: 50%;"><input type="text" name="zone" id="zone" size="30" class="required"></td>
-								  </tr>
+								  
 								  <tr>
 								    <td style="width: 50%;">Details : </td>
 								    <td style="width: 50%;"><input type="text" name="details" id="details" size="30"></td>
@@ -380,4 +510,67 @@ function sync_infra(id){
 							</form>
 						</div>
 		<div id="backgroundPopup_infra" class="backgroundPopup" ></div>
-	</div>				
+	</div>	
+	
+	<div id="popupContactParent_infra_aws" >
+		<div id="popupContact_infra_aws" class="popupContact" >
+							<a  onclick="cancelForm_infra_aws();return false;" class="popupContactClose" style="cursor: pointer; text-decoration:none;">X</a>
+							<h1>Cloud</h1>
+							<form class="cmxform" id="thisform_aws" method="post" name="thisform_aws">
+								<p id="contactArea_infra_aws" class="contactArea" >
+								<input type="hidden" id="id" name="id">
+								<table style="width: 100%;">
+								  <tr>
+								    <td style="width: 50%;">Cloud Type: </td>
+								    <td style="width: 50%;"> 
+									    <select id="cloudtype_aws" name="cloudtype_aws" style="width: 205px;" class="required" onchange="loadCloudType(this)" >
+									    	<option value="Euca" >Eucalyptus</option>
+									    	<option value="AWS" selected="selected">Amazon Web Services</option>
+									    	
+									    </select>
+								    </td>
+								  </tr>
+								  <tr>
+								    <td style="width: 50%;">Name : </td>
+								    <td style="width: 50%;"><input type="text" name="name_aws" id="name_aws" size="30" class="required"></td>
+								  </tr>
+								  
+								  <tr>
+								    <td style="width: 50%;">Access Key : </td>
+								    <td style="width: 50%;"><input type="text" name="accessId_aws" id="accessId_aws" size="30" class="required"></td>
+								  </tr>
+								  
+								  <tr>
+								    <td style="width: 50%;">Secret Key : </td>
+								    <td style="width: 50%;"><input type="text" name="secretKey_aws" id="secretKey_aws" size="30" class="required"></td>
+								  </tr>
+								  <tr>
+								    <td style="width: 50%;">Server : </td>
+								    <td style="width: 50%;"><input type="text" name="server_aws" id="server_aws" size="30" class="required" readonly="readonly" value="ec2.amazonaws.com"></td>
+								  </tr>
+								  <tr>
+								    <td style="width: 50%;">Details : </td>
+								    <td style="width: 50%;"><input type="text" name="details_aws" id="details_aws" size="30"></td>
+								  </tr>
+								   <tr>
+								    <td style="width: 50%;">Account : </td>
+								    <td style="width: 50%;">
+								    <select id="company_aws" name="company_aws" style="width: 205px;" class="required"></select>
+								    </td>
+								  </tr> 
+								  <tr>
+								    <td style="width: 50%;"></td>
+								    <td style="width: 50%;">
+								    <br><br>
+										<div class="demo" id="popupbutton_infra_create_aws">
+											<input class="submit" type="submit" value="Save"/>&nbsp;&nbsp;&nbsp;&nbsp;
+											<button onclick="cancelForm_infra_aws(this.form);return false;">Cancel</button>
+										</div>
+									</td>
+								  </tr>
+								</table>
+								</p>
+							</form>
+						</div>
+		<div id="backgroundPopup_infra_aws" class="backgroundPopup" ></div>
+	</div>			

@@ -43,6 +43,21 @@ CHANGE COLUMN description description VARCHAR(255) NULL DEFAULT NULL  ;
 
 ALTER TABLE snapshot_info_p CHANGE COLUMN description description VARCHAR(255) NULL DEFAULT NULL  ;
 
+ALTER TABLE availability_zone_p ADD COLUMN infra_id INT(11) NULL  , 
+
+  ADD CONSTRAINT fk_infra_id
+
+  FOREIGN KEY (infra_id )
+
+  REFERENCES infra (id )
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION
+
+, ADD INDEX fk_infra_id (infra_id ASC) ;
+
+ALTER TABLE infra CHANGE COLUMN zone zone VARCHAR(90) NULL  ;
 
 
 -----------------------

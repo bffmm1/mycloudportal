@@ -199,7 +199,7 @@ $(function(){
 			$(document).ready(function() {
 				CommonService.getCurrentSession(function(p){
 					if(p.role != 'ROLE_SUPERADMIN'){
-						dwr.util.setValue('only4mycpadmin', '');	
+						//dwr.util.setValue('only4mycpadmin', '');	
 					}else if(p.role == 'ROLE_SUPERADMIN'){
 						isMycpAdmin = true; 
 					}

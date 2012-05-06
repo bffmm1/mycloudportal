@@ -1,12 +1,10 @@
 package in.mycp.domain;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -32,48 +30,43 @@ public class InstanceP {
         this.product = product;
     }
 
-    
-public static List<InstanceP> findAllInstancePs() {
-        
+    public static List<in.mycp.domain.InstanceP> findAllInstancePs() {
         EntityManager em = entityManager();
-        TypedQuery<InstanceP> 	q = em.createQuery("SELECT o FROM InstanceP o", InstanceP.class);
-        
+        TypedQuery<InstanceP> q = em.createQuery("SELECT o FROM InstanceP o", InstanceP.class);
         return q.getResultList();
     }
 
-    public static List<InstanceP> findAllInstancePs(int start, int max,String search) {
-        
+    public static List<in.mycp.domain.InstanceP> findAllInstancePs(int start, int max, String search) {
         EntityManager em = entityManager();
         TypedQuery<InstanceP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM InstanceP o", InstanceP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM InstanceP o "+
-        			" where o.name like :search or o.imageId like :search or o.instanceId like :search", InstanceP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM InstanceP o", InstanceP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM InstanceP o " + " where " +
+            		" (o.name like :search or o.imageId like :search or o.instanceId like :search)", InstanceP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
         return q.getResultList();
     }
-    
-    public static TypedQuery<in.mycp.domain.InstanceP> findInstancePsByUser(User user,int start, int max,String search) {
+
+    public static TypedQuery<in.mycp.domain.InstanceP> findInstancePsByUser(User user, int start, int max, String search) {
         if (user == null) throw new IllegalArgumentException("The user argument is required");
         EntityManager em = entityManager();
         TypedQuery<InstanceP> q = null;
-        
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user = :user", InstanceP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user = :user "+
-        			" and o.name like :search or o.imageId like :search or o.instanceId like :search", InstanceP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user = :user", InstanceP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user = :user " + " and " +
+            		" (o.name like :search or o.imageId like :search or o.instanceId like :search)", InstanceP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
@@ -81,20 +74,19 @@ public static List<InstanceP> findAllInstancePs() {
         return q;
     }
 
-    public static TypedQuery<in.mycp.domain.InstanceP> findInstancePsByCompany(Company company,int start, int max,String search) {
+    public static TypedQuery<in.mycp.domain.InstanceP> findInstancePsByCompany(Company company, int start, int max, String search) {
         if (company == null) throw new IllegalArgumentException("The user argument is required");
         EntityManager em = entityManager();
         TypedQuery<InstanceP> q = null;
-        
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user.project.department.company = :company", InstanceP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user.project.department.company = :company "+
-        			" and o.name like :search or o.imageId like :search or o.instanceId like :search", InstanceP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user.project.department.company = :company", InstanceP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.asset.user.project.department.company = :company " + " and " +
+            		" (o.name like :search or o.imageId like :search or o.instanceId like :search)", InstanceP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
@@ -118,8 +110,7 @@ public static List<InstanceP> findAllInstancePs() {
     public static TypedQuery<in.mycp.domain.InstanceP> findInstancePsByInstanceIdEqualsAndCompanyEquals(String instanceId, Company company) {
         if (instanceId == null || instanceId.length() == 0) throw new IllegalArgumentException("The instanceId argument is required");
         EntityManager em = entityManager();
-        TypedQuery<InstanceP> q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.instanceId = :instanceId " + " " +
-        		" and o.asset.user.project.department.company = :company", InstanceP.class);
+        TypedQuery<InstanceP> q = em.createQuery("SELECT o FROM InstanceP AS o WHERE o.instanceId = :instanceId " + " " + " and o.asset.user.project.department.company = :company", InstanceP.class);
         q.setParameter("instanceId", instanceId);
         q.setParameter("company", company);
         return q;

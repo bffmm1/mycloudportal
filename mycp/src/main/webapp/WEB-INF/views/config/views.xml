@@ -15,7 +15,9 @@
         <put-attribute name="body" value="/WEB-INF/views/config/quotas.jsp"/>
     </definition>
     
-
+	<definition extends="plain" name="config/zone">
+	        <put-attribute name="body" value="/WEB-INF/views/config/zone.jsp"/>
+	    </definition>
     
         <definition extends="plain" name="config/region">
         <put-attribute name="body" value="/WEB-INF/views/config/region.jsp"/>

@@ -4,9 +4,16 @@
 package in.mycp.domain;
 
 import in.mycp.domain.AvailabilityZoneP;
+import in.mycp.domain.Infra;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 privileged aspect AvailabilityZoneP_Roo_DbManaged {
+    
+    @ManyToOne
+    @JoinColumn(name = "infra_id", referencedColumnName = "id")
+    private Infra AvailabilityZoneP.infraId;
     
     @Column(name = "name", length = 45)
     private String AvailabilityZoneP.name;
@@ -19,6 +26,14 @@ privileged aspect AvailabilityZoneP_Roo_DbManaged {
     
     @Column(name = "messages", length = 255)
     private String AvailabilityZoneP.messages;
+    
+    public Infra AvailabilityZoneP.getInfraId() {
+        return infraId;
+    }
+    
+    public void AvailabilityZoneP.setInfraId(Infra infraId) {
+        this.infraId = infraId;
+    }
     
     public String AvailabilityZoneP.getName() {
         return name;

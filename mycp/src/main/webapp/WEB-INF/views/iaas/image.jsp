@@ -101,7 +101,7 @@ function loadPopup_compute(){
 	            { "sTitle": "Platform" },
 	            { "sTitle": "Root Device" },
 	            { "sTitle": "Image Type" },
-	            { "sTitle": "Virtualization" },
+	            { "sTitle": "Location" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -115,7 +115,7 @@ function loadPopup_compute(){
 		{
 			oTable.fnAddData( [start+i+1,p[i].name, p[i].imageId, 
 			                   p[i].imageOwnerId, p[i].imageState, p[i].isPublic,
-			                   p[i].architecture,p[i].platform,p[i].rootDeviceName,p[i].imageType,p[i].virtualizationType,
+			                   p[i].architecture,p[i].platform,p[i].rootDeviceName,p[i].imageType,p[i].imageLocation,
 			                   '<img class="clickimg" title="create server"  alt="create server" src="/images/createServer.png" onclick=create_server("'+p[i].imageId+'")>&nbsp; &nbsp; &nbsp; '
 			                   //'<img class="clickimg" title="Remove"  alt="Remove" src=../images/deny.png onclick=remove_image('+p[i].id+')>' 
 			                   ] );
@@ -167,19 +167,9 @@ $(function(){
 		
 		$(document).ready(function() {
 			$("#popupbutton_imagelist").click();
-			InstanceP.findAll(function(p){
-				dwr.util.removeAllOptions('instance');
-				dwr.util.addOptions('instance', p, 'instanceId', function(p) {
-					return p.name+' '+p.instanceId+' '+p.platform+' @ '+p.dnsName;
-				});
-			});
 			
-			$("#thisform").validate({
-				 submitHandler: function(form) {
-					 submitForm_image(form);
-					 return false;
-				 }
-				});
+			
+			
 			
 			InstanceP.findProductType(function(p){
 				//alert(dwr.util.toDescriptiveString(p,3));
@@ -214,7 +204,7 @@ $(function(){
 			    	ImageDescriptionP.findAll(0,100,text2Search,  function(data) {
 			                var arrayOfData = [];
 			                for(i = 0;i < data.length;i++){
-			                    arrayOfData.push(data[i].imageId);
+			                	 arrayOfData.push(data[i].imageId+','+data[i].name+','+data[i].imageLocation);
 			                }
 			                response(arrayOfData);
 			            
@@ -228,22 +218,29 @@ $(function(){
 			
 			var instancep = {  id:viewed_compute,name:null, reason:null, imageId:null, instanceType:null, keyName:null,groupName:null,product:null };
 			  dwr.util.getValues(instancep);
+			  var imageStr = dwr.util.getValue("imageId");
+			  if(imageStr.indexOf(',')>0){
+				  instancep.imageId=imageStr.substring(0,imageStr.indexOf(','));  
+			  }
+			  
 			  
 			  if(viewed_compute == -1){
 				  instancep.id  = null; 
 			  }
 			  instancep.keyName=dwr.util.getText("keyName");
-			  
-			  dwr.engine.beginBatch();
 			  if(viewed_compute >0){
 				  InstanceP.updateCompute(instancep,afterSave_compute);
 			  }else{
 				  InstanceP.requestCompute(instancep,afterSave_compute);  
 			  }
-			  dwr.engine.endBatch();
+			 
 			  disablePopup_compute();
 			  viewed_compute=-1;
 		}
+		
+		function afterSave_compute(){
+			$.sticky('Compute creation scheduled.Check Approvals.');
+			}
 		
 		function cancelForm_compute(f){
 			var instancep = {  id:null,name:null, reason:null, imageId:null, instanceType:null, keyName:null,groupName:null,product:null};

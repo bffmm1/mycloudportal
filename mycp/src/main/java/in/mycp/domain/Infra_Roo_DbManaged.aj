@@ -3,6 +3,7 @@
 
 package in.mycp.domain;
 
+import in.mycp.domain.AvailabilityZoneP;
 import in.mycp.domain.Company;
 import in.mycp.domain.Infra;
 import in.mycp.domain.ProductCatalog;
@@ -14,10 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 privileged aspect Infra_Roo_DbManaged {
+    
+    @OneToMany(mappedBy = "infraId")
+    private Set<AvailabilityZoneP> Infra.availabilityZonePs;
     
     @OneToMany(mappedBy = "infra")
     private Set<ProductCatalog> Infra.productCatalogs;
@@ -67,11 +70,18 @@ privileged aspect Infra_Roo_DbManaged {
     private Boolean Infra.syncInProgress;
     
     @Column(name = "zone", length = 90)
-    @NotNull
     private String Infra.zone;
     
     @Column(name = "syncstatus")
     private Integer Infra.syncstatus;
+    
+    public Set<AvailabilityZoneP> Infra.getAvailabilityZonePs() {
+        return availabilityZonePs;
+    }
+    
+    public void Infra.setAvailabilityZonePs(Set<AvailabilityZoneP> availabilityZonePs) {
+        this.availabilityZonePs = availabilityZonePs;
+    }
     
     public Set<ProductCatalog> Infra.getProductCatalogs() {
         return productCatalogs;

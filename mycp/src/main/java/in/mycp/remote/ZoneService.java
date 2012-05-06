@@ -17,12 +17,9 @@ package in.mycp.remote;
 
 import in.mycp.domain.AvailabilityZoneP;
 import in.mycp.domain.Company;
-import in.mycp.domain.Infra;
-import in.mycp.domain.VolumeInfoP;
 import in.mycp.utils.Commons;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -49,7 +46,16 @@ import org.directwebremoting.annotations.RemoteProxy;
 		public List<AvailabilityZoneP> findAll() {
 			try {
 				List<AvailabilityZoneP> az= new ArrayList<AvailabilityZoneP>();
-				List<Infra> is = null;
+				
+				if(Commons.getCurrentUser().getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+					return AvailabilityZoneP.findAllAvailabilityZonePs();
+				}else{
+					return AvailabilityZoneP.findAllAvailabilityZonePsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()));
+				}
+				
+				
+				
+				/*List<Infra> is = null;
 				if(Commons.getCurrentUser().getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
 					is =  Infra.findAllInfras();
 				}else{
@@ -62,16 +68,50 @@ import org.directwebremoting.annotations.RemoteProxy;
 					if(simplecheck.indexOf(infra.getZone())<0){
 						AvailabilityZoneP a = new AvailabilityZoneP();
 						a.setName(infra.getZone());
+						
 						az.add(a);
 						simplecheck.append(infra.getZone());
 					}
-				}
+				}*/
 				
 			//	return AvailabilityZoneP.findAllAvailabilityZonePs();
-				return az;
+				//return az;
+			} catch (Exception e) {
+				log.error(e.getMessage());e.printStackTrace();
+			}
+			return null;
+		}// end of method findAll
+		
+		@RemoteMethod
+		public AvailabilityZoneP saveOrUpdate(AvailabilityZoneP instance) {
+			try {
+				//instance.setCompany(Company.findCompany(instance.getCompany().getId()));
+				instance = instance.merge();
+				return instance;
+			} catch (Exception e) {
+				log.error(e.getMessage());e.printStackTrace();
+			}
+			return null;
+		}// end of saveOrUpdate(AvailabilityZoneP
+
+		@RemoteMethod
+		public String remove(int id) {
+			try {
+				AvailabilityZoneP.findAvailabilityZoneP(id).remove();
+				return "Removed Availability Zone "+id;
+			} catch (Exception e) {
+				log.error(e.getMessage());//e.printStackTrace();
+			}
+			return "Cannot Remove Availability Zone "+id+". look into logs.";
+		}// end of method remove(int id
+
+		@RemoteMethod
+		public AvailabilityZoneP findById(int id) {
+			try {
+				return AvailabilityZoneP.findAvailabilityZoneP(id);
 			} catch (Exception e) {
 				log.error(e.getMessage());//e.printStackTrace();
 			}
 			return null;
-		}// end of method findAll
+		}// end of method findById(int id
 }

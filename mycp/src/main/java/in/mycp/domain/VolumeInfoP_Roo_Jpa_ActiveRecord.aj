@@ -24,8 +24,6 @@ privileged aspect VolumeInfoP_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT COUNT(o) FROM VolumeInfoP o", Long.class).getSingleResult();
     }
     
-    
-    
     public static VolumeInfoP VolumeInfoP.findVolumeInfoP(Integer id) {
         if (id == null) return null;
         return entityManager().find(VolumeInfoP.class, id);

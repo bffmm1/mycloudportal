@@ -24,10 +24,6 @@ privileged aspect AvailabilityZoneP_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT COUNT(o) FROM AvailabilityZoneP o", Long.class).getSingleResult();
     }
     
-    public static List<AvailabilityZoneP> AvailabilityZoneP.findAllAvailabilityZonePs() {
-        return entityManager().createQuery("SELECT o FROM AvailabilityZoneP o", AvailabilityZoneP.class).getResultList();
-    }
-    
     public static AvailabilityZoneP AvailabilityZoneP.findAvailabilityZoneP(Integer id) {
         if (id == null) return null;
         return entityManager().find(AvailabilityZoneP.class, id);

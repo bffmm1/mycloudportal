@@ -42,7 +42,7 @@ privileged aspect SnapshotInfoP_Roo_DbManaged {
     @Column(name = "volumeSize", length = 45)
     private String SnapshotInfoP.volumeSize;
     
-    @Column(name = "description", length = 45)
+    @Column(name = "description", length = 255)
     private String SnapshotInfoP.description;
     
     @Column(name = "ownerAlias", length = 45)

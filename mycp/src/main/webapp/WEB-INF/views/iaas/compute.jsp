@@ -279,7 +279,7 @@ $(function(){
 			    	ImageDescriptionP.findAll(0,100,text2Search,  function(data) {
 			                var arrayOfData = [];
 			                for(i = 0;i < data.length;i++){
-			                    arrayOfData.push(data[i].imageId);
+			                    arrayOfData.push(data[i].imageId+','+data[i].name+','+data[i].imageLocation);
 			                }
 			                response(arrayOfData);
 			            
@@ -301,6 +301,10 @@ function submitForm_compute(f){
 	
 	var instancep = {  id:viewed_compute,name:null, reason:null, imageId:null, instanceType:null, keyName:null,groupName:null,product:null };
 	  dwr.util.getValues(instancep);
+	  var imageStr = dwr.util.getValue("imageId");
+	  if(imageStr.indexOf(',')>0){
+		  instancep.imageId=imageStr.substring(0,imageStr.indexOf(','));  
+	  }
 	  
 	  if(viewed_compute == -1){
 		  instancep.id  = null; 

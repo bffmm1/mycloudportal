@@ -60,10 +60,10 @@ privileged aspect ImageDescriptionP_Roo_DbManaged {
     @Column(name = "imageOwnerAlias", length = 45)
     private String ImageDescriptionP.imageOwnerAlias;
     
-    @Column(name = "name", length = 45)
+    @Column(name = "name", length = 255)
     private String ImageDescriptionP.name;
     
-    @Column(name = "description", length = 45)
+    @Column(name = "description", length = 255)
     private String ImageDescriptionP.description;
     
     @Column(name = "rootDeviceType", length = 45)

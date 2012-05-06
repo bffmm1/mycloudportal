@@ -132,9 +132,17 @@
         <column name="state" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="regionName" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="messages" primaryKey="false" required="false" scale="0" size="255" type="12,VARCHAR"/>
+        <column name="infra_id" primaryKey="false" required="false" scale="0" size="10" type="4,INT"/>
+        <foreign-key foreignTable="infra" name="fk_infra_id" onDelete="none" onUpdate="none">
+            <option key="exported" value="false"/>
+            <reference foreign="id" local="infra_id"/>
+        </foreign-key>
         <unique name="PRIMARY">
             <unique-column name="id"/>
         </unique>
+        <index name="fk_infra_id">
+            <index-column name="infra_id"/>
+        </index>
     </table>
     <table name="block_device_mapping_p">
         <column name="id" primaryKey="true" required="true" scale="0" size="10" type="4,INT"/>
@@ -236,8 +244,8 @@
         <column name="platform" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="reason" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="imageOwnerAlias" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
-        <column name="name" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
-        <column name="description" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
+        <column name="name" primaryKey="false" required="false" scale="0" size="255" type="12,VARCHAR"/>
+        <column name="description" primaryKey="false" required="false" scale="0" size="255" type="12,VARCHAR"/>
         <column name="rootDeviceType" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="rootDeviceName" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="virtualizationType" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
@@ -275,11 +283,15 @@
         <column name="importDate" primaryKey="false" required="false" scale="0" size="19" type="93,DATETIME"/>
         <column name="syncDate" primaryKey="false" required="false" scale="0" size="19" type="93,DATETIME"/>
         <column name="syncInProgress" primaryKey="false" required="false" scale="0" size="0" type="-7,BIT"/>
-        <column name="zone" primaryKey="false" required="true" scale="0" size="90" type="12,VARCHAR"/>
+        <column name="zone" primaryKey="false" required="false" scale="0" size="90" type="12,VARCHAR"/>
         <column name="syncstatus" primaryKey="false" required="false" scale="0" size="10" type="4,INT"/>
         <foreign-key foreignTable="company" name="fk_infra_company1" onDelete="none" onUpdate="none">
             <option key="exported" value="false"/>
             <reference foreign="id" local="company"/>
+        </foreign-key>
+        <foreign-key foreignTable="availability_zone_p" name="fk_infra_id" onDelete="none" onUpdate="none">
+            <option key="exported" value="true"/>
+            <reference foreign="infra_id" local="id"/>
         </foreign-key>
         <foreign-key foreignTable="product_catalog" name="fk_infra_productCatalog" onDelete="none" onUpdate="none">
             <option key="exported" value="true"/>
@@ -564,7 +576,7 @@
         <column name="progress" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="ownerId" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="volumeSize" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
-        <column name="description" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
+        <column name="description" primaryKey="false" required="false" scale="0" size="255" type="12,VARCHAR"/>
         <column name="ownerAlias" primaryKey="false" required="false" scale="0" size="45" type="12,VARCHAR"/>
         <column name="tagSet" primaryKey="false" required="false" scale="0" size="255" type="12,VARCHAR"/>
         <column name="asset" primaryKey="false" required="false" scale="0" size="10" type="4,INT"/>

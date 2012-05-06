@@ -55,7 +55,11 @@ public class ConfigController  {
 		return "config/quotas";
 	}
 
-
+	@RequestMapping(value="/zone", produces = "text/html")
+	public String zone(HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println("config/zone");
+		return "config/zone";
+	}
 
 	@RequestMapping(value="/region", produces = "text/html")
 	public String region(HttpServletRequest req, HttpServletResponse resp) {

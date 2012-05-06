@@ -1,12 +1,10 @@
 package in.mycp.domain;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -32,47 +30,41 @@ public class KeyPairInfoP {
         this.product = product;
     }
 
-    
-    public static List<KeyPairInfoP> findAllKeyPairInfoPs() {
+    public static List<in.mycp.domain.KeyPairInfoP> findAllKeyPairInfoPs() {
         return entityManager().createQuery("SELECT o FROM KeyPairInfoP o", KeyPairInfoP.class).getResultList();
-         
-     }
-    
-    public static List<KeyPairInfoP> findAllKeyPairInfoPs(int start, int max,String search) {
-       // return entityManager().createQuery("SELECT o FROM KeyPairInfoP o", KeyPairInfoP.class).getResultList();
-        
+    }
+
+    public static List<in.mycp.domain.KeyPairInfoP> findAllKeyPairInfoPs(int start, int max, String search) {
         EntityManager em = entityManager();
         TypedQuery<KeyPairInfoP> q = null;
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM KeyPairInfoP o", KeyPairInfoP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM KeyPairInfoP o "+
-        			" where o.keyName like :search ", KeyPairInfoP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM KeyPairInfoP o", KeyPairInfoP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM KeyPairInfoP o " + " where " +
+            		"o.keyName like :search ", KeyPairInfoP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
         return q.getResultList();
-        
     }
-    
-    public static TypedQuery<in.mycp.domain.KeyPairInfoP> findKeyPairInfoPsByUser(User user,int start, int max,String search) {
+
+    public static TypedQuery<in.mycp.domain.KeyPairInfoP> findKeyPairInfoPsByUser(User user, int start, int max, String search) {
         if (user == null) throw new IllegalArgumentException("The user argument is required");
         EntityManager em = entityManager();
         TypedQuery<KeyPairInfoP> q = null;
-        
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user = :user", KeyPairInfoP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user = :user "+
-        			" and o.keyName like :search ", KeyPairInfoP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user = :user", KeyPairInfoP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user = :user " + " and " +
+            		"o.keyName like :search ", KeyPairInfoP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);
@@ -80,20 +72,19 @@ public class KeyPairInfoP {
         return q;
     }
 
-    public static TypedQuery<in.mycp.domain.KeyPairInfoP> findKeyPairInfoPsByCompany(Company company,int start, int max,String search) {
+    public static TypedQuery<in.mycp.domain.KeyPairInfoP> findKeyPairInfoPsByCompany(Company company, int start, int max, String search) {
         if (company == null) throw new IllegalArgumentException("The company argument is required");
         EntityManager em = entityManager();
         TypedQuery<KeyPairInfoP> q = null;
-        
-        if(StringUtils.isBlank(search)){
-        	q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user.project.department.company = :company", KeyPairInfoP.class);
-        }else{
-        	q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user.project.department.company = :company "+
-        			" and o.keyName like :search ", KeyPairInfoP.class);
-        	if(StringUtils.contains(search, " ")){
-        		search = StringUtils.replaceChars(search, " ", "%");
-        	}
-        	q.setParameter("search", "%" + search + "%");
+        if (StringUtils.isBlank(search)) {
+            q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user.project.department.company = :company", KeyPairInfoP.class);
+        } else {
+            q = em.createQuery("SELECT o FROM KeyPairInfoP AS o WHERE o.asset.user.project.department.company = :company " + " and " +
+            		" o.keyName like :search ", KeyPairInfoP.class);
+            if (StringUtils.contains(search, " ")) {
+                search = StringUtils.replaceChars(search, " ", "%");
+            }
+            q.setParameter("search", "%" + search + "%");
         }
         q.setFirstResult(start);
         q.setMaxResults(max);

@@ -24,8 +24,6 @@ privileged aspect AddressInfoP_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT COUNT(o) FROM AddressInfoP o", Long.class).getSingleResult();
     }
     
-    
-    
     public static AddressInfoP AddressInfoP.findAddressInfoP(Integer id) {
         if (id == null) return null;
         return entityManager().find(AddressInfoP.class, id);

@@ -53,7 +53,7 @@ public class ComputeWorker extends Worker {
 	public void restartCompute(final Infra infra, final int instancePId) {
 		try {
 
-			logger.info("restartCompute Euca instance : " + instancePId);
+			logger.info("restartCompute "+infra.getCompany().getName()+" instance : " + instancePId);
 			Jec2 ec2 = getNewJce2(infra);
 			List<String> instanceIds = new ArrayList<String>();
 			instanceIds.add(InstanceP.findInstanceP(instancePId).getInstanceId());
@@ -110,7 +110,7 @@ public class ComputeWorker extends Worker {
 	public void startCompute(final Infra infra, final int instancePId) {
 		InstanceP instanceP = null;
 		try {
-			logger.info("startCompute Euca instance : " + instancePId);
+			logger.info("startCompute "+infra.getCompany().getName()+" instance : " + instancePId);
 			Jec2 ec2 = getNewJce2(infra);
 			List<String> instanceIds = new ArrayList<String>();
 			instanceIds.add(InstanceP.findInstanceP(instancePId).getInstanceId());
@@ -189,7 +189,7 @@ public class ComputeWorker extends Worker {
 		InstanceP instanceP = null;
 		try {
 
-			logger.info("stopCompute Euca instance: " + instancePId);
+			logger.info("stopCompute "+infra.getCompany().getName()+" instance: " + instancePId);
 			Jec2 ec2 = getNewJce2(infra);
 			List<String> instanceIds = new ArrayList<String>();
 			instanceIds.add(InstanceP.findInstanceP(instancePId).getInstanceId());
@@ -259,7 +259,7 @@ public class ComputeWorker extends Worker {
 
 		try {
 
-			logger.info("terminateCompute Euca instance : " + instancePId);
+			logger.info("terminateCompute "+infra.getCompany().getName()+" instance : " + instancePId);
 			Jec2 ec2 = getNewJce2(infra);
 			List<String> instanceIds = new ArrayList<String>();
 			instanceIds.add(InstanceP.findInstanceP(instancePId).getInstanceId());
@@ -361,7 +361,7 @@ public class ComputeWorker extends Worker {
 			String groupName = instance.getGroupName();
 			String instanceType = instance.getInstanceType();
 
-			logger.info("Launching Euca instance " + instance.getId() + " for image: " + imageName);
+			logger.info("Launching "+infra.getCompany().getName()+" instance " + instance.getId() + " for image: " + imageName);
 
 			Jec2 ec2 = getNewJce2(infra);
 
