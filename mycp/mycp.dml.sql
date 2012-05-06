@@ -35,3 +35,15 @@ INSERT INTO user
 VALUES  ('superadmin@mycloudportal.in','1a402742ae88760b69a12cb1455e77e53a3e3711309a433e72861e3e700d49d6',NULL,1,4,'2012-03-20 23:08:01','MyCP','Admin',NULL,'',NULL);
 
 commit;
+
+-----------------------
+
+ALTER TABLE image_description_p CHANGE COLUMN name name VARCHAR(255) NULL DEFAULT NULL  , 
+CHANGE COLUMN description description VARCHAR(255) NULL DEFAULT NULL  ;
+
+ALTER TABLE snapshot_info_p CHANGE COLUMN description description VARCHAR(255) NULL DEFAULT NULL  ;
+
+
+
+-----------------------
+

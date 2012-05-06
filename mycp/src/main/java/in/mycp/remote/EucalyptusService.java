@@ -553,7 +553,7 @@ public class EucalyptusService {
 		}
 		logger.info("reservationDescriptionP removed ");
 */
-		List<ImageDescriptionP> imageDescriptionPs = ImageDescriptionP.findAllImageDescriptionPs();
+		List<ImageDescriptionP> imageDescriptionPs = ImageDescriptionP.findAllImageDescriptionPs(0,ImageDescriptionP.findImageDescriptionCount().intValue(),"");
 		for (Iterator iterator = imageDescriptionPs.iterator(); iterator.hasNext();) {
 			ImageDescriptionP imageDescriptionP = (ImageDescriptionP) iterator.next();
 			imageDescriptionP.remove();
@@ -597,11 +597,17 @@ public class EucalyptusService {
 			String decAccessId = textEncryptor.decrypt(infra.getAccessId());
 			String decSecretKey = textEncryptor.decrypt(infra.getSecretKey());
 			
-		Jec2 ec2 = new Jec2(decAccessId, decSecretKey, false,
-				infra.getServer(), infra.getPort());
-		ec2.setResourcePrefix(infra.getResourcePrefix());
-		ec2.setSignatureVersion(infra.getSignatureVersion());
-		return ec2;
+			if(infra.getServer().startsWith("ec2.amazonaws.com")){
+				Jec2 ec2 = new Jec2(decAccessId, decSecretKey);
+				return ec2;
+			}else {
+				Jec2 ec2 = new Jec2(decAccessId, decSecretKey, false,
+						infra.getServer(), infra.getPort());
+				ec2.setResourcePrefix(infra.getResourcePrefix());
+				ec2.setSignatureVersion(infra.getSignatureVersion());
+				return ec2;		
+			}	
+		
 	}
 
 

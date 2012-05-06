@@ -46,6 +46,9 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 		backgroundPopup.css({	"height": windowHeight	});
 	}
 
+	var start = 0;
+	var max = 17;
+
 	function findAll_ipaddress(p){
 		/* alert(p.length);
 		alert(p[0].imageId); */
@@ -66,6 +69,12 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
@@ -123,7 +132,7 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 				actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>&nbsp;';
 			}
  */
-			oTable.fnAddData( [i+1,p[i].name,p[i].instanceId, p[i].publicIp,p[i].status,p[i].reason,
+			oTable.fnAddData( [start+i+1,p[i].name,p[i].instanceId, p[i].publicIp,p[i].status,p[i].reason,
 			                   actions ] );
 		}
 		
@@ -137,10 +146,37 @@ $(function(){
 			loadPopup_ipaddress($("#popupContact_ipaddress"),$("#backgroundPopup_ipaddress"));
 		});
 	
+	
+		
 		$("#popupbutton_ipaddresslist").click(function(){
-				dwr.engine.beginBatch();
-				AddressInfoP.findAll(findAll_ipaddress);
-			  dwr.engine.endBatch();
+				
+				start =0;
+				$('#SearchField').val('');
+				AddressInfoP.findAll(start,max,'',findAll_ipaddress);
+			  
+		} );
+		
+		$("#popupbutton_previous").click(function(){
+			if(start>16){
+				start=start -17;
+			}
+			var text2Search = dwr.util.getValue("SearchField");
+			AddressInfoP.findAll(start,max,text2Search,findAll_ipaddress);
+		} );
+		
+		$("#popupbutton_next").click(function(){
+			start = start +17;
+		
+			var text2Search = dwr.util.getValue("SearchField");
+			AddressInfoP.findAll(start,max,text2Search,findAll_ipaddress);
+		} );
+		
+		$("#popupbutton_search").click(function(){
+			
+			var text2Search = dwr.util.getValue("SearchField");
+			start = 0;
+			AddressInfoP.findAll(start,max,text2Search,findAll_ipaddress);
+			
 		} );
 		
 		});
@@ -342,6 +378,12 @@ function afterSave_ipaddress(){
 
 </script>
 <p class="dataTableHeader">IP Resource</p>
+				<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 <div id="datatable-iaas-parent" class="infragrid2">
 					<div id="datatable-iaas" >
 						<table cellpadding="0" cellspacing="0" border="0" class="display" id="compute-table">
@@ -349,7 +391,16 @@ function afterSave_ipaddress(){
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px;">
+							<div class="demo" id="popupbutton_ipaddress" style="float: left; padding-left: 10px;"><button>Request New Ip</button></div>
+							<div class="demo" id="popupbutton_ipaddresslist" style="float: left; padding-left: 10px;"><button>List All Ips</button></div>
+							
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
+						
+						</div>
 						
 						<table align="right" border="0" width="100%">
 							<tr>
@@ -357,10 +408,10 @@ function afterSave_ipaddress(){
 								
 								</td>
 								<td width="15%">
-									<div class="demo" id="popupbutton_ipaddress"><button>Request IP</button></div>
+									<!-- <div class="demo" id="popupbutton_ipaddress"><button>Request IP</button></div> -->
 								</td>
 								<td width="15%">
-									<div class="demo" id="popupbutton_ipaddresslist"><button>List IPs</button></div>
+									<!-- <div class="demo" id="popupbutton_ipaddresslist"><button>List IPs</button></div> -->
 								</td>
 							</tr>
 						</table>

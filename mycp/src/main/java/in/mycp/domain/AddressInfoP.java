@@ -1,9 +1,13 @@
 package in.mycp.domain;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.roo.addon.dbre.RooDbManaged;
@@ -28,18 +32,67 @@ public class AddressInfoP {
         this.product = product;
     }
 
-    public static TypedQuery<in.mycp.domain.AddressInfoP> findAddressInfoPsByUser(User user) {
+    public static List<AddressInfoP> findAllAddressInfoPs() {
+        return entityManager().createQuery("SELECT o FROM AddressInfoP o", AddressInfoP.class).getResultList();
+    }
+    public static List<AddressInfoP> findAllAddressInfoPs(int start, int max,String search) {
+        //return entityManager().createQuery("SELECT o FROM AddressInfoP o", AddressInfoP.class).getResultList();
+        EntityManager em = entityManager();
+        TypedQuery<AddressInfoP> q = null;
+        if(StringUtils.isBlank(search)){
+        	q = em.createQuery("SELECT o FROM AddressInfoP o", AddressInfoP.class);
+        }else{
+        	q = em.createQuery("SELECT o FROM AddressInfoP o"+
+        			" where o.name like :search or o.instanceId like :search or o.publicIp like :search", AddressInfoP.class);
+        	if(StringUtils.contains(search, " ")){
+        		search = StringUtils.replaceChars(search, " ", "%");
+        	}
+        	q.setParameter("search", "%" + search + "%");
+        }
+        q.setFirstResult(start);
+        q.setMaxResults(max);
+        
+        return q.getResultList();
+        
+    }
+    
+    public static TypedQuery<in.mycp.domain.AddressInfoP> findAddressInfoPsByUser(User user,int start, int max,String search) {
         if (user == null) throw new IllegalArgumentException("The user argument is required");
         EntityManager em = entityManager();
-        TypedQuery<AddressInfoP> q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.asset.user = :user", AddressInfoP.class);
+        TypedQuery<AddressInfoP> q = null;
+        if(StringUtils.isBlank(search)){
+        	q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.asset.user = :user", AddressInfoP.class);
+        }else{
+        	q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.asset.user = :user "+
+        			" and o.name like :search or o.instanceId like :search or o.publicIp like :search", AddressInfoP.class);
+        	if(StringUtils.contains(search, " ")){
+        		search = StringUtils.replaceChars(search, " ", "%");
+        	}
+        	q.setParameter("search", "%" + search + "%");
+        }
+        q.setFirstResult(start);
+        q.setMaxResults(max);
         q.setParameter("user", user);
         return q;
     }
 
-    public static TypedQuery<in.mycp.domain.AddressInfoP> findAddressInfoPsByCompany(Company company) {
+    public static TypedQuery<in.mycp.domain.AddressInfoP> findAddressInfoPsByCompany(Company company,int start, int max,String search) {
         if (company == null) throw new IllegalArgumentException("The company argument is required");
         EntityManager em = entityManager();
-        TypedQuery<AddressInfoP> q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.asset.user.project.department.company = :company", AddressInfoP.class);
+        TypedQuery<AddressInfoP> q = null;
+        
+        if(StringUtils.isBlank(search)){
+        	q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.asset.user.project.department.company = :company", AddressInfoP.class);
+        }else{
+        	q = em.createQuery("SELECT o FROM AddressInfoP AS o WHERE o.asset.user.project.department.company = :company "+
+        			" and o.name like :search or o.instanceId like :search or o.publicIp like :search", AddressInfoP.class);
+        	if(StringUtils.contains(search, " ")){
+        		search = StringUtils.replaceChars(search, " ", "%");
+        	}
+        	q.setParameter("search", "%" + search + "%");
+        }
+        q.setFirstResult(start);
+        q.setMaxResults(max);
         q.setParameter("company", company);
         return q;
     }

@@ -24,9 +24,7 @@ privileged aspect InstanceP_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT COUNT(o) FROM InstanceP o", Long.class).getSingleResult();
     }
     
-    public static List<InstanceP> InstanceP.findAllInstancePs() {
-        return entityManager().createQuery("SELECT o FROM InstanceP o", InstanceP.class).getResultList();
-    }
+   
     
     public static InstanceP InstanceP.findInstanceP(Integer id) {
         if (id == null) return null;

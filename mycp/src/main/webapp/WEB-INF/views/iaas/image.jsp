@@ -3,7 +3,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
   <script type='text/javascript' src='/dwr/interface/ImageDescriptionP.js'></script>
 <script type='text/javascript' src='/dwr/interface/InstanceP.js'></script>
-  
+ 
 <script type="text/javascript">
 /***************************/
 //@Author: Adrian "yEnS" Mato Gondelle
@@ -56,9 +56,12 @@
 		$("#backgroundPopup_image").css({
 			"height": windowHeight
 		});
-		
 	}
 
+	var viewed_image = -1;	
+	var start = 0;
+	var max = 17;
+		
 	function findAll_image(p){
 		/* alert(p.length);
 		alert(p[0].imageId); */
@@ -79,6 +82,12 @@
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Image Name" },
@@ -100,22 +109,18 @@
 		//oTable.fnClearTable();
 		
 		var i=0;
+		
 		for (i=0;i<p.length;i++)
 		{
-			
-			oTable.fnAddData( [i+1,p[i].name, p[i].imageId, 
+			oTable.fnAddData( [start+i+1,p[i].name, p[i].imageId, 
 			                   p[i].imageOwnerId, p[i].imageState, p[i].isPublic,
 			                   p[i].architecture,p[i].platform,p[i].rootDeviceName,p[i].imageType,p[i].hypervisor,p[i].virtualizationType,
 			                   //'<img alt="Edit" src=../images/edit.png onclick=edit_image('+p[i].id+')>&nbsp; &nbsp; &nbsp; '+
 			                   //'<img class="clickimg" title="Remove"  alt="Remove" src=../images/deny.png onclick=remove_image('+p[i].id+')>' 
 			                   ] );
 		}
-		
-		
-	
 	}
-
-	var viewed_image = -1;	
+	
 $(function(){
 		$("#popupbutton_image").click(function(){
 			viewed_image = -1;
@@ -125,9 +130,35 @@ $(function(){
 	
 			$("#popupbutton_imagelist").click(function(){
 					dwr.engine.beginBatch();
-					ImageDescriptionP.findAll(findAll_image);
+					start =0;
+					$('#SearchField').val('');
+					ImageDescriptionP.findAll(start,max,'',findAll_image);
 				  dwr.engine.endBatch();
 			} );
+			
+			$("#popupbutton_previous").click(function(){
+				if(start>16){
+					start=start -17;
+				}
+				var text2Search = dwr.util.getValue("SearchField");
+				ImageDescriptionP.findAll(start,max,text2Search,findAll_image);
+			} );
+			
+			$("#popupbutton_next").click(function(){
+				start = start +17;
+				var text2Search = dwr.util.getValue("SearchField");
+				ImageDescriptionP.findAll(start,max,text2Search,findAll_image);
+			} );
+			
+			$("#popupbutton_search").click(function(){
+				
+				var text2Search = dwr.util.getValue("SearchField");
+				start = 0;
+				ImageDescriptionP.findAll(start,max,text2Search,findAll_image);
+				
+			} );
+			
+			
 		});
 		
 		$("#popupContactClose_image").click(function(){
@@ -165,7 +196,7 @@ function submitForm_image(f){
 	var imageDescriptionp = {  id:viewed_image,name:null, description:null };
 	  dwr.util.getValues(imageDescriptionp);
 	  imageDescriptionp.instanceIdForImgCreation=dwr.util.getValue("instance");
-	  alert(imageDescriptionp.instanceIdForImgCreation);
+	  //alert(imageDescriptionp.instanceIdForImgCreation);
 	  if(viewed_image == -1){
 		  imageDescriptionp.id  = null; 
 	  }
@@ -195,39 +226,52 @@ function edit_image(id){
 	ImageDescriptionP.findById(id,afterEdit_image);
 }
 
-function remove_image(id){
-	if(!disp_confirm('Image')){
-		return false;
+	function remove_image(id){
+		if(!disp_confirm('Image')){
+			return false;
+		}
+		dwr.engine.beginBatch();
+		ImageDescriptionP.remove(id,afterSave_image);
+		dwr.engine.endBatch();
 	}
-	dwr.engine.beginBatch();
-	ImageDescriptionP.remove(id,afterSave_image);
-	dwr.engine.endBatch();
-}
-function afterSave_image(){
-	viewed_image = -1;
-	$("#popupbutton_imagelist").click();}
+	
+	function afterSave_image(){
+		viewed_image = -1;
+		$("#popupbutton_imagelist").click();}
 
 </script>
 <p class="dataTableHeader">Image Resource</p>
+					<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 		<div id="datatable-iaas-parent" class="infragrid2">
+					
 					<div id="datatable-iaas" >
 						<table cellpadding="0" cellspacing="0" border="0" class="display" id="compute-table">
 							<thead><tr></tr></thead>
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px; padding-top: 10px;">
+							<div class="demo" id="popupbutton_imagelist" style="float: left; padding-left: 10px;"><button>List All Images</button></div>
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
 						
 						<table align="right" border="0" width="100%">
 							<tr>
 								<td width="80%">
-								<font color="green">IaaS -- Image</font>
+								<font color="green"></font>
 								</td>
 								<td width="10%">
 									<!-- <div class="demo" id="popupbutton_image"><button>Request Image</button></div> -->
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_imagelist"><button>List Images</button></div>
+									<!-- <div class="demo" id="popupbutton_imagelist"><button>List Images</button></div> -->
 								</td>
 							</tr>
 						</table>

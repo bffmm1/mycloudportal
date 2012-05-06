@@ -132,17 +132,20 @@ public class AddressInfoPService {
 	}// end of method findById(int id
 
 	@RemoteMethod
-	public List<AddressInfoP> findAll() {
+	public List<AddressInfoP> findAll(int start,int max,String search) {
 		try {
+			
 			User user = Commons.getCurrentUser();
 			List<AddressInfoP> allAddresses = null;
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				allAddresses = AddressInfoP.findAddressInfoPsByUser(user).getResultList();
+				allAddresses = AddressInfoP.findAddressInfoPsByUser(user,start,max,search).getResultList();
 			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				allAddresses = AddressInfoP.findAddressInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				allAddresses = AddressInfoP.findAddressInfoPsByCompany(
+						Company.findCompany(Commons.getCurrentSession().getCompanyId()),start,max,search).getResultList();
 			}else{
-				allAddresses = AddressInfoP.findAllAddressInfoPs();
+				allAddresses = AddressInfoP.findAllAddressInfoPs(start,max,search);
 			}
+			
 			return allAddresses;
 		} catch (Exception e) {
 			//e.printStackTrace();

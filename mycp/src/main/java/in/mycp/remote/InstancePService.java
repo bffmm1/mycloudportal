@@ -165,7 +165,7 @@ public class InstancePService {
 	}// end of method findById(int id
 
 	@RemoteMethod
-	public List<InstanceP> findAll() {
+	public List<InstanceP> findAll(int start, int max,String search) {
 		try {
 			User user = Commons.getCurrentUser();
 			//if role is MANAGER , show all VMs
@@ -173,11 +173,11 @@ public class InstancePService {
 			//for everybody else, just show their own VMs
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER+"")
 					|| user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				return InstanceP.findInstancePsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				return InstanceP.findInstancePsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()),start, max,search).getResultList();
 			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
-				return findAllWithSystemVms();
+				return InstanceP.findAllInstancePs(start, max,search);
 			}else{
-				return InstanceP.findInstancePsByUser(user).getResultList();
+				return InstanceP.findInstancePsByUser(user,start, max,search).getResultList();
 			}
 			
 
@@ -188,9 +188,9 @@ public class InstancePService {
 	}// end of method findAll
 
 	@RemoteMethod
-	public List<InstanceP> findAllWithSystemVms() {
+	public List<InstanceP> findAllWithSystemVms(int start, int max,String search) {
 		try {
-			return InstanceP.findAllInstancePs();
+			return InstanceP.findAllInstancePs(start, max,search);
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
 		}
@@ -201,7 +201,7 @@ public class InstancePService {
 	public List<InstanceP> findAll4Attach() {
 		try {
 			// return InstanceP.findAllInstancePs();
-			List<InstanceP> instances = findAll();
+			List<InstanceP> instances = InstanceP.findAllInstancePs();
 			List<InstanceP> instances2return = new ArrayList<InstanceP>();
 			for (Iterator iterator = instances.iterator(); iterator.hasNext();) {
 				InstanceP instanceP = (InstanceP) iterator.next();
@@ -216,23 +216,7 @@ public class InstancePService {
 				instances2return.add(instanceP);
 			}
 			return instances2return;
-/*
-			
-			List<InstanceP> instances2return = new ArrayList<InstanceP>();
-			for (Iterator iterator = instances.iterator(); iterator.hasNext();) {
-				InstanceP instanceP = (InstanceP) iterator.next();
-				try {
-					AddressInfoP addressInfoP = AddressInfoP.findAddressInfoPsByInstanceIdLike(instanceP.getInstanceId()).getSingleResult();
-					if (addressInfoP.getAssociated() == null || addressInfoP.getAssociated() == false) {
-						instances2return.add(instanceP);
-					}
-				} catch (Exception e) {
-					log.error(e);//e.printStackTrace();
-				}
 
-			}
-			return instances2return;
-*/
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
 		}

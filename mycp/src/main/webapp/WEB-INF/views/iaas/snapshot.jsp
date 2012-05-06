@@ -46,6 +46,9 @@
 		
 	}
 
+	var start = 0;
+	var max = 17;
+	
 	function findAll_backup(p){
 		oTable = $('#compute-table').dataTable( {
 	    	"sPaginationType": "full_numbers",
@@ -57,6 +60,12 @@
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Snapshot Id" },
@@ -92,7 +101,7 @@
                 	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_backup('+p[i].id+')>';
         	}
 			
-			oTable.fnAddData( [i+1,p[i].snapshotId, p[i].volumeId, 
+			oTable.fnAddData( [start+i+1,p[i].snapshotId, p[i].volumeId, 
 			                   dateFormat(p[i].startTime,"mmm dd yyyy HH:MM:ss"), p[i].status,p[i].progress, 
 			                   actions ] );
 		}
@@ -110,13 +119,35 @@ $(function(){
 		});
 	
 		$("#popupbutton_backuplist").click(function(){
-			
 				dwr.engine.beginBatch();
-				SnapshotInfoP.findAll(findAll_backup);
+				start =0;
+				$('#SearchField').val('');
+				SnapshotInfoP.findAll(start,max,'',findAll_backup);
 			  dwr.engine.endBatch();
-			  
-		
 		} );
+		
+		$("#popupbutton_previous").click(function(){
+			if(start>16){
+				start=start -17;
+			}
+			var text2Search = dwr.util.getValue("SearchField");
+			SnapshotInfoP.findAll(start,max,text2Search,findAll_backup);
+		} );
+		
+		$("#popupbutton_next").click(function(){
+			start = start +17;
+			var text2Search = dwr.util.getValue("SearchField");
+			SnapshotInfoP.findAll(start,max,text2Search,findAll_backup);
+		} );
+		
+		$("#popupbutton_search").click(function(){
+			
+			var text2Search = dwr.util.getValue("SearchField");
+			start = 0;
+			SnapshotInfoP.findAll(start,max,text2Search,findAll_backup);
+			
+		} );
+	
 		
 		});
 
@@ -226,6 +257,12 @@ $(function(){
 	
 	</script>
 <p class="dataTableHeader">Snapshot Resource</p>
+					<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 			<div id="datatable-iaas-parent" class="infragrid2">
 					<div id="datatable-iaas" >
 						<table cellpadding="0" cellspacing="0" border="0" class="display" id="compute-table">
@@ -233,17 +270,25 @@ $(function(){
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px; padding-top: 20px;">
+							<div class="demo" id="popupbutton_backup" style="float: left; padding-left: 10px;"><button>Request New Snapshot</button></div>
+							<div class="demo" id="popupbutton_backuplist" style="float: left; padding-left: 10px;"><button>List All Snapshots</button></div>
+							
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
+						</div>
 						<table align="right" border="0" width="100%">
 							<tr>
 								<td width="80%">
 								
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_backup"><button>Request Snapshot</button></div>
+									<!-- <div class="demo" id="popupbutton_backup"><button>Request Snapshot</button></div> -->
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_backuplist"><button>List Snapshots</button></div>
+									<!-- <div class="demo" id="popupbutton_backuplist"><button>List Snapshots</button></div> -->
 								</td>
 							</tr>
 						</table>

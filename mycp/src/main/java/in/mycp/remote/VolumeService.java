@@ -189,7 +189,8 @@ public class VolumeService {
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
 				return VolumeInfoP.findAllVolumeInfoPs();
 			}else {
-				return VolumeInfoP.findVolumeInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				return VolumeInfoP.findVolumeInfoPsByCompany(
+						Company.findCompany(Commons.getCurrentSession().getCompanyId()),0,100,"").getResultList();
 			}
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
@@ -198,16 +199,17 @@ public class VolumeService {
 	}// end of method findAll4List
 	
 	@RemoteMethod
-	public List<VolumeInfoP> findAll() {
+	public List<VolumeInfoP> findAll(int start,int  max,String search) {
 		try {
 			
 			User user = Commons.getCurrentUser();
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				return VolumeInfoP.findVolumeInfoPsByUser(user).getResultList();
+				return VolumeInfoP.findVolumeInfoPsByUser(user, start,  max, search).getResultList();
 			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				return VolumeInfoP.findVolumeInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				return VolumeInfoP.findVolumeInfoPsByCompany(
+						Company.findCompany(Commons.getCurrentSession().getCompanyId()), start,  max, search).getResultList();
 			}
-			return VolumeInfoP.findAllVolumeInfoPs();
+			return VolumeInfoP.findAllVolumeInfoPs(start,  max, search);
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
 		}
@@ -215,9 +217,20 @@ public class VolumeService {
 	}// end of method findAll
 
 	@RemoteMethod
-	public List findAllWithAttachInfo() {
+	public List<VolumeInfoP> findAllWithAttachInfo(int start,int  max,String search) {
 		try {
-			List<VolumeInfoP> volumes = findAll();
+			List<VolumeInfoP> volumes = null;
+			User user = Commons.getCurrentUser();
+			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
+				volumes =  VolumeInfoP.findVolumeInfoPsByUser(user, start,  max, search).getResultList();
+			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
+				volumes= VolumeInfoP.findVolumeInfoPsByCompany(
+						Company.findCompany(Commons.getCurrentSession().getCompanyId()), start,  max, search).getResultList();
+			}else{
+				volumes =VolumeInfoP.findAllVolumeInfoPs(start,  max, search); 
+			}
+			
+			
 			for (Iterator iterator = volumes.iterator(); iterator.hasNext();) {
 				VolumeInfoP volumeInfoP = (VolumeInfoP) iterator.next();
 				if(volumeInfoP.getVolumeId() == null || volumeInfoP.getVolumeId().equals("")){

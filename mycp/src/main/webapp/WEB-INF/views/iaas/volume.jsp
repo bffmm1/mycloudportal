@@ -47,7 +47,9 @@
  	}
 
  
-
+	var start = 0;
+	var max = 17;
+	
 
 	function findAll_volume(p){
 		/* alert(p.length);
@@ -69,6 +71,12 @@
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
@@ -129,7 +137,7 @@
             	
             	
 				
-			oTable.fnAddData( [i+1,p[i].name,p[i].volumeId, p[i].size+' (GB)',
+			oTable.fnAddData( [start+i+1,p[i].name,p[i].volumeId, p[i].size+' (GB)',
 			                   dateFormat(p[i].createTime,"mmm dd yyyy HH:MM:ss"),p[i].status,p[i].details,
 			                  actions ] );
 		}
@@ -144,10 +152,35 @@ $(function(){
 			loadPopup_volume($("#popupContact_volume"),$("#backgroundPopup_volume"));
 		});
 	
+		
 		$("#popupbutton_volumelist").click(function(){
 				dwr.engine.beginBatch();
-				VolumeInfoP.findAllWithAttachInfo(findAll_volume);
+				start =0;
+				$('#SearchField').val('');
+				VolumeInfoP.findAllWithAttachInfo(start,max,'',findAll_volume);
 			  dwr.engine.endBatch();
+		} );
+		
+		$("#popupbutton_previous").click(function(){
+			if(start>16){
+				start=start -17;
+			}
+			var text2Search = dwr.util.getValue("SearchField");
+			VolumeInfoP.findAllWithAttachInfo(start,max,text2Search,findAll_volume);
+		} );
+		
+		$("#popupbutton_next").click(function(){
+			start = start +17;
+			var text2Search = dwr.util.getValue("SearchField");
+			VolumeInfoP.findAllWithAttachInfo(start,max,text2Search,findAll_volume);
+		} );
+		
+		$("#popupbutton_search").click(function(){
+			
+			var text2Search = dwr.util.getValue("SearchField");
+			start = 0;
+			VolumeInfoP.findAllWithAttachInfo(start,max,text2Search,findAll_volume);
+			
 		} );
 		
 		});
@@ -187,7 +220,7 @@ $(function(){
   				//dwr.util.setValue(id, sel);
   			});
 			
-			InstanceP.findAll(function(p){
+			InstanceP.findAll(0,100,'',function(p){
 				//alert(dwr.util.toDescriptiveString(p,3));
 				dwr.util.removeAllOptions('instanceId');
 				dwr.util.addOptions('instanceId', p, 'instanceId', function(p) {
@@ -343,6 +376,12 @@ $(function(){
 	
 </script>
 <p class="dataTableHeader">Volume Resource</p>
+				<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 <div id="datatable-iaas-parent" class="infragrid2">
 					<div id="datatable-iaas" >
 						<table cellpadding="0" cellspacing="0" border="0" class="display" id="compute-table">
@@ -350,17 +389,26 @@ $(function(){
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px;padding-top: 20px;">
+							<div class="demo" id="popupbutton_volume" style="float: left; padding-left: 10px;"><button>Request New Volume</button></div>
+							<div class="demo" id="popupbutton_volumelist" style="float: left; padding-left: 10px;"><button>List All Volumes</button></div>
+							
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
+						
+						</div>
 						<table align="right" border="0" width="100%">
 							<tr>
 								<td width="80%">
 								
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_volume"><button>Request Volume</button></div>
+									<!-- <div class="demo" id="popupbutton_volume"><button>Request Volume</button></div> -->
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_volumelist"><button>List Volumes</button></div>
+									<!-- <div class="demo" id="popupbutton_volumelist"><button>List Volumes</button></div> -->
 								</td>
 							</tr>
 						</table>

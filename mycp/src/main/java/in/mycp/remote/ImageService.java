@@ -97,13 +97,15 @@ public class ImageService {
 		}//end of method findById(int id
 
     	@RemoteMethod
-		public List<ImageDescriptionP> findAll4List(){
+		public List<ImageDescriptionP> findAll4List(int firstResult, int maxResults){
+    		log.info("findAll4List");
 			try{
 				User user = Commons.getCurrentUser();
 				if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
-					return ImageDescriptionP.findAllImageDescriptionPs();
+					return ImageDescriptionP.findAllImageDescriptionPs(firstResult,maxResults,"");
 				}else {
-					return ImageDescriptionP.findImageDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+					return ImageDescriptionP.findImageDescriptionPsByCompany(
+							Company.findCompany(Commons.getCurrentSession().getCompanyId()),firstResult,maxResults,"").getResultList();
 				}				
 				
 				}catch (Exception e) {
@@ -113,15 +115,16 @@ public class ImageService {
 		}//end of method findAll4List
     	
     	@RemoteMethod
-		public List<ImageDescriptionP> findAll(){
+		public List<ImageDescriptionP> findAll(int start,int max,String search){
 			try{
 				User user = Commons.getCurrentUser();
 				if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-					return ImageDescriptionP.findImageDescriptionPsByUser(user).getResultList();
+					return ImageDescriptionP.findImageDescriptionPsByUser(user,start,max,search).getResultList();
 				}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-					return ImageDescriptionP.findImageDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+					return ImageDescriptionP.findImageDescriptionPsByCompany(
+							Company.findCompany(Commons.getCurrentSession().getCompanyId()),start,max,search).getResultList();
 				}				
-				return ImageDescriptionP.findAllImageDescriptionPs();
+				return ImageDescriptionP.findAllImageDescriptionPs(start,max,search);
 				}catch (Exception e) {
 				log.error(e);//e.printStackTrace();
 			}

@@ -98,6 +98,10 @@
 		
 	}
 
+	var start = 0;
+	var max = 17;
+	var index=0;
+	
 	function findAll_secgroup(p){
 
 		 oTable = $('#compute-table').dataTable( {
@@ -111,6 +115,12 @@
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
@@ -162,8 +172,6 @@
 				}//for j
 			}//if
 		}//for i
-		
-		
 	
 	}
 
@@ -181,11 +189,37 @@ $(function(){
 			  
 		});
 	
-		$("#popupbutton_secgrouplist").click(function(){
-				dwr.engine.beginBatch();
-				GroupDescriptionP.findAll4Edit(findAll_secgroup);
-			  dwr.engine.endBatch();
-		} );
+		
+			$("#popupbutton_secgrouplist").click(function(){
+					dwr.engine.beginBatch();
+					start =0;
+					$('#SearchField').val('');
+					GroupDescriptionP.findAll4Edit(start,max,'',findAll_secgroup);
+				  dwr.engine.endBatch();
+			} );
+			
+			$("#popupbutton_previous").click(function(){
+				if(start>16){
+					start=start -17;
+				
+				var text2Search = dwr.util.getValue("SearchField");
+				GroupDescriptionP.findAll4Edit(start,max,text2Search,findAll_secgroup);
+			} );
+			
+			$("#popupbutton_next").click(function(){
+				start = start +17;
+				var text2Search = dwr.util.getValue("SearchField");
+				GroupDescriptionP.findAll4Edit(start,max,text2Search,findAll_secgroup);
+			} );
+			
+			$("#popupbutton_search").click(function(){
+				
+				var text2Search = dwr.util.getValue("SearchField");
+				start = 0;
+				GroupDescriptionP.findAll4Edit(start,max,text2Search,findAll_secgroup);
+				
+			} );
+	
 		});
 
 		$("#popupContactClose_secgroup").click(function(){
@@ -309,6 +343,12 @@ $(function(){
 	
 	</script>
 <p class="dataTableHeader">Security Group Resource</p>
+					<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 <div id="datatable-iaas-parent" class="infragrid2">
 					<div id="datatable-iaas" >
 						<table cellpadding="0" cellspacing="0" border="0" class="display" id="compute-table">
@@ -316,7 +356,15 @@ $(function(){
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px; padding-top: 20px;">
+							<div class="demo" id="popupbutton_secgroup" style="float: left; padding-left: 10px;"><button>Request New Group</button></div>
+							<div class="demo" id="popupbutton_secgrouplist" style="float: left; padding-left: 10px;"><button>List All Groups</button></div>
+							
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
+						</div>
 						
 						<table align="right" border="0" width="100%">
 							<tr>
@@ -324,10 +372,10 @@ $(function(){
 								
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_secgroup"><button>Create Group</button></div>
+									<!-- <div class="demo" id="popupbutton_secgroup"><button>Create Group</button></div> -->
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_secgrouplist"><button>List Groups</button></div>
+									<!-- <div class="demo" id="popupbutton_secgrouplist"><button>List Groups</button></div> -->
 								</td>
 							</tr>
 						</table>

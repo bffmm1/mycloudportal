@@ -156,7 +156,7 @@ public class KeyPairService {
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
 				return KeyPairInfoP.findAllKeyPairInfoPs();
 			}else {
-				return KeyPairInfoP.findKeyPairInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				return KeyPairInfoP.findKeyPairInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()),0, 100,"").getResultList();
 			}
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
@@ -165,17 +165,17 @@ public class KeyPairService {
 	}// end of method findAll4List
 	
 	@RemoteMethod
-	public List<KeyPairInfoP> findAll() {
+	public List<KeyPairInfoP> findAll(int start, int max,String search) {
 		try {
 			
 			User user = Commons.getCurrentUser();
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				return KeyPairInfoP.findKeyPairInfoPsByUser(user).getResultList();
+				return KeyPairInfoP.findKeyPairInfoPsByUser(user, start,  max, search).getResultList();
 			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				return KeyPairInfoP.findKeyPairInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				return KeyPairInfoP.findKeyPairInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()), start,  max, search).getResultList();
 			}
 			
-			return KeyPairInfoP.findAllKeyPairInfoPs();
+			return KeyPairInfoP.findAllKeyPairInfoPs(start,  max, search);
 		} catch (Exception e) {
 			log.error(e);//e.printStackTrace();
 			

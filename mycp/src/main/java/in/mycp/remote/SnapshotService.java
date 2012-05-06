@@ -93,18 +93,19 @@ public class SnapshotService {
 	}// end of method findById(int id
 
 	@RemoteMethod
-	public List<SnapshotInfoP> findAll() {
+	public List<SnapshotInfoP> findAll(int start,int  max,String search) {
 		try {
 			
 			User user = Commons.getCurrentUser();
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				return SnapshotInfoP.findSnapshotInfoPsByUser(user).getResultList();
+				return SnapshotInfoP.findSnapshotInfoPsByUser(user, start,  max, search).getResultList();
 			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				return SnapshotInfoP.findSnapshotInfoPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				return SnapshotInfoP.findSnapshotInfoPsByCompany(
+						Company.findCompany(Commons.getCurrentSession().getCompanyId()), start,  max, search).getResultList();
 			}
-			return SnapshotInfoP.findAllSnapshotInfoPs();
+			return SnapshotInfoP.findAllSnapshotInfoPs(start,  max, search);
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			log.error(e);//e.printStackTrace();
 		}
 		return null;
 	}// end of method findAll

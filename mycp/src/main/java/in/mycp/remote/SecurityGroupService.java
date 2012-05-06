@@ -185,7 +185,7 @@ public class SecurityGroupService {
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
 				gds = GroupDescriptionP.findAllActiveGroupDescriptionPs();
 			}else {
-				gds = GroupDescriptionP.findActiveGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				gds = GroupDescriptionP.findActiveGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()),0,100,"").getResultList();
 			}
 			for (Iterator iterator = gds.iterator(); iterator.hasNext();) {
 				GroupDescriptionP groupDescriptionP = (GroupDescriptionP) iterator.next();
@@ -212,18 +212,18 @@ public class SecurityGroupService {
 	
 	
 	@RemoteMethod
-	public List<GroupDescriptionP>  findAll() {
+	public List<GroupDescriptionP>  findAll(int start,int max,String search) {
 		try {
 			List<GroupDescriptionP> gds = null;
 			
 			User user = Commons.getCurrentUser();
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				gds = GroupDescriptionP.findActiveGroupDescriptionPsByUser(user).getResultList();
+				gds = GroupDescriptionP.findActiveGroupDescriptionPsByUser(user, start,  max, search).getResultList();
 			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
 				
-				gds = GroupDescriptionP.findActiveGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				gds = GroupDescriptionP.findActiveGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()), start,  max, search).getResultList();
 			}else {
-				gds = GroupDescriptionP.findAllActiveGroupDescriptionPs();
+				gds = GroupDescriptionP.findAllActiveGroupDescriptionPs(start,  max, search);
 			}
 			
 			for (Iterator iterator = gds.iterator(); iterator.hasNext();) {
@@ -250,17 +250,17 @@ public class SecurityGroupService {
 	}// end of method findAll
 	
 	@RemoteMethod
-	public List findAll4Edit() {
+	public List findAll4Edit(int start, int max,String search) {
 		try {
 			List<GroupDescriptionP> gds = null;
 			
 			User user = Commons.getCurrentUser();
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				gds = GroupDescriptionP.findAllGroupDescriptionPsByUser(user).getResultList();
+				gds = GroupDescriptionP.findAllGroupDescriptionPsByUser(user, start,  max, search).getResultList();
 			}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				gds = GroupDescriptionP.findAllGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId())).getResultList();
+				gds = GroupDescriptionP.findAllGroupDescriptionPsByCompany(Company.findCompany(Commons.getCurrentSession().getCompanyId()), start,  max, search).getResultList();
 			}else {
-				gds = GroupDescriptionP.findAllGroupDescriptionPs();
+				gds = GroupDescriptionP.findAllGroupDescriptionPs(start,  max, search);
 			}
 			
 			for (Iterator iterator = gds.iterator(); iterator.hasNext();) {

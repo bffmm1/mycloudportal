@@ -47,7 +47,10 @@
 		});
 		
 	}
-
+	
+	var start = 0;
+	var max = 17;
+	
 	function findAll_keys(p){
 		
 		 oTable = $('#compute-table').dataTable( {
@@ -60,6 +63,12 @@
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
@@ -99,7 +108,7 @@
                 	'<img class="clickimg" title="Delete" alt="Remove" src=../images/deny.png onclick=remove_keys('+p[i].id+')>';
         	}
 			
-			oTable.fnAddData( [i+1,p[i].keyName, p[i].keyFingerprint,p[i].status,'<a href=\"#\" onClick=\"+showKeyMaterial('+p[i].id+')\">Show/Hide</a>'+d,
+			oTable.fnAddData( [start+i+1,p[i].keyName, p[i].keyFingerprint,p[i].status,'<a href=\"#\" onClick=\"+showKeyMaterial('+p[i].id+')\">Show/Hide</a>'+d,
 			                   actions ] );
 		}
 		
@@ -126,11 +135,42 @@
 				loadPopup_keys();
 			});
 		
+			
+				
+				
 				$("#popupbutton_keyslist").click(function(){
-						dwr.engine.beginBatch();
-						KeyPairInfoP.findAll(findAll_keys);
-					  dwr.engine.endBatch();
-				} );
+					dwr.engine.beginBatch();
+					start =0;
+					$('#SearchField').val('');
+					KeyPairInfoP.findAll(start,max,'',findAll_keys);
+				  dwr.engine.endBatch();
+			} );
+			
+			$("#popupbutton_previous").click(function(){
+				if(start>16){
+					start=start -17;
+				}
+				var text2Search = dwr.util.getValue("SearchField");
+				KeyPairInfoP.findAll(start,max,text2Search,findAll_keys);
+			} );
+			
+			$("#popupbutton_next").click(function(){
+				start = start +17;
+				var text2Search = dwr.util.getValue("SearchField");
+				KeyPairInfoP.findAll(start,max,text2Search,findAll_keys);
+			} );
+			
+			$("#popupbutton_search").click(function(){
+				
+				var text2Search = dwr.util.getValue("SearchField");
+				start = 0;
+				KeyPairInfoP.findAll(start,max,text2Search,findAll_keys);
+				
+			} );
+				
+				
+				
+				
 			});
 		
 		$("#popupContactClose_keys").click(function(){
@@ -226,6 +266,13 @@
 	
 	</script>
 <p class="dataTableHeader">Key Resource</p>
+
+				<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 <div id="datatable-iaas-parent" class="infragrid2">
 					<div id="datatable-iaas" >
 					
@@ -234,7 +281,15 @@
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px; padding-top: 20px;">
+							<div class="demo" id="popupbutton_keys" style="float: left; padding-left: 10px;"><button>Request New Key</button></div>
+							<div class="demo" id="popupbutton_keyslist" style="float: left; padding-left: 10px;"><button>List All Keys</button></div>
+							
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
+						</div>
 						
 						<table align="right" border="0" width="100%">
 							<tr>
@@ -242,10 +297,10 @@
 								
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_keys"><button>Request Key</button></div>
+									<!-- <div class="demo" id="popupbutton_keys"><button>Request Key</button></div> -->
 								</td>
 								<td width="10%">
-									<div class="demo" id="popupbutton_keyslist"><button>List Keys</button></div>
+									<!-- <div class="demo" id="popupbutton_keyslist"><button>List Keys</button></div> -->
 								</td>
 							</tr>
 						</table>

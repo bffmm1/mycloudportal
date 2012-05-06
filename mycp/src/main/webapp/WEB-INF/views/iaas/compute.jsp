@@ -63,6 +63,9 @@
 		
 	}
 
+	var start = 0;
+	var max = 17;
+	
 	function findAll_compute(p){
 		/* alert(p.length);
 		alert(p[0].imageId); */
@@ -83,6 +86,12 @@
 	    	"iDisplayLength": 17,
 	        "aaData": [
 	        ],
+	        "fnDrawCallback": function() {
+                $('.dataTables_paginate').css("display", "none");
+                $('.dataTables_length').css("display", "none");
+                $('.dataTables_filter').css("display", "none");
+                $('.dataTables_info').css("display", "none");
+    		},
 	        "aoColumns": [
 	            { "sTitle": "#" },
 	            { "sTitle": "Name" },
@@ -151,7 +160,7 @@
 			}
                 
 			//alert(state);
-			oTable.fnAddData( [i+1,p[i].name, p[i].instanceId, p[i].imageId, p[i].dnsName,
+			oTable.fnAddData( [start+i+1,p[i].name, p[i].instanceId, p[i].imageId, p[i].dnsName,
 			                   p[i].keyName,p[i].groupName, p[i].platform, state,
 			                   p[i].instanceType,
 			                   actions ] );
@@ -173,11 +182,36 @@ $(function(){
 			loadPopup_compute();
 		});
 	
+	
 		$("#popupbutton_computelist").click(function(){
 				dwr.engine.beginBatch();
-				InstanceP.findAll(findAll_compute);
+				start =0;
+				$('#SearchField').val('');
+				InstanceP.findAll(start,max,'',findAll_compute);
 			  dwr.engine.endBatch();
+		} );
 		
+		$("#popupbutton_previous").click(function(){
+			if(start>16){
+				start=start -17;
+			}
+			var text2Search = dwr.util.getValue("SearchField");
+			InstanceP.findAll(start,max,text2Search,findAll_compute);
+		} );
+		
+		$("#popupbutton_next").click(function(){
+			start = start +17;
+			//alert(start+'   '+max);
+			var text2Search = dwr.util.getValue("SearchField");
+			InstanceP.findAll(start,max,text2Search,findAll_compute);
+		} );
+		
+		$("#popupbutton_search").click(function(){
+			
+			var text2Search = dwr.util.getValue("SearchField");
+			start = 0;
+			InstanceP.findAll(start,max,text2Search,findAll_compute);
+			
 		} );
 		
 		});
@@ -217,7 +251,7 @@ $(function(){
 				dwr.util.addOptions('keyName', p, 'id', 'keyName');
 				//dwr.util.setValue(id, sel);
 			});
-			ImageDescriptionP.findAll4List(function(p){
+			ImageDescriptionP.findAll4List(0,100,function(p){
 				//alert(dwr.util.toDescriptiveString(p,3));
 				dwr.util.removeAllOptions('imageId');
 				dwr.util.addOptions('imageId', p, 'imageId', function(p) {
@@ -259,8 +293,8 @@ function submitForm_compute(f){
 	  disablePopup_compute();
 	  viewed_compute=-1;
 }
-function cancelForm_compute(f){
 
+function cancelForm_compute(f){
 	var instancep = {  id:null,name:null, reason:null, imageId:null, instanceType:null, keyName:null,groupName:null,product:null};
 	  dwr.util.setValues(instancep);
 	  viewed_compute = -1;
@@ -350,6 +384,12 @@ function afterSave_compute(){
 
 </script>   
 <p class="dataTableHeader">Compute Resource</p>
+					<div style="width: 300px;float: right;"> 
+						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField" ></div>
+						 
+						<div class="demo" id="popupbutton_search" style="float: left; padding-bottom: 10px;"><button>Search</button></div>
+					
+					</div>
 			<div id="datatable-iaas-parent" class="infragrid2">
 					<div id="datatable-iaas" >
 						<table cellpadding="0" cellspacing="0" border="0" class="display" id="compute-table">
@@ -357,7 +397,16 @@ function afterSave_compute(){
 							<tfoot><tr><th rowspan="1" colspan="5"></th></tr>
 							</tfoot><tbody></tbody>
 						</table>
-						<div style="height: 50px;"></div>
+						<div style="height: 50px;padding-top: 20px;">
+							<div class="demo" id="popupbutton_compute" style="float: left; padding-left: 10px;"><button>Request New Compute</button></div>
+							<div class="demo" id="popupbutton_computelist" style="float: left; padding-left: 10px;"><button>List All Compute</button></div>
+							
+							<div style="width: 200px;float: right;"> 
+								<div class="demo" id="popupbutton_previous" style="float: left;  width: 90px;"><button>Previous</button></div>
+								<div class="demo" id="popupbutton_next" style="float: left; "><button>Next</button></div>
+							</div>
+						
+						</div>
 						
 						<table align="right" border="0" width="100%">
 							<tr>
@@ -365,10 +414,10 @@ function afterSave_compute(){
 								
 								</td>
 								<td width="15%">
-									<div class="demo" id="popupbutton_compute"><button>Request Compute</button></div>
+									<!-- <div class="demo" id="popupbutton_compute"><button>Request Compute</button></div> -->
 								</td>
 								<td width="15%">
-									<div class="demo" id="popupbutton_computelist"><button>List Compute</button></div>
+									<!-- <div class="demo" id="popupbutton_computelist"><button>List Compute</button></div> -->
 								</td>
 							</tr>
 						</table>

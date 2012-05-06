@@ -24,9 +24,7 @@ privileged aspect KeyPairInfoP_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT COUNT(o) FROM KeyPairInfoP o", Long.class).getSingleResult();
     }
     
-    public static List<KeyPairInfoP> KeyPairInfoP.findAllKeyPairInfoPs() {
-        return entityManager().createQuery("SELECT o FROM KeyPairInfoP o", KeyPairInfoP.class).getResultList();
-    }
+    
     
     public static KeyPairInfoP KeyPairInfoP.findKeyPairInfoP(Integer id) {
         if (id == null) return null;
