@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<script type="text/javascript" src="/js/jqueryplugins/jquery.ui.autocomplete.js"></script>
 <script type='text/javascript' src='/dwr/interface/InstanceP.js'></script>
 <script type='text/javascript' src='/dwr/interface/KeyPairInfoP.js'></script>
 <script type='text/javascript' src='/dwr/interface/ImageDescriptionP.js'></script>
@@ -170,15 +171,10 @@
 
 	var viewed_compute = -1;	
 $(function(){
-	
-	
-	//LOADING POPUP
-		//Click the button event!
-		$("#popupbutton_compute").click(function(){
+
+	$("#popupbutton_compute").click(function(){
 			viewed_compute = -1;
-			//centering with css
 			centerPopup_compute();
-			//load popup
 			loadPopup_compute();
 		});
 	
@@ -251,14 +247,16 @@ $(function(){
 				dwr.util.addOptions('keyName', p, 'id', 'keyName');
 				//dwr.util.setValue(id, sel);
 			});
+			/*
 			ImageDescriptionP.findAll4List(0,100,function(p){
-				//alert(dwr.util.toDescriptiveString(p,3));
+				
 				dwr.util.removeAllOptions('imageId');
 				dwr.util.addOptions('imageId', p, 'imageId', function(p) {
 					return p.imageId+' @ '+p.imageLocation;
 				});
-				//dwr.util.setValue(id, sel);
+				
 			});
+			*/
 			GroupDescriptionP.findAll4List(function(p){
 				dwr.util.removeAllOptions('groupName');
 				dwr.util.addOptions('groupName', p, 'name', 'name');
@@ -271,7 +269,33 @@ $(function(){
 					 return false;
 				 }
 				});
+			
+			//$("#imageId").autocomplete("my_autocomplete_backend.php", { minChars:1 });
+			
+			
+			jQuery('#imageId').autocomplete({
+			    source : function(request, response) {
+			    	var text2Search = $('#imageId').val() ;
+			    	ImageDescriptionP.findAll(0,100,text2Search,  function(data) {
+			                var arrayOfData = [];
+			                for(i = 0;i < data.length;i++){
+			                    arrayOfData.push(data[i].imageId);
+			                }
+			                response(arrayOfData);
+			            
+			        });
+			    }
+			});
+			
+			
+			
+			
+
+			
+			
 		});
+		
+		
 		
 function submitForm_compute(f){
 	
@@ -453,8 +477,8 @@ function afterSave_compute(){
 								  <tr>
 								    <td style="width: 20%;">Image : </td>
 								    <td style="width: 80%;">
-								    <select id="imageId" name="imageId" style="width: 385px;" class="required">
-							    	</select>
+								    <input type="text" id="imageId" size="58" class="required">
+								    
 							    	</td>
 								  </tr>
 								  <tr>

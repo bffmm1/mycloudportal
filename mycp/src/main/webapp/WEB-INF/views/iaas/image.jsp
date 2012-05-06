@@ -3,6 +3,10 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
   <script type='text/javascript' src='/dwr/interface/ImageDescriptionP.js'></script>
 <script type='text/javascript' src='/dwr/interface/InstanceP.js'></script>
+
+<script type='text/javascript' src='/dwr/interface/KeyPairInfoP.js'></script>
+<script type='text/javascript' src='/dwr/interface/GroupDescriptionP.js'></script>
+<script type='text/javascript' src='/dwr/interface/ProductService.js'></script>
  
 <script type="text/javascript">
 /***************************/
@@ -11,52 +15,50 @@
 //@email: yensamg@gmail.com
 //@license: Feel free to use it, but keep this credits please!					
 /***************************/
-//SETTING UP OUR POPUP
-	//0 means disabled; 1 means enabled;
-	var popupStatus_image = 0;
+	var popupStatus_compute = 0;
 
-	//loading popup with jQuery magic!
-	function loadPopup_image(){
-		//loads popup only if it is disabled
-		if(popupStatus_image==0){
-			$("#backgroundPopup_image").css({
+function loadPopup_compute(){
+		if(popupStatus_compute==0){
+			$("#backgroundPopup_compute").css({
 				"opacity": "0.7"
 			});
-			$("#backgroundPopup_image").fadeIn("slow");
-			$("#popupContact_image").fadeIn("slow");
-			popupStatus_image = 1;
+			$("#backgroundPopup_compute").fadeIn("slow");
+			$("#popupContact_compute").fadeIn("slow");
+			popupStatus_compute = 1;
 		}
 	}
 
-	//disabling popup with jQuery magic!
-	function disablePopup_image(){
-		//disables popup only if it is enabled
-		if(popupStatus_image==1){
-			$("#backgroundPopup_image").fadeOut("slow");
-			$("#popupContact_image").fadeOut("slow");
-			popupStatus_image = 0;
+	function disablePopup_compute(){
+		if(popupStatus_compute==1){
+			$("#backgroundPopup_compute").fadeOut("slow");
+			$("#popupContact_compute").fadeOut("slow");
+			popupStatus_compute = 0;
 		}
 	}
 
-	//centering popup
-	function centerPopup_image(){
-		//request data for centering
+	function centerPopup_compute(){
 		var windowWidth = document.documentElement.clientWidth;
 		var windowHeight = document.documentElement.clientHeight;
-		var popupHeight = $("#popupContact_image").height();
-		var popupWidth = $("#popupContact_image").width();
-		//centering
-		$("#popupContact_image").css({
+		var popupHeight = $("#popupContact_compute").height();
+		var popupWidth = $("#popupContact_compute").width();
+		$("#popupContact_compute").css({
 			"position": "absolute",
 			"top": windowHeight/2-popupHeight/2,
 			"left": windowWidth/2-popupWidth/2
 		});
-		//only need force for IE6
 		
-		$("#backgroundPopup_image").css({
+		$("#backgroundPopup_compute").css({
 			"height": windowHeight
 		});
+		
 	}
+	function create_server(p){
+		viewed_compute = -1;
+		centerPopup_compute();
+		loadPopup_compute();
+		dwr.util.setValue('imageId',p);
+	}
+	
 
 	var viewed_image = -1;	
 	var start = 0;
@@ -99,9 +101,8 @@
 	            { "sTitle": "Platform" },
 	            { "sTitle": "Root Device" },
 	            { "sTitle": "Image Type" },
-	            { "sTitle": "Hypervisor" },
-	            { "sTitle": "Virtualization" }
-	            //{ "sTitle": "Actions" }
+	            { "sTitle": "Virtualization" },
+	            { "sTitle": "Actions" }
 	           
 	        ]
 	    } );
@@ -114,18 +115,19 @@
 		{
 			oTable.fnAddData( [start+i+1,p[i].name, p[i].imageId, 
 			                   p[i].imageOwnerId, p[i].imageState, p[i].isPublic,
-			                   p[i].architecture,p[i].platform,p[i].rootDeviceName,p[i].imageType,p[i].hypervisor,p[i].virtualizationType,
-			                   //'<img alt="Edit" src=../images/edit.png onclick=edit_image('+p[i].id+')>&nbsp; &nbsp; &nbsp; '+
+			                   p[i].architecture,p[i].platform,p[i].rootDeviceName,p[i].imageType,p[i].virtualizationType,
+			                   '<img class="clickimg" title="create server"  alt="create server" src="/images/createServer.png" onclick=create_server("'+p[i].imageId+'")>&nbsp; &nbsp; &nbsp; '
 			                   //'<img class="clickimg" title="Remove"  alt="Remove" src=../images/deny.png onclick=remove_image('+p[i].id+')>' 
 			                   ] );
 		}
 	}
 	
 $(function(){
-		$("#popupbutton_image").click(function(){
+		$("#popupbutton_image").click(function(p){
 			viewed_image = -1;
 			centerPopup_image();
 			loadPopup_image();
+			
 		});
 	
 			$("#popupbutton_imagelist").click(function(){
@@ -161,19 +163,7 @@ $(function(){
 			
 		});
 		
-		$("#popupContactClose_image").click(function(){
-			viewed_image = -1;
-			disablePopup_image();
-		});
-		$("#backgroundPopup_image").click(function(){
-			viewed_image = -1;
-			disablePopup_image();
-		});
-		$(document).keypress(function(e){
-			if(e.keyCode==27 && popupStatus_image==1){
-				disablePopup_image();
-			}
-		});
+		
 		
 		$(document).ready(function() {
 			$("#popupbutton_imagelist").click();
@@ -190,7 +180,77 @@ $(function(){
 					 return false;
 				 }
 				});
+			
+			InstanceP.findProductType(function(p){
+				//alert(dwr.util.toDescriptiveString(p,3));
+  				dwr.util.removeAllOptions('product');
+  				dwr.util.addOptions('product', p,'id','name');
+  				//dwr.util.setValue(id, sel);
+  			});
+			
+			KeyPairInfoP.findAll4List(function(p){
+				dwr.util.removeAllOptions('keyName');
+				dwr.util.addOptions('keyName', p, 'id', 'keyName');
+				//dwr.util.setValue(id, sel);
+			});
+			
+			GroupDescriptionP.findAll4List(function(p){
+				dwr.util.removeAllOptions('groupName');
+				dwr.util.addOptions('groupName', p, 'name', 'name');
+				//dwr.util.setValue(id, sel);
+			});
+			
+			$("#thisform").validate({
+				 submitHandler: function(form) {
+					 submitForm_compute(form);
+					 return false;
+				 }
+				});
+			
+			
+			jQuery('#imageId').autocomplete({
+			    source : function(request, response) {
+			    	var text2Search = $('#imageId').val() ;
+			    	ImageDescriptionP.findAll(0,100,text2Search,  function(data) {
+			                var arrayOfData = [];
+			                for(i = 0;i < data.length;i++){
+			                    arrayOfData.push(data[i].imageId);
+			                }
+			                response(arrayOfData);
+			            
+			        });
+			    }
+			});
+			
 		});
+		
+		function submitForm_compute(f){
+			
+			var instancep = {  id:viewed_compute,name:null, reason:null, imageId:null, instanceType:null, keyName:null,groupName:null,product:null };
+			  dwr.util.getValues(instancep);
+			  
+			  if(viewed_compute == -1){
+				  instancep.id  = null; 
+			  }
+			  instancep.keyName=dwr.util.getText("keyName");
+			  
+			  dwr.engine.beginBatch();
+			  if(viewed_compute >0){
+				  InstanceP.updateCompute(instancep,afterSave_compute);
+			  }else{
+				  InstanceP.requestCompute(instancep,afterSave_compute);  
+			  }
+			  dwr.engine.endBatch();
+			  disablePopup_compute();
+			  viewed_compute=-1;
+		}
+		
+		function cancelForm_compute(f){
+			var instancep = {  id:null,name:null, reason:null, imageId:null, instanceType:null, keyName:null,groupName:null,product:null};
+			  dwr.util.setValues(instancep);
+			  viewed_compute = -1;
+			  disablePopup_compute();
+		}
 		
 function submitForm_image(f){
 	var imageDescriptionp = {  id:viewed_image,name:null, description:null };
@@ -240,7 +300,7 @@ function edit_image(id){
 		$("#popupbutton_imagelist").click();}
 
 </script>
-<p class="dataTableHeader">Image Resource</p>
+<div class="dataTableHeader">Image Resource</div>
 					<div style="width: 300px;float: right;"> 
 						<div style="float: left; padding-top: 5px; width: 170px;"> <input type="text" name="SearchField" id="SearchField"  ></div>
 						 
@@ -281,37 +341,79 @@ function edit_image(id){
 				</div>
 				</div>
 				
-	<div id="popupContactParent_image" >
-		<div id="popupContact_image" class="popupContact" >
-							<a  onclick="cancelForm_image();return false;" class="popupContactClose" style="cursor: pointer; text-decoration:none;">X</a>
-							<h1>Image</h1>
+	<div id="popupContactParent_compute" >
+		<div id="popupContact_compute" class="popupContact" >
+							<a  onclick="cancelForm_compute();return false;" class="popupContactClose" style="cursor: pointer; text-decoration:none;">X</a>
+							<h1>Request Compute</h1>
 							<form class="cmxform" id="thisform" method="post" name="thisform">
-								<p id="contactArea_image" class="contactArea" >
+								<p id="contactArea_compute" class="contactArea" >
 								<input type="hidden" id="id" name="id">
 								<table style="width: 100%;">
-								  <tr>
-								    <td style="width: 50%;">Name : </td>
-								    <td style="width: 50%;"><input type="text" name="name" id="name" size="30" class="required"></td>
+								
+								<tr>
+								    <td style="width: 20%;">Product : </td>
+								    <td style="width: 80%;">
+								    <select id="product" name="product" style="width: 385px;" class="required">
+							    	</select>
+							    	</td>
 								  </tr>
 								  
 								  <tr>
-								    <td style="width: 50%;">Description : </td>
-								    <td style="width: 50%;"><input type="text" name="description" id="description" size="30"></td>
+								    <td style="width: 20%;">Name : </td>
+								    <td style="width: 80%;"><input type="text" name="name" id="name" size="58" maxlength="90" class="required"></td>
 								  </tr>
 								  <tr>
-								    <td style="width: 50%;">Instance : </td>
-								    <td style="width: 50%;"><select id="instance" name="instance" style="width: 205px;" class="required">
-							    	</select></td>
+								    <td style="width: 20%;">Reason : </td>
+								    <td style="width: 80%;"><input type="text" name="reason" id="reason" maxlength="90" size="58"></td>
 								  </tr>
+								  <tr>
+								    <td style="width: 20%;">Image : </td>
+								    <td style="width: 80%;">
+								    <input type="text" id="imageId" size="58" class="required">
+								    
+							    	</td>
+								  </tr>
+								  <tr>
+								    <td style="width: 20%;">Type : </td>
+								    <td style="width: 80%;">
+								    <select id="instanceType" name="instanceType" style="width: 385px;" class="required">
+								    	<option value="m1.small">m1.small</option>
+								    	<option value="c1.medium">c1.medium</option>
+								    	<option value="m1.large">m1.large</option>
+								    	<option value="m1.xlarge">m1.xlarge</option>
+								    	<option value="c1.xlarge">c1.xlarge</option>
+							    	</select>
+							    	</td>
+								  </tr>
+								  
+								  <tr>
+								    <td style="width: 20%;">Key : </td>
+								    <td style="width: 80%;">
+								    <select id="keyName" name="keyName" style="width: 385px;" class="required">
+							    	</select>
+							    	</td>
+								  </tr>
+								   <!-- <tr>
+								    <td style="width: 50%;">Base Infra : </td>
+								    <td style="width: 50%;"><input type="text" name="hypervisor" id="hypervisor" size="60"></td>
+								  </tr> -->
+								  <tr>
+								    <td style="width: 20%;">Security Group : </td>
+								    <td style="width: 80%;">
+								    <select id="groupName" name="groupName" style="width: 385px;" class="required">
+							    	</select>
+							    	</td>
+								  </tr>
+								  
 								  
 								  
 								  <tr>
 								    <td style="width: 50%;"></td>
 								    <td style="width: 50%;">
 								    <br><br>
-										<div class="demo" id="popupbutton_image_create">
+										<div class="demo" id="popupbutton_compute_create">
 											<input class="submit" type="submit" value="Save"/>&nbsp;&nbsp;&nbsp;&nbsp;
-											<button onclick="cancelForm_image(this.form);return false;">Cancel</button>
+											<button onclick="cancelForm_compute(this.form);return false;">Cancel</button>
 										</div>
 									</td>
 								  </tr>
@@ -319,5 +421,5 @@ function edit_image(id){
 								</p>
 							</form>
 						</div>
-		<div id="backgroundPopup_image" class="backgroundPopup" ></div>
-	</div>				
+		<div id="backgroundPopup_compute" class="backgroundPopup" ></div>
+	</div>					

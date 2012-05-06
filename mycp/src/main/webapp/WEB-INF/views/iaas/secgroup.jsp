@@ -201,7 +201,7 @@ $(function(){
 			$("#popupbutton_previous").click(function(){
 				if(start>16){
 					start=start -17;
-				
+				}
 				var text2Search = dwr.util.getValue("SearchField");
 				GroupDescriptionP.findAll4Edit(start,max,text2Search,findAll_secgroup);
 			} );
