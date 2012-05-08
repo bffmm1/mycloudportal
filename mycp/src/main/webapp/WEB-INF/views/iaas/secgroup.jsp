@@ -403,8 +403,8 @@ $(function(){
 								 
 								<tr>
 								    <td style="width: 20%;"><input type="text" name="name" id="name" size="20" class="required"></td>
-								    <td style="width: 20%;"><input type="text" name="descripton" id="descripton" size="20"></td>
-								    <td style="width: 20%;"><input type="text" name="owner" id="owner" size="20"> </td>
+								    <td style="width: 20%;"><input type="text" name="descripton" id="descripton" size="20" class="required"></td>
+								    <td style="width: 20%;"><input type="text" name="owner" id="owner" size="20" class="required"> </td>
 								    <td style="width: 20%;"><select id="product" name="product" style="width: 205px;" class="required"></select>
 								    </td>
 								    <td style="width: 20%;"></td>

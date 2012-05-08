@@ -239,11 +239,13 @@ public class WorkflowService {
 					// throw new
 					// Exception("Which asset does this workflow belong?");
 				}
-
+				String assetDetails = workflow.getAssetDetails();
+				assetDetails = StringUtils.replace(assetDetails, "null", "");
+				workflow.setAssetDetails(assetDetails);
 			}
 			return wfs2return;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			log.error(e);//e.printStackTrace();
 		}
 		return null;
