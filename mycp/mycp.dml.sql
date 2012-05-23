@@ -36,7 +36,7 @@ VALUES  ('superadmin@mycloudportal.in','1a402742ae88760b69a12cb1455e77e53a3e3711
 
 commit;
 
------------------------
+
 
 ALTER TABLE image_description_p CHANGE COLUMN name name VARCHAR(255) NULL DEFAULT NULL  , 
 CHANGE COLUMN description description VARCHAR(255) NULL DEFAULT NULL  ;

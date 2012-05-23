@@ -489,11 +489,11 @@ function afterSave_compute(){
 								    <td style="width: 20%;">Type : </td>
 								    <td style="width: 80%;">
 								    <select id="instanceType" name="instanceType" style="width: 385px;" class="required">
-								    	<option value="m1.small">m1.small</option>
-								    	<option value="c1.medium">c1.medium</option>
-								    	<option value="m1.large">m1.large</option>
-								    	<option value="m1.xlarge">m1.xlarge</option>
-								    	<option value="c1.xlarge">c1.xlarge</option>
+								    	<option value="m1.small">m1.small - 1 CPU, 128 MB RAM, 2 GB Storage</option>
+								    	<option value="c1.medium">c1.medium - 1 CPU, 256 MB RAM, 5 GB Storage</option>
+								    	<option value="m1.large">m1.large - 2 CPU, 512 MB RAM, 10 GB Storage</option>
+								    	<option value="m1.xlarge">m1.xlarge - 2 CPU, 1024 MB RAM, 20 GB Storage</option>
+								    	<option value="c1.xlarge">c1.xlarge - 4 CPU, 2048 MB RAM, 20 GB Storage</option>
 							    	</select>
 							    	</td>
 								  </tr>

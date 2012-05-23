@@ -107,8 +107,9 @@ public class ReportsController {
 				Set<Project> projs = department.getProjects();
 				for (Iterator iterator2 = projs.iterator(); iterator2.hasNext();) {
 					Project project = (Project) iterator2.next();
-					projHash.put(project.getName() + " @ " + department.getName() + " - " + Commons.getCurrentSession().getCompany(),
-							reportService.findAssets4Project(project.getId()));
+					projHash.put(project.getName(),reportService.findAssets4Project(project.getId()));
+					/*projHash.put(project.getName() + " @ " + department.getName() + " - " + Commons.getCurrentSession().getCompany(),
+							reportService.findAssets4Project(project.getId()));*/
 				}
 			}
 		} else {

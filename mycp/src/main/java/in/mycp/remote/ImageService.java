@@ -118,13 +118,21 @@ public class ImageService {
 		public List<ImageDescriptionP> findAll(int start,int max,String search){
 			try{
 				User user = Commons.getCurrentUser();
-				if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
+				
+				if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+					return ImageDescriptionP.findAllImageDescriptionPs(start,max,search);
+				}else {
+					return ImageDescriptionP.findImageDescriptionPsByCompany(
+							Company.findCompany(Commons.getCurrentSession().getCompanyId()),start,max,search).getResultList();
+				}
+				
+				/*if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
 					return ImageDescriptionP.findImageDescriptionPsByUser(user,start,max,search).getResultList();
 				}else if (user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER + "") || user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
 					return ImageDescriptionP.findImageDescriptionPsByCompany(
 							Company.findCompany(Commons.getCurrentSession().getCompanyId()),start,max,search).getResultList();
 				}				
-				return ImageDescriptionP.findAllImageDescriptionPs(start,max,search);
+				return ImageDescriptionP.findAllImageDescriptionPs(start,max,search);*/
 				}catch (Exception e) {
 				log.error(e);//e.printStackTrace();
 			}

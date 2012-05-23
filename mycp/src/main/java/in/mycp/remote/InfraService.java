@@ -262,9 +262,12 @@ public class InfraService  {
 				
 			Jec2 ec2 = new Jec2(decAccessId, decSecretKey, false,
 					infra.getServer(), infra.getPort());
-			ec2.setResourcePrefix(infra.getResourcePrefix());
-			ec2.setSignatureVersion(infra.getSignatureVersion());
-			ec2.setMaxRetries(1);
+			if(infra.getServer()!=null && !infra.getServer().contains("ec2.amazonaws.com")){
+				ec2.setResourcePrefix(infra.getResourcePrefix());
+				ec2.setSignatureVersion(infra.getSignatureVersion());
+				ec2.setMaxRetries(1);
+			}
+			
 			List params = new ArrayList<String>();
 
 			List<RegionInfo> regions = ec2.describeRegions(params);
@@ -278,11 +281,11 @@ public class InfraService  {
 				break;
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());//e.printStackTrace();
+			log.error(e.getMessage());e.printStackTrace();
 			log.error(e);
-			if(e.getMessage().indexOf("Client error") > -1){
+			if(e.getMessage()!=null && e.getMessage().indexOf("Client error") > -1){
 				status = Commons.EUCA_STATUS.running+"";
-			}else if(e.getMessage().indexOf("Cant even open socket") > -1){
+			}else if(e.getMessage()!=null && e.getMessage().indexOf("Cant even open socket") > -1){
 				status = Commons.EUCA_STATUS.unreachable+"";
 			}else{
 				status = Commons.EUCA_STATUS.unknown+"";

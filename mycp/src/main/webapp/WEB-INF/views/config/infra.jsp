@@ -289,7 +289,7 @@ $(function(){
 	}
 
 	function submitForm_infra_aws(f){
-		var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, server:null, details:null, company:{} };
+		var infra = {  id:viewed_infra,name:null,accessId:null, secretKey:null, server:null,port:null, details:null, company:{} };
 		  
 		  infra.company.id= dwr.util.getValue("company_aws");
 		  infra.name=dwr.util.getValue("name_aws");
@@ -297,7 +297,7 @@ $(function(){
 		  infra.secretKey=dwr.util.getValue("secretKey_aws");
 		  infra.server=dwr.util.getValue("server_aws");
 		  infra.details=dwr.util.getValue("details_aws");
-		  
+		  infra.port='80';
 		  if(viewed_infra == -1){
 			  infra.id  = null; 
 		  }
