@@ -149,6 +149,8 @@
 			<br>
 			&nbsp;&nbsp;&nbsp; 3. Updated cloud sync function.
 			<br>
+			&nbsp;&nbsp;&nbsp; 4. easy creation of instances from image page.
+			<br>
 			</div>
 		</div>
 		
