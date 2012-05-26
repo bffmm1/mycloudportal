@@ -1,5 +1,5 @@
 
 
 <%
-	response.sendRedirect("/login");
+	response.sendRedirect("/cloud-portal");
 %>

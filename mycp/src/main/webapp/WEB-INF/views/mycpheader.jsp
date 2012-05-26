@@ -50,7 +50,7 @@
 
 
     <ul>
-    	<li><a class="right" href="/login/dash">Home</a>
+    	<li><a class="right" href="/cloud-portal/dash">Home</a>
 	</li>
     
     <%

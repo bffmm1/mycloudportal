@@ -10,8 +10,8 @@
 				                 function(p) { return p.assetTypeName; },
 				                 function(p) { return p.assetDetails; },
 				                 function(p) { return p.user.email; },
-				                 function(p) { return  dateFormat(p.startTime,"mmm dd yyyy HH:MM:ss"); },
-				                 function(p) { return dateFormat(p.endTime,"mmm dd yyyy HH:MM:ss");},
+				                 function(p) { return  dateFormat(p.startTime,"mmm dd yyyy HH:MM"); },
+				                 function(p) { return dateFormat(p.endTime,"mmm dd yyyy HH:MM");},
 				                 function(p) { return p.duration;},
 				                 function(p) { return p.startRate;},
 				                 function(p) { 

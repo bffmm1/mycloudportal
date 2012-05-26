@@ -56,7 +56,7 @@ while( deptHashKeys.hasMoreElements() ) {
 								<td></td>
 								<td><%=asset.getAssetType().getName() %> - <%=asset.getAssetDetails() %> - <%=asset.getAssetType().getName() %></td>
 								<td><%=asset.getUser().getEmail()%></td>
-								<td><%=asset.getStartTime() %></td>
+								<td><%=formatter.format(asset.getStartTime()) %></td>
 								<td><%
 								if(asset.getEndTime() !=null){
 									out.println(formatter.format( asset.getEndTime()));

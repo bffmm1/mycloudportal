@@ -52,11 +52,64 @@ function loadPopup_compute(){
 		});
 		
 	}
-	function create_server(p){
+	function create_server(imageId,infraId){
+		
 		viewed_compute = -1;
 		centerPopup_compute();
 		loadPopup_compute();
-		dwr.util.setValue('imageId',p);
+		dwr.util.setValue('imageId',imageId);
+		
+		InstanceP.findProductType(function(p){
+				dwr.util.removeAllOptions('product');
+				for (var key in p) {
+					   var obj = p[key];
+					   var infra = obj['infra'];
+					   
+					   if(infra['id'] == infraId){
+						   var a = {};
+						   a[obj['id']] = obj['name'];
+							dwr.util.addOptions('product',  a);	
+						}
+				}
+			});
+		
+		KeyPairInfoP.findAll4List(function(p){
+			dwr.util.removeAllOptions('keyName');
+			//dwr.util.addOptions('keyName', p, 'id', 'keyName');
+			for (var key in p) {
+				   var keypair = p[key];
+				   var asset = keypair['asset'];
+				   var productCatalog = asset['productCatalog'];
+				   var infra = productCatalog['infra'];
+				   if(infra['id'] == infraId){
+					   var a = {};
+					   a[keypair['id']] = keypair['keyName'];
+						dwr.util.addOptions('keyName',  a);	
+					}
+			}
+			
+		});
+		
+		GroupDescriptionP.findAll4List(function(p){
+			dwr.util.removeAllOptions('groupName');
+			//dwr.util.addOptions('groupName', p, 'name', 'name');
+			for (var key in p) {
+				   var secGroup = p[key];
+				   //alert(dwr.util.toDescriptiveString(secGroup,2));
+				   var asset = secGroup['asset'];
+				   var productCatalog = asset['productCatalog'];
+				   var infra = productCatalog['infra'];
+				   
+				   if(infra['id'] == infraId){
+					   
+					   var a = {};
+					   a[secGroup['name']] = secGroup['name'];
+						dwr.util.addOptions('groupName',  a);	
+					}
+			}
+			
+		});
+		
 	}
 	
 
@@ -102,6 +155,7 @@ function loadPopup_compute(){
 	            { "sTitle": "Root Device" },
 	            { "sTitle": "Image Type" },
 	            { "sTitle": "Location" },
+	            { "sTitle": "Cloud" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -116,7 +170,8 @@ function loadPopup_compute(){
 			oTable.fnAddData( [start+i+1,p[i].name, p[i].imageId, 
 			                   p[i].imageOwnerId, p[i].imageState, p[i].isPublic,
 			                   p[i].architecture,p[i].platform,p[i].rootDeviceName,p[i].imageType,p[i].imageLocation,
-			                   '<img class="clickimg" title="create server"  alt="create server" src="/images/createServer.png" onclick=create_server("'+p[i].imageId+'")>&nbsp; &nbsp; &nbsp; '
+			                   p[i].asset.productCatalog.infra.name,
+			                   '<img class="clickimg" title="create server"  alt="create server" src="/images/createServer.png" onclick=create_server("'+p[i].imageId+'","'+p[i].asset.productCatalog.infra.id+'")>&nbsp; &nbsp; &nbsp; '
 			                   //'<img class="clickimg" title="Remove"  alt="Remove" src=../images/deny.png onclick=remove_image('+p[i].id+')>' 
 			                   ] );
 		}
@@ -375,9 +430,9 @@ function edit_image(id){
 								    <td style="width: 80%;">
 								    <select id="instanceType" name="instanceType" style="width: 385px;" class="required">
 								    	<option value="m1.small">m1.small</option>
-								    	<option value="c1.medium">c1.medium</option>
 								    	<option value="m1.large">m1.large</option>
 								    	<option value="m1.xlarge">m1.xlarge</option>
+								    	<option value="c1.medium">c1.medium</option>
 								    	<option value="c1.xlarge">c1.xlarge</option>
 							    	</select>
 							    	</td>

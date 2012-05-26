@@ -75,6 +75,7 @@
 	            { "sTitle": "Fingerprint" },
 	            { "sTitle": "Status" },
 	            { "sTitle": "Key" },
+	            { "sTitle": "Cloud" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -109,6 +110,7 @@
         	}
 			
 			oTable.fnAddData( [start+i+1,p[i].keyName, p[i].keyFingerprint,p[i].status,'<a href=\"#\" onClick=\"+showKeyMaterial('+p[i].id+')\">Show/Hide</a>'+d,
+			                   p[i].asset.productCatalog.infra.name,
 			                   actions ] );
 		}
 		

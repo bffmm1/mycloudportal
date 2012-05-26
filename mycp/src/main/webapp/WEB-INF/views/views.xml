@@ -8,7 +8,7 @@
  -->
  
 
-   <definition name="index" template="/WEB-INF/layouts/login.jsp">
+   <definition name="index" template="/WEB-INF/layouts/cloud-portal.jsp">
   </definition>
   
  <!--  <definition extends="public" name="dataAccessFailure">

@@ -131,6 +131,7 @@
 	            { "sTitle": "From" },
 	            { "sTitle": "To" },
 	            { "sTitle": "CIDR" },
+	            { "sTitle": "Cloud" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -157,7 +158,7 @@
 			
 			oTable.fnAddData( [i+1,p[i].name, p[i].descripton, p[i].owner,status,
 			                   '', '', '',
-			                   '',
+			                   '',p[i].asset.productCatalog.infra.name,
 			                   '<img class="clickimg" title="Edit" alt="Edit" src=../images/edit.png onclick=edit_secgroup('+p[i].id+')>&nbsp;&nbsp;&nbsp;'+
 			                   '<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_secgroup('+p[i].id+')>' ] );
 			
@@ -167,7 +168,7 @@
 				{
 					oTable.fnAddData( ['','', '', '','',
 					                   p[i].ipPermissionPs[j].protocol, p[i].ipPermissionPs[j].fromPort, p[i].ipPermissionPs[j].toPort,
-					                   p[i].ipPermissionPs[j].cidrIps,
+					                   p[i].ipPermissionPs[j].cidrIps,'',
 					                   '' ] );
 				}//for j
 			}//if

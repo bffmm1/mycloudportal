@@ -7,9 +7,9 @@
     <!-- HTTP security configurations -->
     <http auto-config="true" use-expressions="true">
     
-        <form-login login-processing-url="/resources/j_spring_security_check" login-page="/login" 
-        	authentication-failure-url="/login?login_error=1" 
-       	 	default-target-url="/login/dash"
+        <form-login login-processing-url="/resources/j_spring_security_check" login-page="/cloud-portal" 
+        	authentication-failure-url="/cloud-portal?login_error=1" 
+       	 	default-target-url="/cloud-portal/dash"
         />
         <logout logout-url="/resources/j_spring_security_logout" />
         <!-- Configure these elements to secure URIs in your application -->

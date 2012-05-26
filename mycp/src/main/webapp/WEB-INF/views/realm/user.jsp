@@ -124,6 +124,8 @@ $(function(){
 			centerPopup_user();
 			//load popup
 			loadPopup_user();
+			dwr.util.setValue('active',true);
+			
 		});
 	
 		$("#popupbutton_userlist").click(function(){

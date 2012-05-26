@@ -638,6 +638,12 @@ public class EucalyptusService {
 			
 			
 			Set<ProductCatalog> products = infra.getProductCatalogs();
+			if(products!=null && products.size()>0){
+				
+			}else{
+				logger.error("Please set up products for this Cloud before synchronizing.");
+				return;
+			}
 			for (Iterator iterator = products.iterator(); iterator.hasNext();) {
 				ProductCatalog productCatalog = (ProductCatalog) iterator.next();
 				if(productCatalog.getProductType().equals(Commons.ProductType.ComputeImage.getName())){
@@ -656,12 +662,181 @@ public class EucalyptusService {
 					snapshotProduct = productCatalog;
 				}
 			}
+			
+			if(ipaddressProduct == null ){
+				logger.error("Please set up ipaddress Product for this Cloud before synchronizing.");
+				return;
+			}else if(secGroupProduct == null){
+				logger.error("Please set up Security Group Product for this Cloud before synchronizing.");
+				return;
+			}else if( volumeProduct == null ){
+				logger.error("Please set up Volume Product for this Cloud before synchronizing.");
+				return;
+			}else if (snapshotProduct == null){
+				logger.error("Please set up Snapshot Product for this Cloud before synchronizing.");
+				return;
+			}else if (computeProduct == null){
+				logger.error("Please set up Compute Product for this Cloud before synchronizing.");
+				return;
+			}else if(imageProduct == null ){
+				logger.error("Please set up Image Product for this Cloud before synchronizing.");
+				return;
+			}else if(keypairProduct == null  ){
+				logger.error("Please set up Key Pair Product for this Cloud before synchronizing.");
+				return;
+			}
 
 			Date start = new Date();
 			logger.info("Connect Start:" + new Date());
 			Jec2 ec2 = getNewJce2(infra);
-			
+			String ownerId = "";
 			List<String> params = new ArrayList<String>();
+			
+			try{
+				params = new ArrayList<String>();
+				List<GroupDescription> groupDescs = ec2.describeSecurityGroups(params);
+				logger.info("Available Security groups @" + (new Date().getTime() - start.getTime()) / 1000 + " S");
+				for (Iterator iterator = groupDescs.iterator(); iterator.hasNext();) {
+					GroupDescription groupDescription = (GroupDescription) iterator.next();
+					logger.info(groupDescription);
+					GroupDescriptionP descriptionP = null;
+					try {
+						List<GroupDescriptionP> groups = GroupDescriptionP.findGroupDescriptionPsByNameEqualsAndCompanyEquals(groupDescription.getName(),company).getResultList();
+						inner : for (Iterator iterator2 = groups.iterator(); iterator2.hasNext();) {
+							GroupDescriptionP groupDescriptionP = (GroupDescriptionP) iterator2.next();
+							//check if this security group is for this cloud or for some other in teh same account.
+							//if same , then we do an update below.if not, we will create new. 
+							if(groupDescriptionP.getAsset().getProductCatalog().getInfra().getId() == infra.getId()){
+								descriptionP = groupDescriptionP;
+								break inner;
+							}
+						}
+
+						
+					} catch (Exception e) {
+						//logger.error(e.getMessage());//
+						descriptionP = null;
+						e.printStackTrace();
+					}
+	
+					if (descriptionP != null) {
+						descriptionP.setDescripton(groupDescription.getDescription());
+						descriptionP.setOwner(groupDescription.getOwner());
+					} else {
+						descriptionP = new GroupDescriptionP();
+						descriptionP.setName(groupDescription.getName());
+						descriptionP.setDescripton(groupDescription.getDescription());
+						descriptionP.setOwner(groupDescription.getOwner());
+						
+						Asset asset = Commons.getNewAsset(assetTypeSecurityGroup, currentUser,secGroupProduct);
+						descriptionP.setStatus(Commons.secgroup_STATUS.active+"");
+						descriptionP.setAsset(asset);
+					}
+					
+					//needed for other work in snapshot import
+					ownerId = groupDescription.getOwner();
+					
+					descriptionP = descriptionP.merge();
+	
+					List<IpPermission> ipPermissions = groupDescription.getPermissions();
+	
+					Set<IpPermissionP> ipPermissionPs = new HashSet<IpPermissionP>();
+	
+					for (Iterator iterator2 = ipPermissions.iterator(); iterator2.hasNext();) {
+						IpPermission ipPermission = (IpPermission) iterator2.next();
+	
+						logger.info(ipPermission.getFromPort() + ipPermission.getProtocol() + ipPermission.getToPort()
+								+ ipPermission.getIpRanges());
+						IpPermissionP ipPermissionP = null;
+						try {
+							// .findIpPermissionPsByProtocolEqualsAndToPortEqualsAndFromPortEquals(
+							ipPermissionP = IpPermissionP.findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndFromPortEquals(descriptionP,
+									ipPermission.getProtocol(), ipPermission.getFromPort()).getSingleResult();
+							// ipPermission.getProtocol(), ipPermission.getToPort(),
+							// ipPermission.getFromPort()).getSingleResult();
+						} catch (Exception e) {
+							//logger.error(e.getMessage());
+							e.printStackTrace();
+						}
+	
+						if (ipPermissionP != null) {
+							// do not create a new object
+						} else {
+							ipPermissionP = new IpPermissionP();
+						}
+						List<String> cidrIps = ipPermission.getIpRanges();
+						String cidrIps_str = "";
+						for (Iterator iterator3 = cidrIps.iterator(); iterator3.hasNext();) {
+							String string = (String) iterator3.next();
+							cidrIps_str = cidrIps_str + string + ",";
+						}
+						cidrIps_str = StringUtils.removeEnd(cidrIps_str, ",");
+						List<String[]> uidGroupPairs = ipPermission.getUidGroupPairs();
+						String uidGroupPairs_str = "";
+						for (Iterator iterator3 = uidGroupPairs.iterator(); iterator3.hasNext();) {
+							String[] strArray = (String[]) iterator3.next();
+							String strArray_str = "";
+							for (int i = 0; i < strArray.length; i++) {
+								strArray_str = strArray_str + strArray[i] + ",";
+							}
+							strArray_str = StringUtils.removeEnd(strArray_str, ",");
+							uidGroupPairs_str = uidGroupPairs_str + strArray_str + ",";
+						}
+						uidGroupPairs_str = StringUtils.removeEnd(uidGroupPairs_str, ",");
+	
+						ipPermissionP.setCidrIps(cidrIps_str);
+						ipPermissionP.setUidGroupPairs(uidGroupPairs_str);
+	
+						ipPermissionP.setFromPort(ipPermission.getFromPort());
+						ipPermissionP.setGroupDescription(descriptionP);
+						ipPermissionP.setProtocol(ipPermission.getProtocol());
+						ipPermissionP.setToPort(ipPermission.getToPort());
+	
+						descriptionP = descriptionP.merge();
+						ipPermissionP.setGroupDescription(descriptionP);
+						ipPermissionP = ipPermissionP.merge();
+						if (descriptionP.getIpPermissionPs() != null) {
+							descriptionP.getIpPermissionPs().add(ipPermissionP);
+						} else {
+							Set<IpPermissionP> ipPermissionPsNew = new HashSet<IpPermissionP>();
+							ipPermissionPsNew.add(ipPermissionP);
+							descriptionP.setIpPermissionPs(ipPermissionPsNew);
+						}
+	
+						descriptionP = descriptionP.merge();
+					}
+					/*
+					 * GroupDescriptionP descriptionP = new GroupDescriptionP(null,
+					 * groupDescription.getName(),
+					 * groupDescription.getDescription(),
+					 * groupDescription.getOwner(), null);
+					 */
+	
+				}// end of for groupDescs.iterator()
+				
+				//clean up the security groups which are just hanging around just getting created for the last 1 hour
+				List<GroupDescriptionP>  secGroups = GroupDescriptionP.findAllGroupDescriptionPs();
+				for (Iterator secGroupiterator = secGroups.iterator(); secGroupiterator.hasNext();) {
+					GroupDescriptionP groupDescriptionP = (GroupDescriptionP) secGroupiterator.next();
+					try {
+						if(groupDescriptionP.getStatus().equals(Commons.secgroup_STATUS.starting+"")
+								&& (new Date().getTime() - groupDescriptionP.getAsset().getStartTime().getTime() > (1000*60*60)) ){
+							groupDescriptionP.getAsset().setEndTime(groupDescriptionP.getAsset().getStartTime());
+							groupDescriptionP.setStatus(Commons.secgroup_STATUS.failed+"");
+							groupDescriptionP.merge();
+						}
+					} catch (Exception e) {
+						//e.printStackTrace();
+						logger.error(e);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
+			
 			try{
 			List<AddressInfo> addressInfos = ec2.describeAddresses(params);
 
@@ -765,126 +940,7 @@ public class EucalyptusService {
 				e.printStackTrace();
 			}
 				
-			try{
-				params = new ArrayList<String>();
-				List<GroupDescription> groupDescs = ec2.describeSecurityGroups(params);
-				logger.info("Available Security groups @" + (new Date().getTime() - start.getTime()) / 1000 + " S");
-				for (Iterator iterator = groupDescs.iterator(); iterator.hasNext();) {
-					GroupDescription groupDescription = (GroupDescription) iterator.next();
-					logger.info(groupDescription);
-					GroupDescriptionP descriptionP = null;
-					try {
-						descriptionP = GroupDescriptionP.findGroupDescriptionPsByNameEqualsAndCompanyEquals(groupDescription.getName(),company).getSingleResult();
-					} catch (Exception e) {
-						//logger.error(e.getMessage());//e.printStackTrace();
-					}
-	
-					if (descriptionP != null) {
-						descriptionP.setDescripton(groupDescription.getDescription());
-						descriptionP.setOwner(groupDescription.getOwner());
-					} else {
-						descriptionP = new GroupDescriptionP();
-						descriptionP.setName(groupDescription.getName());
-						descriptionP.setDescripton(groupDescription.getDescription());
-						descriptionP.setOwner(groupDescription.getOwner());
-						Asset asset = Commons.getNewAsset(assetTypeSecurityGroup, currentUser,secGroupProduct);
-						descriptionP.setStatus(Commons.secgroup_STATUS.active+"");
-						descriptionP.setAsset(asset);
-					}
-					descriptionP = descriptionP.merge();
-	
-					List<IpPermission> ipPermissions = groupDescription.getPermissions();
-	
-					Set<IpPermissionP> ipPermissionPs = new HashSet<IpPermissionP>();
-	
-					for (Iterator iterator2 = ipPermissions.iterator(); iterator2.hasNext();) {
-						IpPermission ipPermission = (IpPermission) iterator2.next();
-	
-						logger.info(ipPermission.getFromPort() + ipPermission.getProtocol() + ipPermission.getToPort()
-								+ ipPermission.getIpRanges());
-						IpPermissionP ipPermissionP = null;
-						try {
-							// .findIpPermissionPsByProtocolEqualsAndToPortEqualsAndFromPortEquals(
-							ipPermissionP = IpPermissionP.findIpPermissionPsByGroupDescriptionAndProtocolEqualsAndFromPortEquals(descriptionP,
-									ipPermission.getProtocol(), ipPermission.getFromPort()).getSingleResult();
-							// ipPermission.getProtocol(), ipPermission.getToPort(),
-							// ipPermission.getFromPort()).getSingleResult();
-						} catch (Exception e) {
-							//logger.error(e.getMessage());//e.printStackTrace();
-						}
-	
-						if (ipPermissionP != null) {
-							// do not create a new object
-						} else {
-							ipPermissionP = new IpPermissionP();
-						}
-						List<String> cidrIps = ipPermission.getIpRanges();
-						String cidrIps_str = "";
-						for (Iterator iterator3 = cidrIps.iterator(); iterator3.hasNext();) {
-							String string = (String) iterator3.next();
-							cidrIps_str = cidrIps_str + string + ",";
-						}
-						cidrIps_str = StringUtils.removeEnd(cidrIps_str, ",");
-						List<String[]> uidGroupPairs = ipPermission.getUidGroupPairs();
-						String uidGroupPairs_str = "";
-						for (Iterator iterator3 = uidGroupPairs.iterator(); iterator3.hasNext();) {
-							String[] strArray = (String[]) iterator3.next();
-							String strArray_str = "";
-							for (int i = 0; i < strArray.length; i++) {
-								strArray_str = strArray_str + strArray[i] + ",";
-							}
-							strArray_str = StringUtils.removeEnd(strArray_str, ",");
-							uidGroupPairs_str = uidGroupPairs_str + strArray_str + ",";
-						}
-						uidGroupPairs_str = StringUtils.removeEnd(uidGroupPairs_str, ",");
-	
-						ipPermissionP.setCidrIps(cidrIps_str);
-						ipPermissionP.setUidGroupPairs(uidGroupPairs_str);
-	
-						ipPermissionP.setFromPort(ipPermission.getFromPort());
-						ipPermissionP.setGroupDescription(descriptionP);
-						ipPermissionP.setProtocol(ipPermission.getProtocol());
-						ipPermissionP.setToPort(ipPermission.getToPort());
-	
-						descriptionP = descriptionP.merge();
-						ipPermissionP.setGroupDescription(descriptionP);
-						ipPermissionP = ipPermissionP.merge();
-						if (descriptionP.getIpPermissionPs() != null) {
-							descriptionP.getIpPermissionPs().add(ipPermissionP);
-						} else {
-							Set<IpPermissionP> ipPermissionPsNew = new HashSet<IpPermissionP>();
-							ipPermissionPsNew.add(ipPermissionP);
-							descriptionP.setIpPermissionPs(ipPermissionPsNew);
-						}
-	
-						descriptionP = descriptionP.merge();
-					}
-					/*
-					 * GroupDescriptionP descriptionP = new GroupDescriptionP(null,
-					 * groupDescription.getName(),
-					 * groupDescription.getDescription(),
-					 * groupDescription.getOwner(), null);
-					 */
-	
-				}// end of for groupDescs.iterator()
-				
-				List<GroupDescriptionP>  secGroups = GroupDescriptionP.findAllGroupDescriptionPs();
-				for (Iterator secGroupiterator = secGroups.iterator(); secGroupiterator.hasNext();) {
-					GroupDescriptionP groupDescriptionP = (GroupDescriptionP) secGroupiterator.next();
-					try {
-						if(groupDescriptionP.getStatus().equals(Commons.secgroup_STATUS.starting+"")
-								&& (new Date().getTime() - groupDescriptionP.getAsset().getStartTime().getTime() > (1000*60*60)) ){
-							groupDescriptionP.getAsset().setEndTime(groupDescriptionP.getAsset().getStartTime());
-							groupDescriptionP.setStatus(Commons.secgroup_STATUS.failed+"");
-							groupDescriptionP.merge();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 			
 			try{
 
@@ -980,13 +1036,20 @@ public class EucalyptusService {
 				logger.info("Available Snapshots");
 				for (Iterator iterator = snapshots.iterator(); iterator.hasNext();) {
 					SnapshotInfo snapshotInfo = (SnapshotInfo) iterator.next();
-					logger.info(snapshotInfo.getDescription() + snapshotInfo.getProgress() + snapshotInfo.getStatus()
-							+ snapshotInfo.getVolumeId() + snapshotInfo.getStartTime().getTime());
+					
+					if(snapshotInfo.getOwnerId() !=null && 
+							snapshotInfo.getOwnerId().equals(ownerId)){
+						logger.info("importing owned snapshot "+snapshotInfo.toString());
+					}else {
+						logger.info("not importing snapshot since you are not the owner: "+snapshotInfo.toString());
+						continue;
+					}
+					
 					SnapshotInfoP snapshotInfoP = null;
 					try {
 						snapshotInfoP = SnapshotInfoP.findSnapshotInfoPsBySnapshotIdEqualsAndCompanyEquals(snapshotInfo.getSnapshotId(),company).getSingleResult();
 					} catch (Exception e) {
-						//logger.error(e.getMessage());//e.printStackTrace();
+						logger.error(e.getMessage());//e.printStackTrace();
 					}
 	
 					if (snapshotInfoP != null) {
@@ -1020,7 +1083,7 @@ public class EucalyptusService {
 					SnapshotInfoP snapshotInfoP = (SnapshotInfoP) iterator.next();
 					try {
 						
-						if(snapshotInfoP.getStatus().equals(Commons.SNAPSHOT_STATUS.pending+"")
+						if(snapshotInfoP.getStatus()!=null && snapshotInfoP.getStatus().equals(Commons.SNAPSHOT_STATUS.pending+"")
 								&& (new Date().getTime() - snapshotInfoP.getAsset().getStartTime().getTime() > (1000*60*60*3)) ){
 							snapshotInfoP.getAsset().setEndTime(snapshotInfoP.getAsset().getStartTime());
 							snapshotInfoP.setStatus(Commons.SNAPSHOT_STATUS.inactive+"");

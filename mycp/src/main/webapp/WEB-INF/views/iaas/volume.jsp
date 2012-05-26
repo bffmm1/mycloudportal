@@ -85,6 +85,7 @@
 	            { "sTitle": "Create Time" },
 	            { "sTitle": "Status" },
 	            { "sTitle": "Details" },
+	            { "sTitle": "Cloud" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -138,7 +139,7 @@
             	
 				
 			oTable.fnAddData( [start+i+1,p[i].name,p[i].volumeId, p[i].size+' (GB)',
-			                   dateFormat(p[i].createTime,"mmm dd yyyy HH:MM:ss"),p[i].status,p[i].details,
+			                   dateFormat(p[i].createTime,"mmm dd yyyy HH:MM:ss"),p[i].status,p[i].details,p[i].asset.productCatalog.infra.name,
 			                  actions ] );
 		}
 	}

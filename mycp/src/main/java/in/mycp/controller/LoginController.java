@@ -15,8 +15,6 @@
 
 package in.mycp.controller;
 
-import java.util.Date;
-
 import in.mycp.domain.Company;
 import in.mycp.domain.Department;
 import in.mycp.domain.Infra;
@@ -25,19 +23,33 @@ import in.mycp.domain.Project;
 import in.mycp.domain.Role;
 import in.mycp.domain.User;
 import in.mycp.utils.Commons;
-import in.mycp.web.SignupDTO;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NonUniqueResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.annotations.RemoteMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mail.MailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -48,7 +60,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 
-@RequestMapping("/login")
+@RequestMapping("/cloud-portal")
 @Controller
 public class LoginController {
 	protected static Logger logger = Logger.getLogger(LoginController.class);
@@ -173,7 +185,19 @@ public class LoginController {
 				e.printStackTrace();
 			}
             req.getSession().setAttribute("MYCP_SIGNUP_MSG", "<font style=\"color: green;\"> User " + user.getEmail() + " created.Please Sign In now.</font>");
-           
+            if(authenticate(email,password)){
+            	if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
+    				return "cloud-portal/userdash";
+    			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER+"")){
+    				return "cloud-portal/managerdash";
+    			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
+    				return "cloud-portal/admindash";
+    			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
+    				return "cloud-portal/superadmindash";
+    			}
+            	
+            		
+            }
         } catch (Exception e) {
         	e.printStackTrace();
             req.getSession().setAttribute("MYCP_SIGNUP_MSG", "<font style=\"color: red;\"> Cannot create User.Please try later.</font>");
@@ -182,7 +206,40 @@ public class LoginController {
 		 return "mycplogin";
 	}
 
-   
+   @Autowired
+   AuthenticationManager authenticationManager;
+	
+	 public boolean authenticate(String username, String password) {
+	        	/*List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+	    		in.mycp.domain.User mycpUser =null;*/
+	    		try {
+	    			/*ShaPasswordEncoder passEncoder = new ShaPasswordEncoder(256);
+	    			String encodedPass = passEncoder.encodePassword(password, username);
+	    			mycpUser = in.mycp.domain.User
+	    					.findUsersByEmailEqualsAndPasswordEqualsAndActiveNot(username, encodedPass, false).getSingleResult();
+	    			mycpUser.setLoggedInDate(new Date());
+	    			mycpUser = mycpUser.merge();
+	    			List<Role> roles = Role.findRolesByIntvalLessThan(mycpUser.getRole().getIntval()+1).getResultList();
+	    			//everybody gets role_user
+	    			//authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
+	    			for (Iterator iterator = roles.iterator(); iterator.hasNext();) {
+	    				Role role = (Role) iterator.next();
+	    				authorities.add(new GrantedAuthorityImpl(role.getName()));
+	    			}*/
+	    			
+	    			UsernamePasswordAuthenticationToken usernameAndPassword = 
+	    	                new UsernamePasswordAuthenticationToken(
+	    	                		username, password);
+	    			
+	    			Authentication auth = authenticationManager.authenticate(usernameAndPassword);
+		            SecurityContextHolder.getContext().setAuthentication(auth);
+	    			return true;
+	    		} catch (Exception e) {
+	    			e.printStackTrace();
+	    		} 
+	    		return false;
+	    }
+	
     public void createAllProducts(Infra i) {
         ProductCatalog pc = new ProductCatalog();
 	        pc.setInfra(i);
@@ -253,17 +310,17 @@ public class LoginController {
 	
 	@RequestMapping(value="/dash", produces = "text/html")
 	public String dashboard(HttpServletRequest req, HttpServletResponse resp) {
-		logger.info("login/dash");
+		logger.info("cloud-portal/dash");
 		try {
 			User user = Commons.getCurrentUser();
 			if(user.getRole().getName().equals(Commons.ROLE.ROLE_USER+"")){
-				return "login/userdash";
+				return "cloud-portal/userdash";
 			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_MANAGER+"")){
-				return "login/managerdash";
+				return "cloud-portal/managerdash";
 			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_ADMIN+"")){
-				return "login/admindash";
+				return "cloud-portal/admindash";
 			}else if(user.getRole().getName().equals(Commons.ROLE.ROLE_SUPERADMIN+"")){
-				return "login/superadmindash";
+				return "cloud-portal/superadmindash";
 			}
 		} catch (Exception e) {
 			//e.printStackTrace();

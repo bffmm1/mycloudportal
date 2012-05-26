@@ -73,7 +73,7 @@
 	            { "sTitle": "Start Time" },
 	            { "sTitle": "Status" },
 	            { "sTitle": "Progress" },
-	            
+	            { "sTitle": "Cloud" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -102,7 +102,7 @@
         	}
 			
 			oTable.fnAddData( [start+i+1,p[i].snapshotId, p[i].volumeId, 
-			                   dateFormat(p[i].startTime,"mmm dd yyyy HH:MM:ss"), p[i].status,p[i].progress, 
+			                   dateFormat(p[i].startTime,"mmm dd yyyy HH:MM:ss"), p[i].status,p[i].progress, p[i].asset.productCatalog.infra.name,
 			                   actions ] );
 		}
 		

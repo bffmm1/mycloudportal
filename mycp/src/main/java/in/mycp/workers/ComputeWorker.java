@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Async;
@@ -327,7 +328,6 @@ public class ComputeWorker extends Worker {
 						a.remove();
 					} catch (Exception e) {
 						e.printStackTrace();
-						e.printStackTrace();
 						logger.error(e);
 					}
 
@@ -438,8 +438,19 @@ public class ComputeWorker extends Worker {
 					try {
 						AddressInfoP a = new AddressInfoP();
 						
-						ProductCatalog pc = ProductCatalog.findProductCatalogsByProductTypeAndCompany(Commons.ProductType.IpAddress.getName(),
-								instanceLocal.getAsset().getUser().getProject().getDepartment().getCompany()).getSingleResult();
+						ProductCatalog pc =null;
+						//Set<ProductCatalog> products = ;
+						List products = ProductCatalog.findProductCatalogsByInfra(infra).getResultList();
+						for (Iterator iterator = products.iterator(); iterator.hasNext();) {
+							ProductCatalog productCatalog = (ProductCatalog) iterator.next();
+							if(productCatalog.getProductType().equals(Commons.ProductType.IpAddress.getName())){
+								pc = productCatalog;
+							}
+						}
+						/*ProductCatalog pc = ProductCatalog.findProductCatalogsByInfra(infra)
+								
+								.findProductCatalogsByProductTypeAndCompany(Commons.ProductType.IpAddress.getName(),
+								instanceLocal.getAsset().getUser().getProject().getDepartment().getCompany()).getSingleResult();*/
 
 						a.setAsset(Commons.getNewAsset(AssetType.findAssetTypesByNameEquals(Commons.ProductType.IpAddress + "")
 								.getSingleResult(), instanceLocal.getAsset().getUser(), pc));

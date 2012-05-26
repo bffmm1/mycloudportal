@@ -125,17 +125,100 @@ public class InfraService  {
 				
 			}
 			instance = instance.merge();
+			//now create all products supported by this infra
+			createAllProducts(instance);
 			return instance;
 		} catch (Exception e) {
 			log.error(e.getMessage());e.printStackTrace();
 		}
 		return null;
 	}// end of saveOrUpdate(Infra
+	
+	
+	 public void createAllProducts(Infra i) {
+		 if(ProductCatalog.findProductCatalogsByInfra(i).getResultList() !=null &&
+				 ProductCatalog.findProductCatalogsByInfra(i).getResultList().size() >0){
+			 //products already exist, may when the cloud is updated .
+			 //dont create fresh products in this case
+			 return;
+		 }
+	        ProductCatalog pc = new ProductCatalog();
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.ComputeInstance + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.ComputeInstance.getName());
+		        pc.merge();
+	        pc = new ProductCatalog();
+		        pc.setId(0);
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.IpAddress + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.IpAddress.getName());
+		        pc.merge();
+	        pc = new ProductCatalog();
+		        pc.setId(0);
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.KeyPair + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.KeyPair.getName());
+		        pc.merge();
+	        pc = new ProductCatalog();
+		        pc.setId(0);
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.SecurityGroup + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.SecurityGroup.getName());
+		        pc.merge();
+	        pc = new ProductCatalog();
+		        pc.setId(0);
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.Volume + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.Volume.getName());
+		        pc.merge();
+	        pc = new ProductCatalog();
+		        pc.setId(0);
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.VolumeSnapshot + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.VolumeSnapshot.getName());
+		        pc.merge();
+	        pc = new ProductCatalog();
+		        pc.setId(0);
+		        pc.setInfra(i);
+		        pc.setCurrency(i.getCompany().getCurrency());
+		        pc.setName(Commons.ProductType.ComputeImage + " @ " + i.getName());
+		        pc.setPrice(10);
+		        pc.setProductType(Commons.ProductType.ComputeImage.getName());
+		        pc.merge();
+	    }
+	 
 
 	@RemoteMethod
 	public String remove(int id) {
 		try {
-			Infra.findInfra(id).remove();
+			Infra i = Infra.findInfra(id);
+			List<ProductCatalog> products = ProductCatalog.findProductCatalogsByInfra(i).getResultList();
+			if(products !=null && products.size()>0){
+				for (Iterator iterator = products.iterator(); iterator.hasNext();) {
+					ProductCatalog productCatalog = (ProductCatalog) iterator.next();
+					try{
+						productCatalog.remove();	
+					}catch (Exception e) {
+						log.error(" While removing the cloud, could not remove the product "+productCatalog.getName()+" " +
+								"associated.please remove them manually");
+					}
+					
+				}
+			}
+			
+			i.remove();
 			return "Removed Infra "+id;
 		} catch (Exception e) {
 			log.error(e.getMessage());//e.printStackTrace();
@@ -281,7 +364,8 @@ public class InfraService  {
 				break;
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());e.printStackTrace();
+			log.error(e.getMessage());
+			//e.printStackTrace();
 			log.error(e);
 			if(e.getMessage()!=null && e.getMessage().indexOf("Client error") > -1){
 				status = Commons.EUCA_STATUS.running+"";

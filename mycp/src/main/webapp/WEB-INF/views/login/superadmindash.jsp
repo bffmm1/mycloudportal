@@ -251,7 +251,7 @@
 						
 						
 						
-						<div style="height: 50px;"></div>
+						<div style="height: 20px;"></div>
 						<div class="productsDash">Products</div>
 						<div style="height: 10px;"></div>
 						<div id="jcarousalDiv">

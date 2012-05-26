@@ -4,19 +4,19 @@
  	
  
     
-    <definition extends="plain" name="login/userdash">
+    <definition extends="plain" name="cloud-portal/userdash">
         <put-attribute name="body" value="/WEB-INF/views/login/userdash.jsp"/>
     </definition>
     
-    <definition extends="plain" name="login/managerdash">
+    <definition extends="plain" name="cloud-portal/managerdash">
         <put-attribute name="body" value="/WEB-INF/views/login/managerdash.jsp"/>
     </definition>
     
-    <definition extends="plain" name="login/admindash">
+    <definition extends="plain" name="cloud-portal/admindash">
         <put-attribute name="body" value="/WEB-INF/views/login/admindash.jsp"/>
     </definition>
     
-    <definition extends="plain" name="login/superadmindash">
+    <definition extends="plain" name="cloud-portal/superadmindash">
         <put-attribute name="body" value="/WEB-INF/views/login/superadmindash.jsp"/>
     </definition>
         

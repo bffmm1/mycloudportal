@@ -21,7 +21,7 @@
 	   <put-attribute name="footer" value="/WEB-INF/views/mycpfooter.jsp" />
   </definition>
   
-  <definition name="mycplogin" template="/WEB-INF/layouts/login.jsp">
+  <definition name="mycplogin" template="/WEB-INF/layouts/cloud-portal.jsp">
   </definition>
   
 

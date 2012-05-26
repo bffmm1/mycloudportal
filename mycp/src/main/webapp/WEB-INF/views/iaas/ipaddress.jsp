@@ -82,6 +82,7 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 	            { "sTitle": "Public IP" },
 	            { "sTitle": "Status" },
 	            { "sTitle": "Reason" },
+	            { "sTitle": "Cloud" },
 	            { "sTitle": "Actions" }
 	           
 	        ]
@@ -132,7 +133,7 @@ function centerPopup_ipaddress(popup,backgroundPopup){
 				actions='<img class="clickimg" title="Remove" alt="Remove" src=../images/deny.png onclick=remove_ipaddress('+p[i].id+')>&nbsp;';
 			}
  */
-			oTable.fnAddData( [start+i+1,p[i].name,p[i].instanceId, p[i].publicIp,p[i].status,p[i].reason,
+			oTable.fnAddData( [start+i+1,p[i].name,p[i].instanceId, p[i].publicIp,p[i].status,p[i].reason,p[i].asset.productCatalog.infra.name,
 			                   actions ] );
 		}
 		
