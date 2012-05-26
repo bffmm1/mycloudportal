@@ -18,6 +18,7 @@
 	.intro p{padding:10px 0;}
 	.intro span{color: #000}
 	.features{margin:20px 0 25px; font-size:12px; clear:both; line-height:18px}
+	.newsfeatures{margin:20px 0 25px; font-size:12px; clear:both; line-height:18px;border-radius: 5px 5px 5px 5px;background-color: #f0f0f0;}
 	.features .icon{float:left; width:90px; padding-top:5px}
 	.features h5{font-size:14px; color:#f60; margin:5px}
 	.rightMain{width:270px; float:left; padding:0 10px 0 0}

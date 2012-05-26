@@ -137,6 +137,19 @@
 					</table>
 				</form>
 			</div>
+			<div class="newsfeatures">
+			<br>
+			<h4>26 May, 2012: mycloudportal 1.1 beta deployed!</h4> 
+			<br>
+			
+			<p>
+			&nbsp;&nbsp;&nbsp; 1. Added AWS connectivity.
+			<br>
+			&nbsp;&nbsp;&nbsp; 2. New gmail like menu added.
+			<br>
+			&nbsp;&nbsp;&nbsp; 3. Updated cloud sync function.
+			<br>
+			</div>
 		</div>
 		
 		<div class="clr"></div>
